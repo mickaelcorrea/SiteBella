@@ -125,7 +125,7 @@ img{max-width:100%;display:block}
 footer{border-top:1px solid var(--line);margin-top:10px;padding:46px 24px 28px;background:#fff}
 .footer-inner{max-width:1220px;margin:0 auto;display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:34px}
 .footer-col h4{font-size:11.5px;letter-spacing:1.4px;text-transform:uppercase;color:var(--gold);margin:0 0 14px}
-.footer-col p,.footer-col a,.footer-col span{display:block;font-size:13.5px;line-height:2;opacity:.75}
+.footer-col p,.footer-col a,.footer-col span{display:block;font-size:13.5px;line-height:1.9;opacity:.75;padding:2px 0;width:fit-content}
 .footer-col a:hover{opacity:1;color:var(--wine)}
 .footer-logo p{opacity:.6;font-size:12.5px;line-height:1.6;max-width:280px}
 .footer-bottom{max-width:1220px;margin:36px auto 0;padding-top:18px;border-top:1px solid var(--line);display:flex;justify-content:space-between;font-size:11.5px;opacity:.55;flex-wrap:wrap;gap:8px}
@@ -198,7 +198,6 @@ footer{border-top:1px solid var(--line);margin-top:10px;padding:46px 24px 28px;b
     <a href="#" class="brand-mini">
       <img src="imagens/logoBella.webp" alt="Bella Moda Íntima" class="logo-img">
     </a>
-
     <nav class="nav-links">
       <a href="#catalogo">Catálogo</a>
       <a href="#contato">Contato</a>
@@ -214,9 +213,8 @@ footer{border-top:1px solid var(--line);margin-top:10px;padding:46px 24px 28px;b
 </div>
 
 <section class="hero">
-  <div class="hero-eyebrow">Catálogo Comercial 2026 · Moda Íntima</div>
-  <p class="tag">Moda íntima feminina para revenda — sutiãs, calcinhas, conjuntos e pijamas com a elegância Bella, prontos para o seu pedido.</p>
-
+  <div class="hero-eyebrow">Catálogo 2026 · Moda Íntima</div>
+  <p class="tag">Sensualidade que veste, conforto que abraça. Descubra a coleção Bella e viva a elegância em cada detalhe.</p>
   <div class="search-row">
     <div class="search-box">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
@@ -268,7 +266,7 @@ footer{border-top:1px solid var(--line);margin-top:10px;padding:46px 24px 28px;b
   <div class="footer-inner">
     <div class="footer-col footer-logo">
       <h4>Bella Moda Íntima</h4>
-      <p>Moda íntima feminina para revenda, com elegância e conforto em cada peça.</p>
+      <p>Tubarão/SC</p>
     </div>
     <div class="footer-col">
       <h4>Links</h4>
@@ -277,13 +275,12 @@ footer{border-top:1px solid var(--line);margin-top:10px;padding:46px 24px 28px;b
     </div>
     <div class="footer-col">
       <h4>Atendimento</h4>
-      <span>WhatsApp: (48) 99633-3473</span>
-      <span>Instagram: @bellamodaintima.oficial</span>
+      <a href="https://api.whatsapp.com/send?phone=5548996333473&text=Ol%C3%A1!%20Gostaria%20de%20saber%20mais%20sobre%20o%20cat%C3%A1logo%20Bella%20Moda%20%C3%8Dntima." target="_blank" rel="noopener">WhatsApp: (48) 99633-3473</a>
+      <a href="https://www.instagram.com/bellamodaintima.oficial" target="_blank" rel="noopener">Instagram: @bellamodaintima.oficial</a>
     </div>
   </div>
   <div class="footer-bottom">
     <span>© 2026 Bella Moda Íntima. Todos os direitos reservados.</span>
-    <span>Catálogo comercial para revenda</span>
   </div>
 </footer>
 
@@ -339,25 +336,25 @@ const produtos = [
  {ref:"270",categoria:"Todo dia",nome:"Calcinha Micro Fio Duplo Estreita",preco:15.90,tamanhos:["P","M","G","GG"],cores:["Base","Preto","Branco","Rubi","Romance","Satin","Pantera"]},
  {ref:"408",categoria:"Todo dia",nome:"Calcinha Micro/Cintura Renda",preco:16.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi","Frozen","Pink","Romance","Cidreira","Desejo","Pantera"]},
  {ref:"2068",categoria:"Todo dia",nome:"Calcinha Fio Duplo Tule c/ Renda",preco:15.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi"]},
- {ref:"2069",categoria:"Todo dia",nome:"Calcinha Micro Fio Duplo",preco:15.90,tamanhos:["P","M","G","GG","48","50","52","54"],cores:["Base","Preto","Branco","Rubi","Romance","Satin","Pantera"]},
+ {ref:"2069",categoria:"Todo dia",nome:"Calcinha Micro Fio Duplo",preco:15.90,precoPlus:19.90,tamanhos:["P","M","G","GG","48","50","52","54"],cores:["Base","Preto","Branco","Rubi","Romance","Satin","Pantera"]},
  {ref:"2113",categoria:"Todo dia",nome:"Calcinha Fio Duplo Renda c/ Regulagem",preco:14.90,tamanhos:["Único"],cores:["Preto","Branco","Rubi","Frozen","Pink","Romance","Cidreira","Desejo","Pantera"]},
- {ref:"2127",categoria:"Todo dia",nome:"Calcinha Micro Fio Duplo Renda Frente",preco:16.90,tamanhos:["P","M","G","GG","48","50","52","54"],cores:["Preto","Branco","Rubi","Frozen","Pink","Romance","Cidreira","Desejo","Pantera"]},
- {ref:"2168",categoria:"Todo dia",nome:"Calcinha Micro Barra Larga Bumbum",preco:15.90,tamanhos:["P","M","G","GG","48","50","52","54"],cores:["Base","Preto","Branco","Rubi","Romance","Satin","Pantera"]},
- {ref:"2173",categoria:"Todo dia",nome:"Calcinha Micro Barra Larga Fio Duplo",preco:15.90,tamanhos:["P","M","G","GG","48","50","52","54"],cores:["Base","Preto","Branco","Rubi","Romance","Satin","Pantera"]},
+ {ref:"2127",categoria:"Todo dia",nome:"Calcinha Micro Fio Duplo Renda Frente",preco:16.90,precoPlus:20.90,tamanhos:["P","M","G","GG","48","50","52","54"],cores:["Preto","Branco","Rubi","Frozen","Pink","Romance","Cidreira","Desejo","Pantera"]},
+ {ref:"2168",categoria:"Todo dia",nome:"Calcinha Micro Barra Larga Bumbum",preco:15.90,precoPlus:19.90,tamanhos:["P","M","G","GG","48","50","52","54"],cores:["Base","Preto","Branco","Rubi","Romance","Satin","Pantera"]},
+ {ref:"2173",categoria:"Todo dia",nome:"Calcinha Micro Barra Larga Fio Duplo",preco:15.90,precoPlus:19.90,tamanhos:["P","M","G","GG","48","50","52","54"],cores:["Base","Preto","Branco","Rubi","Romance","Satin","Pantera"]},
  {ref:"2197",categoria:"Todo dia",nome:"Calcinha Micro Fio Duplo/Renda Frente",preco:14.90,tamanhos:["Único"],cores:["Preto","Branco","Rubi","Frozen","Pink","Romance","Cidreira","Desejo","Pantera"]},
  {ref:"2223",categoria:"Todo dia",nome:"Calcinha Fio Duplo Renda Lateral",preco:15.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi","Frozen","Pink","Romance","Cidreira","Desejo","Pantera"]},
- {ref:"2224",categoria:"Todo dia",nome:"Calcinha Micro Fio Duplo Costura Frente",preco:15.90,tamanhos:["P","M","G","GG","48","50","52","54"],cores:["Base","Preto","Branco","Rubi","Romance","Satin","Pantera"]},
+ {ref:"2224",categoria:"Todo dia",nome:"Calcinha Micro Fio Duplo Costura Frente",preco:15.90,precoPlus:19.90,tamanhos:["P","M","G","GG","48","50","52","54"],cores:["Base","Preto","Branco","Rubi","Romance","Satin","Pantera"]},
  {ref:"2225",categoria:"Todo dia",nome:"Calcinha Fio Duplo Renda Laterais",preco:15.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi","Frozen","Pink","Romance","Cidreira","Desejo","Pantera"]},
  {ref:"2268",categoria:"Todo dia",nome:"Calcinha Micro Fio Duplo c/ Regulagem",preco:14.90,tamanhos:["Único"],cores:["Base","Preto","Branco","Rubi","Romance","Satin","Pantera"]},
  {ref:"2269",categoria:"Todo dia",nome:"Calcinha Micro Fio Duplo Biquíni",preco:14.90,tamanhos:["P","M","G","GG"],cores:["Base","Preto","Branco","Rubi","Romance","Satin","Pantera"]},
  {ref:"2273",categoria:"Todo dia",nome:"Calcinha Micro Fio Duplo Renda Bordas",preco:15.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi","Frozen","Pink","Romance","Cidreira","Desejo","Pantera"]},
  {ref:"2287",categoria:"Todo dia",nome:"Calcinha Fio Duplo Toda de Renda",preco:15.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi","Frozen","Pink","Romance","Cidreira","Desejo","Pantera"]},
- {ref:"2295",categoria:"Todo dia",nome:"Calcinha Micro Tecido Duplo Alta",preco:18.90,tamanhos:["P","M","G","GG","48","50","52","54"],cores:["Base","Preto","Branco","Rubi","Romance","Satin","Pantera"]},
- {ref:"2304",categoria:"Todo dia",nome:"Calcinha Micro Inteira no Bumbum",preco:15.90,tamanhos:["P","M","G","GG","48","50","52","54"],cores:["Base","Preto","Branco","Rubi","Romance","Satin","Pantera"]},
+ {ref:"2295",categoria:"Todo dia",nome:"Calcinha Micro Tecido Duplo Alta",preco:18.90,precoPlus:22.90,tamanhos:["P","M","G","GG","48","50","52","54"],cores:["Base","Preto","Branco","Rubi","Romance","Satin","Pantera"]},
+ {ref:"2304",categoria:"Todo dia",nome:"Calcinha Micro Inteira no Bumbum",preco:15.90,precoPlus:19.90,tamanhos:["P","M","G","GG","48","50","52","54"],cores:["Base","Preto","Branco","Rubi","Romance","Satin","Pantera"]},
  {ref:"CUECA-015",categoria:"Todo dia",nome:"Cueca Boxer Masculina",preco:16.90,tamanhos:["P","M","G","GG"],cores:["Sortidas","Preto","Chumbo","Marinho"]},
  {ref:"088-1",categoria:"Todo dia",nome:"Sutiã Básico de Micro",preco:34.90,tamanhos:["P","M","G","GG"],cores:["Base","Preto","Branco","Rubi","Romance","Satin","Pantera"]},
- {ref:"095-1",categoria:"Todo dia",nome:"Sutiã Micro sem Bojo sem Aro",preco:32.90,tamanhos:["P","M","G","GG","48","50","52","54"],cores:["Base","Preto","Branco","Rubi","Romance","Satin","Pantera"]},
- {ref:"2069-1",categoria:"Todo dia",nome:"Sutiã Básico de Micro",preco:45.90,tamanhos:["P","M","G","GG","48","50","52","54"],cores:["Base","Preto","Branco","Rubi","Romance","Satin","Pantera"]},
+ {ref:"095-1",categoria:"Todo dia",nome:"Sutiã Micro sem Bojo sem Aro",preco:32.90,precoPlus:39.90,tamanhos:["P","M","G","GG","48","50","52","54"],cores:["Base","Preto","Branco","Rubi","Romance","Satin","Pantera"]},
+ {ref:"2069-1",categoria:"Todo dia",nome:"Sutiã Básico de Micro",preco:45.90,precoPlus:52.90,tamanhos:["P","M","G","GG","48","50","52","54"],cores:["Base","Preto","Branco","Rubi","Romance","Satin","Pantera"]},
  {ref:"2103-1",categoria:"Todo dia",nome:"Sutiã Bojo 3D Liso Micro",preco:47.90,tamanhos:["P","M","G","GG"],cores:["Base","Preto","Branco","Rubi","Romance","Satin","Pantera"]},
  {ref:"2243-1",categoria:"Todo dia",nome:"Top de Renda sem Bojo/Fecho",preco:34.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi","Frozen","Pink","Romance","Cidreira","Desejo","Pantera"]},
  {ref:"7081-1",categoria:"Todo dia",nome:"Sutiã Básico Micro c/ Barra",preco:45.90,tamanhos:["P","M","G","GG"],cores:["Base","Preto","Branco","Rubi","Romance","Satin","Pantera"]},
@@ -369,12 +366,12 @@ const produtos = [
  {ref:"0142-1",categoria:"Noite",nome:"Camisola Longa Liganete c/ Renda",preco:99.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi"]},
  {ref:"0143-1",categoria:"Noite",nome:"Camisola Liganete e Renda",preco:65.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi"]},
  {ref:"0144-1",categoria:"Noite",nome:"Short Doll Liganete Liso",preco:59.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi"]},
- {ref:"1029-L",categoria:"Noite",nome:"Camisola Liganete com Renda",preco:69.90,tamanhos:["P","M","G","GG","48","50","52","54"],cores:["Preto","Branco","Rubi"]},
- {ref:"1059-L",categoria:"Noite",nome:"Short Doll Liganete com Renda",preco:69.90,tamanhos:["P","M","G","GG","48","50","52","54"],cores:["Preto","Branco","Rubi"]},
+ {ref:"1029-L",categoria:"Noite",nome:"Camisola Liganete com Renda",preco:69.90,precoPlus:79.90,tamanhos:["P","M","G","GG","48","50","52","54"],cores:["Preto","Branco","Rubi"]},
+ {ref:"1059-L",categoria:"Noite",nome:"Short Doll Liganete com Renda",preco:69.90,precoPlus:79.90,tamanhos:["P","M","G","GG","48","50","52","54"],cores:["Preto","Branco","Rubi"]},
  {ref:"2079-L",categoria:"Noite",nome:"Hobby de Liganete com Renda",preco:79.90,tamanhos:["Único"],cores:["Preto","Branco","Rubi"]},
  {ref:"2230-1",categoria:"Noite",nome:"Short Doll Liganete com Renda",preco:69.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi"]},
  {ref:"2231-1",categoria:"Noite",nome:"Short Doll Liganete",preco:69.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi"]},
- {ref:"2234-1",categoria:"Noite",nome:"Short Doll Liganete com Renda",preco:69.90,tamanhos:["P","M","G","GG","48","50","52","54"],cores:["Preto","Branco","Rubi"]},
+ {ref:"2234-1",categoria:"Noite",nome:"Short Doll Liganete com Renda",preco:69.90,precoPlus:79.90,tamanhos:["P","M","G","GG","48","50","52","54"],cores:["Preto","Branco","Rubi"]},
  {ref:"2237-1",categoria:"Noite",nome:"Hobby de Tule com Renda",preco:98.90,tamanhos:["Único"],cores:["Preto","Branco","Rubi"]},
  {ref:"2248-1",categoria:"Noite",nome:"Camisola de Tule com Renda",preco:79.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi"]},
  {ref:"4029-1",categoria:"Noite",nome:"Camisola Liganete c/ Tule nas Costas",preco:75.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi"]},
@@ -422,6 +419,21 @@ function corBg(nome){ return coresMap[nome] || "#cccccc"; }
 
 let carrinho = [];
 
+// ===== Preço plus size =====
+function formatarPrecoExibicao(p){
+  if(p.precoPlus){
+    return `R$ ${p.preco.toFixed(2).replace('.',',')} <span style="font-size:12px;opacity:.6">-</span> R$ ${p.precoPlus.toFixed(2).replace('.',',')}`;
+  }
+  return `R$ ${p.preco.toFixed(2).replace('.',',')}`;
+}
+function ehTamanhoPlus(tam){
+  return ["48","50","52","54"].includes(tam);
+}
+function precoAtualProduto(p, tamanho){
+  if(p.precoPlus && ehTamanhoPlus(tamanho)) return p.precoPlus;
+  return p.preco;
+}
+
 // ===== Cache global de fotos detectadas =====
 const fotosCache = {};
 
@@ -449,7 +461,6 @@ async function detectarFotos(ref){
   let fotos = resultados.filter(Boolean);
 
   if(fotos.length === 0){
-    // fallback para o padrão antigo sem número
     const fallback = `imagens/${ref}.webp`;
     const existeFallback = await checarImagem(fallback);
     fotos = existeFallback
@@ -461,10 +472,9 @@ async function detectarFotos(ref){
   return fotos;
 }
 
-// Retorna a primeira foto já detectada (usado no carrinho)
 function imgSrc(ref){
   if(fotosCache[ref] && fotosCache[ref].length > 0) return fotosCache[ref][0];
-  return `imagens/${ref}(1).webp`; // fallback enquanto o cache não existe
+  return `imagens/${ref}(1).webp`;
 }
 
 function mudarFoto(ref, delta){
@@ -515,7 +525,7 @@ function renderizar(){
         <div class="card-cat">${p.categoria}</div>
         <div class="card-name">${p.nome}</div>
         <div class="card-meta">Ref: ${p.ref}</div>
-        <div class="card-price-row"><span class="price-new">R$ ${p.preco.toFixed(2).replace('.',',')}</span></div>
+        <div class="card-price-row"><span class="price-new" id="preco-${p.ref}">${formatarPrecoExibicao(p)}</span></div>
 
         <div class="opcao-label">Cor</div>
         <div class="cores-opcoes" id="cores-${p.ref}">
@@ -538,7 +548,7 @@ function renderizar(){
         <input type="hidden" id="tam-${p.ref}">
 
         ${p.frases ? `
-        <div class="opcao-label">Frase</div>
+        <div class="opcao-label">Strass</div>
         <div class="tamanhos-opcoes" id="frases-${p.ref}">
           ${p.frases.map(f=>`
             <span class="tam-pill" data-frase="${f}"
@@ -564,11 +574,10 @@ function renderizar(){
     </div>
   `).join('');
 
-  // Detecta quantas fotos cada produto tem e monta os controles do carrossel
   filtrados.forEach(async p => {
     const fotos = await detectarFotos(p.ref);
     const container = document.getElementById(`media-${p.ref}`);
-    if(!container) return; // pode ter sido re-renderizado nesse meio tempo
+    if(!container) return;
     if(fotos.length > 1){
       const nav = document.createElement('div');
       nav.innerHTML = `
@@ -595,6 +604,13 @@ function selecionarTamanho(ref, tam, el){
   document.getElementById(`tam-${ref}`).value = tam;
   document.querySelectorAll(`#tamanhos-${ref} .tam-pill`).forEach(s=>s.classList.remove('selecionada'));
   el.classList.add('selecionada');
+
+  const p = produtos.find(x=>x.ref===ref);
+  const precoEl = document.getElementById(`preco-${ref}`);
+  if(precoEl){
+    const precoFinal = precoAtualProduto(p, tam);
+    precoEl.innerHTML = `R$ ${precoFinal.toFixed(2).replace('.',',')}`;
+  }
 }
 
 function selecionarFrase(ref, frase, el){
@@ -638,11 +654,13 @@ function adicionar(ref){
     return;
   }
 
+  const precoFinal = precoAtualProduto(p, tamanho);
+
   const existente = carrinho.find(i => i.ref===ref && i.cor===cor && i.tamanho===tamanho && i.frase===frase);
   if(existente){
     existente.qtd += qtd;
   } else {
-    carrinho.push({...p, cor, tamanho, frase, qtd, produtoRef:p});
+    carrinho.push({...p, preco: precoFinal, cor, tamanho, frase, qtd, produtoRef:p});
   }
 
   qtdInput.value = 1;
@@ -716,6 +734,8 @@ function alterarCor(idx, novaCor){
 }
 function alterarTamanho(idx, novoTam){
   carrinho[idx].tamanho = novoTam;
+  carrinho[idx].preco = precoAtualProduto(carrinho[idx].produtoRef, novoTam);
+  renderizarCarrinhoModal();
   atualizarTotal();
 }
 function alterarFrase(idx, novaFrase){
