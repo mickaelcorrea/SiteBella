@@ -196,7 +196,7 @@ footer{border-top:1px solid var(--line);margin-top:10px;padding:46px 24px 28px;b
 <div class="topbar">
   <div class="topbar-inner">
     <a href="#" class="brand-mini">
-      <img src="imagens/logoBella.jpg" alt="Bella Moda Íntima" class="logo-img">
+      <img src="imagens/logoBella.webp" alt="Bella Moda Íntima" class="logo-img">
     </a>
 
     <nav class="nav-links">
@@ -441,7 +441,7 @@ async function detectarFotos(ref){
   const LIMITE = 8; // testa até 8 fotos por ref, em paralelo
   const testes = [];
   for(let i = 1; i <= LIMITE; i++){
-    const src = `imagens/${ref}(${i}).jpg`;
+    const src = `imagens/${ref}(${i}).webp`;
     testes.push(checarImagem(src).then(existe => existe ? src : null));
   }
 
@@ -450,7 +450,7 @@ async function detectarFotos(ref){
 
   if(fotos.length === 0){
     // fallback para o padrão antigo sem número
-    const fallback = `imagens/${ref}.jpg`;
+    const fallback = `imagens/${ref}.webp`;
     const existeFallback = await checarImagem(fallback);
     fotos = existeFallback
       ? [fallback]
@@ -464,7 +464,7 @@ async function detectarFotos(ref){
 // Retorna a primeira foto já detectada (usado no carrinho)
 function imgSrc(ref){
   if(fotosCache[ref] && fotosCache[ref].length > 0) return fotosCache[ref][0];
-  return `imagens/${ref}(1).jpg`; // fallback enquanto o cache não existe
+  return `imagens/${ref}(1).webp`; // fallback enquanto o cache não existe
 }
 
 function mudarFoto(ref, delta){
@@ -508,7 +508,7 @@ function renderizar(){
   lista.innerHTML = filtrados.map(p => `
     <div class="card">
       <div class="card-media" id="media-${p.ref}">
-        <img src="imagens/${p.ref}(1).jpg" alt="${p.nome}" loading="lazy" data-idx="0"
+        <img src="imagens/${p.ref}(1).webp" alt="${p.nome}" loading="lazy" data-idx="0"
              onerror="this.onerror=null;this.src='https://via.placeholder.com/300x375/f2dedd/832c3d?text=Sem+Foto'">
       </div>
       <div class="card-body">
