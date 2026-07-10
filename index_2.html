@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bella Moda Íntima — Catálogo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg: #FAF4F0;
+  --bg-card: #FFFFFF;
+  --ink: #211B18;
+  --wine: #832C3D;
+  --wine-dark: #5E1F2C;
+  --rose: #DDA9AE;
+  --rose-soft: #F2DEDD;
+  --taupe: #EAE0D9;
+  --gold: #B6904F;
+  --line: rgba(33,27,24,0.12);
+  --shadow: 0 18px 40px rgba(89,42,46,0.10);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Jost',sans-serif;-webkit-font-smoothing:antialiased;padding-bottom:0}
+h1,h2,h3,.serif{font-family:'Cormorant Garamond',serif}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer}
+img{max-width:100%;display:block}
+
+.lace{width:100%;height:26px;display:block;color:var(--gold);opacity:.55}
+
+/* topbar */
+.topbar{position:sticky;top:0;z-index:60;background:rgba(250,244,240,0.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.topbar-inner{max-width:1220px;margin:0 auto;padding:13px 24px;display:flex;align-items:center;justify-content:space-between;gap:18px}
+.brand-mini{display:flex;align-items:center;gap:10px;font-family:'Cormorant Garamond',serif;font-weight:600;font-size:21px;white-space:nowrap}
+.nav-links{display:flex;gap:24px;font-size:12.5px;letter-spacing:1.3px;text-transform:uppercase}
+.nav-links a{opacity:.7;transition:opacity .2s,color .2s}
+.nav-links a:hover{opacity:1;color:var(--wine)}
+.topbar-cta{display:flex;align-items:center;gap:8px;background:var(--wine);color:#fff;padding:9px 17px;border:none;border-radius:30px;font-size:12.5px;letter-spacing:.5px;box-shadow:var(--shadow);transition:transform .2s,background .2s;white-space:nowrap}
+.topbar-cta:hover{background:var(--wine-dark);transform:translateY(-1px)}
+.topbar-cta svg{width:14px;height:14px;flex-shrink:0}
+
+/* hero */
+.hero{max-width:1220px;margin:0 auto;padding:56px 24px 26px;text-align:center}
+.hero-eyebrow{font-size:11.5px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
+.hero h1{font-size:44px;font-weight:700;margin:0 0 4px}
+.hero p.tag{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:20px;color:var(--wine-dark);max-width:560px;margin:8px auto 28px;line-height:1.5}
+.search-row{max-width:520px;margin:0 auto}
+.search-box{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--line);border-radius:30px;padding:13px 20px;box-shadow:var(--shadow)}
+.search-box svg{width:16px;height:16px;opacity:.5;flex-shrink:0}
+.search-box input{border:none;outline:none;width:100%;font-size:14.5px;font-family:'Jost',sans-serif;background:transparent;color:var(--ink)}
+
+/* info strip */
+.info-strip{max-width:1220px;margin:34px auto 6px;padding:0 24px;display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.info-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px 20px;display:flex;gap:12px;align-items:flex-start}
+.info-card svg{width:20px;height:20px;color:var(--wine);flex-shrink:0;margin-top:2px}
+.info-card b{display:block;font-size:13.5px;margin-bottom:3px}
+.info-card span{font-size:12.5px;opacity:.65;line-height:1.4}
+
+/* category pills */
+.cats-wrap{max-width:1220px;margin:38px auto 4px;padding:0 24px}
+.cats{display:flex;gap:9px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none;justify-content:center;flex-wrap:wrap}
+.cats::-webkit-scrollbar{display:none}
+.cat-pill{flex-shrink:0;padding:9px 18px;border-radius:30px;border:1px solid var(--line);background:#fff;font-size:12.5px;letter-spacing:.6px;text-transform:uppercase;transition:all .2s}
+.cat-pill:hover{border-color:var(--wine)}
+.cat-pill.active{background:var(--wine);border-color:var(--wine);color:#fff}
+
+.section-head{max-width:1220px;margin:28px auto 16px;padding:0 24px;display:flex;align-items:baseline;justify-content:space-between}
+.section-head h3{font-size:24px;font-weight:600;margin:0}
+.section-head span{font-size:12.5px;opacity:.55}
+
+/* grid / cards */
+.grid{max-width:1220px;margin:0 auto;padding:0 24px 60px;display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.card{background:var(--bg-card);border-radius:16px;overflow:hidden;box-shadow:0 10px 24px rgba(89,42,46,0.07);border:1px solid var(--line);display:flex;flex-direction:column;transition:transform .25s,box-shadow .25s}
+.card:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+.card.hidden{display:none}
+.card-media{aspect-ratio:3/4;overflow:hidden;background:var(--taupe)}
+.card-media img{width:100%;height:100%;object-fit:cover;object-position:bottom}
+.card-body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:6px;flex:1}
+.card-cat{font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:var(--gold)}
+.card-name{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;line-height:1.22;min-height:44px}
+.card-meta{font-size:11px;opacity:.6}
+.card-price-row{margin-top:2px}
+.price-new{font-size:19px;font-weight:600;color:var(--wine-dark);font-family:'Cormorant Garamond',serif}
+
+/* opções (cores/tamanhos) */
+.opcao-label{font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:var(--gold);margin-top:4px}
+.cores-opcoes{display:flex;flex-wrap:wrap;gap:7px;margin:4px 0 2px}
+.swatch{width:20px;height:20px;border-radius:50%;border:2px solid var(--line);cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.15);transition:.15s;flex-shrink:0}
+.swatch:hover{transform:scale(1.15)}
+.swatch.selecionada{border-color:var(--wine);box-shadow:0 0 0 2px var(--rose-soft),0 1px 3px rgba(0,0,0,.15);transform:scale(1.1)}
+.cor-selecionada-nome{font-size:11px;color:var(--ink);opacity:.6;min-height:14px}
+
+.tamanhos-opcoes{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 2px}
+.tam-pill{padding:5px 11px;border:1.5px solid var(--line);border-radius:8px;font-size:11px;cursor:pointer;background:#fff;color:var(--ink);transition:.15s;user-select:none}
+.tam-pill:hover{border-color:var(--wine)}
+.tam-pill.selecionada{background:var(--wine);color:#fff;border-color:var(--wine)}
+
+.card-btn{margin-top:10px;display:flex;align-items:center;justify-content:center;gap:7px;background:var(--ink);color:#fff;padding:10px 12px;border-radius:30px;font-size:11.5px;letter-spacing:.6px;text-transform:uppercase;border:none;transition:background .2s;width:100%}
+.card-btn:hover{background:var(--wine)}
+.card-btn svg{width:13px;height:13px}
+
+.empty-state{max-width:1220px;margin:30px auto;padding:50px 24px;text-align:center;color:rgba(33,27,24,0.55);display:none}
+.empty-state.show{display:block}
+.empty-state .serif{font-size:24px;display:block;margin-bottom:8px;color:var(--wine-dark)}
+
+/* terms banner */
+.terms{max-width:1220px;margin:20px auto 60px;padding:0 24px}
+.terms-inner{background:linear-gradient(120deg,var(--wine) 0%,var(--wine-dark) 100%);border-radius:22px;color:#fff;padding:38px 40px;display:flex;align-items:center;justify-content:space-between;gap:26px;flex-wrap:wrap;box-shadow:var(--shadow)}
+.terms-inner h3{font-size:26px;margin:0 0 6px;font-weight:600}
+.terms-inner p{margin:0;opacity:.85;font-size:13.5px;max-width:420px}
+.terms-btn{background:#fff;color:var(--wine-dark);padding:13px 26px;border-radius:30px;font-size:12.5px;letter-spacing:.6px;text-transform:uppercase;white-space:nowrap;transition:transform .2s;border:none}
+.terms-btn:hover{transform:translateY(-2px)}
+
+/* footer */
+footer{border-top:1px solid var(--line);margin-top:10px;padding:46px 24px 28px;background:#fff}
+.footer-inner{max-width:1220px;margin:0 auto;display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:34px}
+.footer-col h4{font-size:11.5px;letter-spacing:1.4px;text-transform:uppercase;color:var(--gold);margin:0 0 14px}
+.footer-col p,.footer-col a{display:block;font-size:13.5px;line-height:2;opacity:.75}
+.footer-col a:hover{opacity:1;color:var(--wine)}
+.footer-logo p{opacity:.6;font-size:12.5px;line-height:1.6;max-width:280px}
+.footer-bottom{max-width:1220px;margin:36px auto 0;padding-top:18px;border-top:1px solid var(--line);display:flex;justify-content:space-between;font-size:11.5px;opacity:.55;flex-wrap:wrap;gap:8px}
+
+.wa-float{position:fixed;bottom:22px;right:22px;width:56px;height:56px;border-radius:50%;background:var(--wine);display:flex;align-items:center;justify-content:center;box-shadow:0 12px 28px rgba(89,42,46,0.35);z-index:70;transition:transform .2s;border:none}
+.wa-float:hover{transform:scale(1.07)}
+.wa-float svg{width:26px;height:26px;color:#fff}
+
+.toast{position:fixed;top:20px;left:20px;right:20px;margin:0 auto;max-width:320px;background:var(--ink);color:#fff;padding:12px 18px;border-radius:10px;font-size:13px;text-align:center;z-index:1000;opacity:0;transform:translateY(-16px);transition:.3s}
+.toast.mostrar{opacity:1;transform:translateY(0)}
+
+@media (max-width:980px){
+  .grid{grid-template-columns:repeat(2,1fr)}
+  .footer-inner{grid-template-columns:1fr 1fr}
+  .nav-links{display:none}
+  .info-strip{grid-template-columns:1fr}
+}
+@media (max-width:560px){
+  .grid{grid-template-columns:repeat(2,1fr);gap:12px}
+  .topbar-cta span{display:none}
+  .hero{padding:36px 16px 16px}
+  .hero h1{font-size:32px}
+  .hero p.tag{font-size:17px}
+  .terms-inner{padding:28px 24px;text-align:center;justify-content:center}
+  .terms-inner p{margin:0 auto}
+  .footer-inner{grid-template-columns:1fr;gap:24px}
+  .card-name{font-size:16px;min-height:auto}
+}
+</style>
+</head>
+<body>
+<div id="toast" class="toast"></div>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="brand-mini">Bella <span style="opacity:.5;font-style:italic;font-size:16px;">moda íntima</span></div>
+    <nav class="nav-links">
+      <a href="#catalogo">Catálogo</a>
+      <a href="#condicoes">Condições</a>
+      <a href="#contato">Contato</a>
+    </nav>
+    <button class="topbar-cta" onclick="enviarWhatsApp()">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.72.45 3.39 1.3 4.86L2 22l5.36-1.4a9.9 9.9 0 0 0 4.68 1.19h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.13-2.9-7C17.18 3.03 14.69 2 12.04 2z"/></svg>
+      <span id="cartLabel">Fechar Pedido — R$ 0,00</span>
+    </button>
+  </div>
+</div>
+
+<section class="hero">
+  <div class="hero-eyebrow">Catálogo Comercial 2026 · Tubarão, SC</div>
+  <h1>Bella Moda Íntima</h1>
+  <p class="tag">Moda íntima feminina para revenda — sutiãs, calcinhas, conjuntos e pijamas com a elegância Bella, prontos para o seu pedido.</p>
+  <div class="search-row">
+    <div class="search-box">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+      <input id="busca" type="text" placeholder="Buscar por nome ou referência..." oninput="renderizar()">
+    </div>
+  </div>
+</section>
+
+<svg class="lace" viewBox="0 0 1200 26" preserveAspectRatio="none"><path d="M0 13 Q 30 0, 60 13 T 120 13 T 180 13 T 240 13 T 300 13 T 360 13 T 420 13 T 480 13 T 540 13 T 600 13 T 660 13 T 720 13 T 780 13 T 840 13 T 900 13 T 960 13 T 1020 13 T 1080 13 T 1140 13 T 1200 13" fill="none" stroke="currentColor" stroke-width="1.2"/></svg>
+
+<div class="info-strip" id="condicoes">
+  <div class="info-card">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="6" width="18" height="14" rx="2"/><path d="M3 10h18M8 3v6"/></svg>
+    <div><b>Pedido mínimo</b><span>Acima de R$ 2.000,00 por pedido</span></div>
+  </div>
+  <div class="info-card">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+    <div><b>Prazo de entrega</b><span>Em média 30 a 40 dias após confirmação</span></div>
+  </div>
+  <div class="info-card">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+    <div><b>Parcelamento facilitado</b><span>Até R$3.000 em 3x · até R$4.000 em 4x · acima de R$5.000 em 5x</span></div>
+  </div>
+</div>
+
+<div class="cats-wrap" id="catalogo">
+  <div class="cats" id="filtros"></div>
+</div>
+
+<div class="section-head">
+  <h3>Nossa Coleção</h3>
+  <span id="contagem"></span>
+</div>
+
+<div class="grid" id="lista"></div>
+<div class="empty-state" id="emptyState"><span class="serif">Nenhum produto encontrado</span>Tente buscar por outro termo ou categoria.</div>
+
+<div class="terms" id="contato">
+  <div class="terms-inner">
+    <div>
+      <h3>Pronta para fechar seu pedido?</h3>
+      <p>Monte seu carrinho e envie direto para o nosso WhatsApp. Respondemos rapidinho!</p>
+    </div>
+    <button class="terms-btn" onclick="enviarWhatsApp()">Fechar Pedido</button>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-col footer-logo">
+      <h4>Bella Moda Íntima</h4>
+      <p>Moda íntima feminina para revenda, com elegância e conforto em cada peça. Tubarão, Santa Catarina.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Links</h4>
+      <a href="#catalogo">Catálogo</a>
+      <a href="#condicoes">Condições</a>
+      <a href="#contato">Contato</a>
+    </div>
+    <div class="footer-col">
+      <h4>Atendimento</h4>
+      <span>WhatsApp: (48) 99633-3473</span>
+      <span>Tubarão, SC</span>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Bella Moda Íntima. Todos os direitos reservados.</span>
+    <span>Catálogo comercial para revenda</span>
+  </div>
+</footer>
+
+<button class="wa-float" onclick="enviarWhatsApp()" aria-label="Enviar pedido no WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.72.45 3.39 1.3 4.86L2 22l5.36-1.4a9.9 9.9 0 0 0 4.68 1.19h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.13-2.9-7C17.18 3.03 14.69 2 12.04 2z"/></svg>
+</button>
+
+<script>
+const WHATSAPP_LOJISTA = "5548996333473"; // com DDI 55
+
+const produtos = [
+ // ===== TODO DIA =====
+ {ref:"33",categoria:"Todo dia",nome:"Bermuda Modeladora",preco:45.90,tamanhos:["P","M","G","GG"],cores:["Base"]},
+ {ref:"30",categoria:"Todo dia",nome:"Caleçon de Renda",preco:15.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi","Frozen","Pink","Romance","Cidreira","Desejo","Pantera"]},
+ {ref:"132",categoria:"Todo dia",nome:"Calcinha Strass Fio Gostosa",preco:22.90,tamanhos:["Único"],cores:["Preto","Branco","Rubi","Frozen","Pink","Romance","Cidreira","Desejo","Pantera"]},
+ {ref:"270",categoria:"Todo dia",nome:"Calcinha Micro Fio Duplo Estreita",preco:15.90,tamanhos:["P","M","G","GG"],cores:["Base","Preto","Branco","Rubi","Romance","Satin","Pantera"]},
+ {ref:"408",categoria:"Todo dia",nome:"Calcinha Micro/Cintura Renda",preco:16.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi","Frozen","Pink","Romance","Cidreira","Desejo","Pantera"]},
+ {ref:"2068",categoria:"Todo dia",nome:"Calcinha Fio Duplo Tule c/ Renda",preco:15.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi"]},
+ {ref:"2069",categoria:"Todo dia",nome:"Calcinha Micro Fio Duplo",preco:15.90,tamanhos:["P","M","G","GG"],cores:["Base","Preto","Branco","Rubi","Romance","Satin","Pantera"]},
+ {ref:"2069-plus",categoria:"Todo dia",nome:"Calcinha Micro Fio Duplo Plus",preco:18.90,tamanhos:["48","50","52","54"],cores:["Base","Preto","Branco","Rubi","Romance","Satin","Pantera"]},
+ {ref:"2112",categoria:"Todo dia",nome:"Luva de Renda sem Dedo",preco:14.90,tamanhos:["Único"],cores:["Preto","Branco","Rubi","Frozen","Pink","Romance","Cidreira","Desejo","Pantera"]},
+ {ref:"2113",categoria:"Todo dia",nome:"Calcinha Fio Duplo Renda c/ Regulagem",preco:14.90,tamanhos:["Único"],cores:["Preto","Branco","Rubi","Frozen","Pink","Romance","Cidreira","Desejo","Pantera"]},
+ {ref:"2127",categoria:"Todo dia",nome:"Calcinha Micro Fio Duplo Renda Frente",preco:16.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi","Frozen","Pink","Romance","Cidreira","Desejo","Pantera"]},
+ {ref:"2127-plus",categoria:"Todo dia",nome:"Calcinha Micro Renda Frente Plus",preco:21.90,tamanhos:["48","50","52","54"],cores:["Preto","Branco","Rubi","Frozen","Pink","Romance","Cidreira","Desejo","Pantera"]},
+ {ref:"2168",categoria:"Todo dia",nome:"Calcinha Micro Barra Larga Bumbum",preco:15.90,tamanhos:["P","M","G","GG"],cores:["Base","Preto","Branco","Rubi","Romance","Satin","Pantera"]},
+ {ref:"2168-plus",categoria:"Todo dia",nome:"Calcinha Barra Larga Bumbum Plus",preco:18.90,tamanhos:["48","50","52","54"],cores:["Base","Preto","Branco","Rubi","Romance","Satin","Pantera"]},
+ {ref:"2173",categoria:"Todo dia",nome:"Calcinha Micro Barra Larga Fio Duplo",preco:15.90,tamanhos:["P","M","G","GG"],cores:["Base","Preto","Branco","Rubi","Romance","Satin","Pantera"]},
+ {ref:"2173-plus",categoria:"Todo dia",nome:"Calcinha Barra Larga Fio Duplo Plus",preco:18.90,tamanhos:["48","50","52","54"],cores:["Base","Preto","Branco","Rubi","Romance","Satin","Pantera"]},
+ {ref:"2197",categoria:"Todo dia",nome:"Calcinha Micro Fio Duplo/Renda Frente",preco:14.90,tamanhos:["Único"],cores:["Preto","Branco","Rubi","Frozen","Pink","Romance","Cidreira","Desejo","Pantera"]},
+ {ref:"2223",categoria:"Todo dia",nome:"Calcinha Fio Duplo Renda Lateral",preco:15.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi","Frozen","Pink","Romance","Cidreira","Desejo","Pantera"]},
+ {ref:"2224",categoria:"Todo dia",nome:"Calcinha Micro Fio Duplo Costura Frente",preco:15.90,tamanhos:["P","M","G","GG"],cores:["Base","Preto","Branco","Rubi","Romance","Satin","Pantera"]},
+ {ref:"2224-plus",categoria:"Todo dia",nome:"Calcinha Costura Frente Plus",preco:18.90,tamanhos:["48","50","52","54"],cores:["Base","Preto","Branco","Rubi","Romance","Satin","Pantera"]},
+ {ref:"2225",categoria:"Todo dia",nome:"Calcinha Fio Duplo Renda Laterais",preco:15.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi","Frozen","Pink","Romance","Cidreira","Desejo","Pantera"]},
+ {ref:"2261",categoria:"Todo dia",nome:"Calcinha Strass Faz o Pix",preco:22.90,tamanhos:["Único"],cores:["Preto","Branco","Rubi","Frozen","Pink","Romance","Cidreira","Desejo","Pantera"]},
+ {ref:"2262",categoria:"Todo dia",nome:"Calcinha Strass Sou Sua",preco:22.90,tamanhos:["Único"],cores:["Preto","Branco","Rubi","Frozen","Pink","Romance","Cidreira","Desejo","Pantera"]},
+ {ref:"2265",categoria:"Todo dia",nome:"Calcinha Strass Safada",preco:22.90,tamanhos:["Único"],cores:["Preto","Branco","Rubi","Frozen","Pink","Romance","Cidreira","Desejo","Pantera"]},
+ {ref:"2268",categoria:"Todo dia",nome:"Calcinha Micro Fio Duplo c/ Regulagem",preco:14.90,tamanhos:["Único"],cores:["Base","Preto","Branco","Rubi","Romance","Satin","Pantera"]},
+ {ref:"2269",categoria:"Todo dia",nome:"Calcinha Micro Fio Duplo Biquíni",preco:14.90,tamanhos:["P","M","G","GG"],cores:["Base","Preto","Branco","Rubi","Romance","Satin","Pantera"]},
+ {ref:"2273",categoria:"Todo dia",nome:"Calcinha Micro Fio Duplo Renda Bordas",preco:15.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi","Frozen","Pink","Romance","Cidreira","Desejo","Pantera"]},
+ {ref:"2287",categoria:"Todo dia",nome:"Calcinha Fio Duplo Toda de Renda",preco:15.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi","Frozen","Pink","Romance","Cidreira","Desejo","Pantera"]},
+ {ref:"2295",categoria:"Todo dia",nome:"Calcinha Micro Tecido Duplo Alta",preco:18.90,tamanhos:["P","M","G","GG"],cores:["Base","Preto","Branco","Rubi","Romance","Satin","Pantera"]},
+ {ref:"2295-plus",categoria:"Todo dia",nome:"Calcinha Tecido Duplo Alta Plus",preco:21.90,tamanhos:["48","50","52","54"],cores:["Base","Preto","Branco","Rubi","Romance","Satin","Pantera"]},
+ {ref:"2304",categoria:"Todo dia",nome:"Calcinha Micro Inteira no Bumbum",preco:15.90,tamanhos:["P","M","G","GG"],cores:["Base","Preto","Branco","Rubi","Romance","Satin","Pantera"]},
+ {ref:"2304-plus",categoria:"Todo dia",nome:"Calcinha Inteira no Bumbum Plus",preco:18.90,tamanhos:["48","50","52","54"],cores:["Base","Preto","Branco","Rubi","Romance","Satin","Pantera"]},
+ {ref:"CUECA-015",categoria:"Todo dia",nome:"Cueca Boxer Masculina",preco:16.90,tamanhos:["P","M","G","GG"],cores:["Sortidas","Preto","Chumbo","Marinho"]},
+ {ref:"088-1",categoria:"Todo dia",nome:"Sutiã Básico de Micro",preco:34.90,tamanhos:["P","M","G","GG"],cores:["Base","Preto","Branco","Rubi","Romance","Satin","Pantera"]},
+ {ref:"095-1",categoria:"Todo dia",nome:"Sutiã Micro sem Bojo sem Aro",preco:32.90,tamanhos:["P","M","G","GG"],cores:["Base","Preto","Branco","Rubi","Romance","Satin","Pantera"]},
+ {ref:"095-1-plus",categoria:"Todo dia",nome:"Sutiã sem Bojo sem Aro Plus",preco:37.90,tamanhos:["48","50","52","54"],cores:["Base","Preto","Branco","Rubi","Romance","Satin","Pantera"]},
+ {ref:"2069-1",categoria:"Todo dia",nome:"Sutiã Básico de Micro",preco:45.90,tamanhos:["P","M","G","GG"],cores:["Base","Preto","Branco","Rubi","Romance","Satin","Pantera"]},
+ {ref:"2069-1-plus",categoria:"Todo dia",nome:"Sutiã Básico de Micro Plus",preco:59.90,tamanhos:["48","50","52","54"],cores:["Base","Preto","Branco","Rubi","Romance","Satin","Pantera"]},
+ {ref:"2103-1",categoria:"Todo dia",nome:"Sutiã Bojo 3D Liso Micro",preco:47.90,tamanhos:["P","M","G","GG"],cores:["Base","Preto","Branco","Rubi","Romance","Satin","Pantera"]},
+ {ref:"2243-1",categoria:"Todo dia",nome:"Top de Renda sem Bojo/Fecho",preco:34.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi","Frozen","Pink","Romance","Cidreira","Desejo","Pantera"]},
+ {ref:"7081-1",categoria:"Todo dia",nome:"Sutiã Básico Micro c/ Barra",preco:45.90,tamanhos:["P","M","G","GG"],cores:["Base","Preto","Branco","Rubi","Romance","Satin","Pantera"]},
+ {ref:"7082-1",categoria:"Todo dia",nome:"Sutiã Básico Liso de Micro",preco:42.90,tamanhos:["P","M","G","GG"],cores:["Base","Preto","Branco","Rubi","Romance","Satin","Pantera"]},
+ {ref:"7083-1",categoria:"Todo dia",nome:"Top de Micro Bojo Removível",preco:44.90,tamanhos:["P","M","G","GG"],cores:["Base","Preto","Branco","Rubi","Romance","Satin","Pantera"]},
+ {ref:"7084-1",categoria:"Todo dia",nome:"Sutiã Plus Micro/Renda c/ Aro (Brenda)",preco:55.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi","Frozen","Pink","Romance","Cidreira","Desejo","Pantera"]},
+
+ // ===== NOITE =====
+ {ref:"0142-1",categoria:"Noite",nome:"Camisola Longa Liganete c/ Renda",preco:99.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi"]},
+ {ref:"0143-1",categoria:"Noite",nome:"Camisola Liganete e Renda (Michelly)",preco:65.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi"]},
+ {ref:"0144-1",categoria:"Noite",nome:"Short Doll Liganete Liso (Veronica)",preco:59.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi"]},
+ {ref:"1029-L",categoria:"Noite",nome:"Camisola Liganete com Renda",preco:69.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi"]},
+ {ref:"1029-L-plus",categoria:"Noite",nome:"Camisola Liganete c/ Renda Plus",preco:79.90,tamanhos:["48","50","52","54"],cores:["Preto","Branco","Rubi"]},
+ {ref:"1059-L",categoria:"Noite",nome:"Short Doll Liganete com Renda",preco:69.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi"]},
+ {ref:"1059-L-plus",categoria:"Noite",nome:"Short Doll Liganete c/ Renda Plus",preco:79.90,tamanhos:["48","50","52","54"],cores:["Preto","Branco","Rubi"]},
+ {ref:"2079-L",categoria:"Noite",nome:"Hobby de Liganete com Renda",preco:79.90,tamanhos:["Único"],cores:["Preto","Branco","Rubi"]},
+ {ref:"2079-L-plus",categoria:"Noite",nome:"Hobby de Liganete c/ Renda Plus",preco:89.90,tamanhos:["Único/Plus"],cores:["Preto","Branco","Rubi"]},
+ {ref:"2230-1",categoria:"Noite",nome:"Short Doll Liganete com Renda",preco:69.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi"]},
+ {ref:"2231-1",categoria:"Noite",nome:"Short Doll Liganete (Sofia)",preco:69.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi"]},
+ {ref:"2234-1",categoria:"Noite",nome:"Short Doll Liganete com Renda",preco:69.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi"]},
+ {ref:"2234-1-plus",categoria:"Noite",nome:"Short Doll Liganete c/ Renda Plus",preco:79.90,tamanhos:["48","50","52","54"],cores:["Preto","Branco","Rubi"]},
+ {ref:"2237-1",categoria:"Noite",nome:"Hobby de Tule com Renda",preco:98.90,tamanhos:["Único"],cores:["Preto","Branco","Rubi"]},
+ {ref:"2248-1",categoria:"Noite",nome:"Camisola de Tule com Renda",preco:79.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi"]},
+ {ref:"4029-1",categoria:"Noite",nome:"Camisola Liganete c/ Tule nas Costas",preco:75.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi"]},
+ {ref:"TERMICA",categoria:"Noite",nome:"Blusa Manga Longa Térmica",preco:34.90,tamanhos:["P","M","G","GG"],cores:["Preto"]},
+
+ // ===== INTENSA =====
+ {ref:"4180-1",categoria:"Intensa",nome:"Espartilho de Tule c/ Fita e Zíper",preco:99.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi"]},
+ {ref:"4183-1",categoria:"Intensa",nome:"Camisola de Tule Liso Sensual",preco:85.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi"]},
+ {ref:"4185-1",categoria:"Intensa",nome:"Conjunto Tule Bojo/Renda (+ 2196)",preco:85.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi"]},
+ {ref:"4187-1",categoria:"Intensa",nome:"Conjunto Bicolor (+ 272)",preco:65.90,tamanhos:["P","M","G","GG"],cores:["Base/Preto","Rubi/Preto","Desejo/Preto","Branco/Preto","Pink/Preto"]},
+ {ref:"4190-1",categoria:"Intensa",nome:"Cropped Tule Bojo/Renda (+ 2198)",preco:79.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi"]},
+ {ref:"4192-1",categoria:"Intensa",nome:"Conjunto Bojo Inteiro Renda (+ 408)",preco:79.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi"]},
+ {ref:"1048-1",categoria:"Intensa",nome:"Conjunto Bojo Cortinão (+ 408)",preco:65.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi","Frozen","Pink","Romance","Cidreira","Desejo","Pantera"]},
+ {ref:"2067-1",categoria:"Intensa",nome:"Conjunto Bojo/Renda Elástico (+ 408)",preco:69.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi","Frozen","Pink","Romance","Cidreira","Desejo","Pantera"]},
+ {ref:"2104-1",categoria:"Intensa",nome:"Conjunto Bojo 3D Renda (+ 2113)",preco:69.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi","Frozen","Pink","Romance","Cidreira","Desejo","Pantera"]},
+ {ref:"2238-1",categoria:"Intensa",nome:"Conjunto Bojo/Renda (+ 2067)",preco:65.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi","Frozen","Pink","Romance","Cidreira","Desejo","Pantera"]},
+ {ref:"267-1",categoria:"Intensa",nome:"Conjunto Bojo/Renda Básico (+ 2066)",preco:65.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi","Frozen","Pink","Romance","Cidreira","Desejo","Pantera"]},
+ {ref:"4195-1",categoria:"Intensa",nome:"Conjunto sem Bojo Arco/Renda (+ 2287)",preco:59.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi","Frozen","Pink","Romance","Cidreira","Desejo","Pantera"]},
+
+ // ===== CETIM =====
+ {ref:"100-C",categoria:"Cetim",nome:"Hobby Feminino Manga Longa",preco:129.90,tamanhos:["Único"],cores:["Preto","Branco","Rubi","Rose","Champanhe","Marinho"]},
+ {ref:"204-C",categoria:"Cetim",nome:"Pijama Fem. Calça Manga Curta",preco:137.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi","Rose","Champanhe","Marinho"]},
+ {ref:"206-C",categoria:"Cetim",nome:"Pijama Cetim (206-C)",preco:137.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi","Rose","Champanhe","Marinho"]},
+ {ref:"207-C",categoria:"Cetim",nome:"Pijama Fem. Blusão Manga Flair",preco:153.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi","Rose","Champanhe","Marinho"]},
+ {ref:"210-C",categoria:"Cetim",nome:"Chamisse Feminina Manga Longa",preco:129.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi","Rose","Champanhe","Marinho"]},
+ {ref:"254-C",categoria:"Cetim",nome:"Pijama Masc. Calça Manga Curta",preco:153.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi","Champanhe","Marinho"]},
+ {ref:"256-C",categoria:"Cetim",nome:"Pijama Masculino Manga Longa",preco:153.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi","Champanhe","Marinho"]}
+];
+
+// ===== Mapa de cores para os swatches =====
+const coresMap = {
+  "Preto":"#1c1c1c",
+  "Branco":"#ffffff",
+  "Base":"#e7c3ad",
+  "Rubi":"#a3132b",
+  "Frozen":"#a7c7d9",
+  "Pink":"#ff6fa5",
+  "Romance":"#e8b4bc",
+  "Cidreira":"#c7d95a",
+  "Desejo":"#7a2e3a",
+  "Pantera":"#5a4b48",
+  "Satin":"#d9cfc0",
+  "Rose":"#e0a8a0",
+  "Champanhe":"#e6d2a8",
+  "Marinho":"#1f2a44",
+  "Chumbo":"#4a4a4a",
+  "Sortidas":"linear-gradient(45deg,#1c1c1c 25%,#a3132b 25% 50%,#ffffff 50% 75%,#7a2e3a 75%)",
+  "Base/Preto":"linear-gradient(90deg,#e7c3ad 50%,#1c1c1c 50%)",
+  "Rubi/Preto":"linear-gradient(90deg,#a3132b 50%,#1c1c1c 50%)",
+  "Desejo/Preto":"linear-gradient(90deg,#7a2e3a 50%,#1c1c1c 50%)",
+  "Branco/Preto":"linear-gradient(90deg,#ffffff 50%,#1c1c1c 50%)",
+  "Pink/Preto":"linear-gradient(90deg,#ff6fa5 50%,#1c1c1c 50%)"
+};
+function corBg(nome){ return coresMap[nome] || "#cccccc"; }
+
+let carrinho = [];
+
+function imgSrc(ref){ return `imagens/${ref}.jpg`; }
+
+function categorias(){ return ["Todos", ...new Set(produtos.map(p=>p.categoria))]; }
+
+let filtroAtivo = "Todos";
+
+function renderizarFiltros(){
+  const box = document.getElementById('filtros');
+  box.innerHTML = categorias().map(c =>
+    `<button class="cat-pill ${c===filtroAtivo?'active':''}" onclick="filtrar('${c}')">${c}</button>`
+  ).join('');
+}
+function filtrar(c){ filtroAtivo = c; renderizarFiltros(); renderizar(); }
+
+function renderizar(){
+  const termo = document.getElementById('busca').value.toLowerCase();
+  const lista = document.getElementById('lista');
+  const empty = document.getElementById('emptyState');
+  const contagem = document.getElementById('contagem');
+
+  const filtrados = produtos.filter(p =>
+    (filtroAtivo==="Todos" || p.categoria===filtroAtivo) &&
+    (p.nome.toLowerCase().includes(termo) || p.ref.toLowerCase().includes(termo))
+  );
+
+  contagem.innerText = `${filtrados.length} peça${filtrados.length===1?'':'s'}`;
+  empty.classList.toggle('show', filtrados.length===0);
+
+  lista.innerHTML = filtrados.map(p => `
+    <div class="card">
+      <div class="card-media">
+        <img src="${imgSrc(p.ref)}" alt="${p.nome}" loading="lazy"
+             onerror="this.src='https://via.placeholder.com/300x375/f2dedd/832c3d?text=Sem+Foto'">
+      </div>
+      <div class="card-body">
+        <div class="card-cat">${p.categoria}</div>
+        <div class="card-name">${p.nome}</div>
+        <div class="card-meta">Ref: ${p.ref}</div>
+        <div class="card-price-row"><span class="price-new">R$ ${p.preco.toFixed(2).replace('.',',')}</span></div>
+
+        <div class="opcao-label">Cor</div>
+        <div class="cores-opcoes" id="cores-${p.ref}">
+          ${p.cores.map(c=>`
+            <span class="swatch" title="${c}" data-cor="${c}"
+              style="background:${corBg(c)}"
+              onclick="selecionarCor('${p.ref}','${c.replace(/'/g,"\\'")}',this)"></span>
+          `).join('')}
+        </div>
+        <div class="cor-selecionada-nome" id="cor-nome-${p.ref}"></div>
+        <input type="hidden" id="cor-${p.ref}">
+
+        <div class="opcao-label">Tamanho</div>
+        <div class="tamanhos-opcoes" id="tamanhos-${p.ref}">
+          ${p.tamanhos.map(t=>`
+            <span class="tam-pill" data-tam="${t}"
+              onclick="selecionarTamanho('${p.ref}','${t.replace(/'/g,"\\'")}',this)">${t}</span>
+          `).join('')}
+        </div>
+        <input type="hidden" id="tam-${p.ref}">
+
+        <button class="card-btn" data-ref="${p.ref}" onclick="handleAdd(this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+          Adicionar
+        </button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function selecionarCor(ref, cor, el){
+  document.getElementById(`cor-${ref}`).value = cor;
+  document.getElementById(`cor-nome-${ref}`).innerText = cor;
+  document.querySelectorAll(`#cores-${ref} .swatch`).forEach(s=>s.classList.remove('selecionada'));
+  el.classList.add('selecionada');
+}
+
+function selecionarTamanho(ref, tam, el){
+  document.getElementById(`tam-${ref}`).value = tam;
+  document.querySelectorAll(`#tamanhos-${ref} .tam-pill`).forEach(s=>s.classList.remove('selecionada'));
+  el.classList.add('selecionada');
+}
+
+function handleAdd(btn){
+  adicionar(btn.dataset.ref);
+}
+
+function adicionar(ref){
+  const p = produtos.find(x=>x.ref===ref);
+  const corInput = document.getElementById(`cor-${ref}`);
+  const tamInput = document.getElementById(`tam-${ref}`);
+  const cor = corInput.value;
+  const tamanho = tamInput.value;
+
+  if(!cor || !tamanho){
+    toast("⚠️ Escolha cor e tamanho!");
+    return;
+  }
+
+  carrinho.push({...p, cor, tamanho});
+  atualizarTotal();
+  toast(`✅ ${p.nome} (${cor}/${tamanho}) adicionado!`);
+}
+
+function atualizarTotal(){
+  const total = carrinho.reduce((s,i)=>s+i.preco,0);
+  document.getElementById('cartLabel').innerText = `Fechar Pedido — R$ ${total.toFixed(2).replace('.',',')}`;
+}
+
+function toast(msg){
+  const t = document.getElementById('toast');
+  t.innerText = msg;
+  t.classList.add('mostrar');
+  setTimeout(()=>t.classList.remove('mostrar'),2000);
+}
+
+function enviarWhatsApp(){
+  if(carrinho.length===0){ toast("❌ Carrinho vazio!"); return; }
+  let texto = `*Novo Pedido - Bella Moda Íntima* 🛒\n\n`;
+  const contagem = {};
+  carrinho.forEach(i=>{
+    const key = `${i.ref}|${i.cor}|${i.tamanho}`;
+    if(!contagem[key]) contagem[key] = {...i, qtd:0};
+    contagem[key].qtd++;
+  });
+  let total = 0;
+  Object.values(contagem).forEach(i=>{
+    texto += `${i.qtd}x ${i.nome} (Ref ${i.ref})\n   Cor: ${i.cor} | Tam: ${i.tamanho}\n   R$ ${(i.preco*i.qtd).toFixed(2)}\n\n`;
+    total += i.preco*i.qtd;
+  });
+  texto += `━━━━━━━━━━━━━━━━\n*Total: R$ ${total.toFixed(2)}*`;
+  window.open(`https://api.whatsapp.com/send?phone=${WHATSAPP_LOJISTA}&text=${encodeURIComponent(texto)}`, '_blank');
+}
+
+renderizarFiltros();
+renderizar();
+</script>
+</body>
+</html>
