@@ -101,14 +101,22 @@ def _extrair_codigo_nome_cor(texto_cel):
 
 def ler_relatorio_estoque(caminho_pdf):
     """Lê o PDF do relatório 'Consulta de estoque' do Dapic e devolve:
-    (disponibilidade, refs_encontradas, avisos)
+    (dados, refs_encontradas, avisos)
+
+    dados[ref_canonico][COR_NORMALIZADA][TAMANHO_NORMALIZADO] = {"real": int, "disponivel": int}
+
+    - "real": quantidade física total (coluna "Real" do relatório) — é o
+      número usado para preencher o limite de quantidade no site
+      (estoquePorCorTamanho).
+    - "disponivel": "Real" menos o que já está "Comprometida" — usado só
+      para decidir se uma cor/tamanho deve aparecer como opção no site.
     """
-    disponibilidade = {}
+    dados = {}
     refs_encontradas = set()
     mapa_codigo_cor = dict(CODIGO_COR_FALLBACK)
     avisos = []
 
-    linhas_brutas = []  # (ref_cel, cor_cel, tamanho, disponivel)
+    linhas_brutas = []  # (ref_cel, cor_cel, tamanho, real, disponivel)
 
     with pdfplumber.open(caminho_pdf) as pdf:
         for pagina in pdf.pages:
@@ -119,15 +127,13 @@ def ler_relatorio_estoque(caminho_pdf):
                 for linha in tabela:
                     if not linha or len(linha) < 8:
                         continue
-                    produto_cel, _disp1, cor_cel, _disp2, tamanho, real, comp, disponivel = linha[:8]
+                    produto_cel, _disp1, cor_cel, _disp2, tamanho, real, _comp, disponivel = linha[:8]
 
                     # ignora cabeçalhos
                     if produto_cel in ("Produtos acabados", "Produto"):
                         continue
-                    if tamanho in (None, "Tamanho"):
-                        # linha de cabeçalho repetida no topo da página
-                        if tamanho == "Tamanho":
-                            continue
+                    if tamanho == "Tamanho":
+                        continue
 
                     if produto_cel:
                         ref_atual = produto_cel.split(" - ", 1)[0].strip()
@@ -136,13 +142,13 @@ def ler_relatorio_estoque(caminho_pdf):
 
                     if ref_atual is None or cor_atual is None or tamanho is None:
                         continue
-                    if disponivel is None:
+                    if real is None or disponivel is None:
                         continue
 
-                    linhas_brutas.append((ref_atual, cor_atual, tamanho, disponivel))
+                    linhas_brutas.append((ref_atual, cor_atual, tamanho, real, disponivel))
 
     # 1a passada: construir mapa código->nome de cor usando células que não quebraram linha
-    for _ref, cor_cel, _tam, _disp in linhas_brutas:
+    for _ref, cor_cel, _tam, _real, _disp in linhas_brutas:
         codigo, nome = _extrair_codigo_nome_cor(cor_cel)
         if codigo and nome:
             mapa_codigo_cor[codigo] = normalizar(nome)
@@ -151,9 +157,9 @@ def ler_relatorio_estoque(caminho_pdf):
     for cod, nome in CODIGO_COR_FALLBACK.items():
         mapa_codigo_cor.setdefault(cod, normalizar(nome))
 
-    # 2a passada: montar disponibilidade final
+    # 2a passada: montar os dados finais
     codigos_sem_nome = set()
-    for ref, cor_cel, tamanho, disponivel in linhas_brutas:
+    for ref, cor_cel, tamanho, real, disponivel in linhas_brutas:
         # a referência "apareceu no relatório" mesmo que a cor não seja
         # reconhecida — isso evita deixar o produto inteiro intocado só
         # porque UMA das cores não pôde ser identificada.
@@ -168,7 +174,8 @@ def ler_relatorio_estoque(caminho_pdf):
             continue
 
         try:
-            qtd = int(str(disponivel).strip())
+            qtd_real = int(str(real).strip())
+            qtd_disp = int(str(disponivel).strip())
         except ValueError:
             continue
 
@@ -176,12 +183,14 @@ def ler_relatorio_estoque(caminho_pdf):
         tam_norm = normalizar(tamanho)
 
         refs_encontradas.add(ref_canon)
-        disponibilidade.setdefault(ref_canon, {}).setdefault(nome_cor, {})
+        dados.setdefault(ref_canon, {}).setdefault(nome_cor, {})
         # soma (caso REF e REF/PLUS caiam na mesma cor+tamanho, o que não
         # deveria acontecer, mas somar é seguro)
-        disponibilidade[ref_canon][nome_cor][tam_norm] = (
-            disponibilidade[ref_canon][nome_cor].get(tam_norm, 0) + qtd
-        )
+        atual = dados[ref_canon][nome_cor].get(tam_norm, {"real": 0, "disponivel": 0})
+        dados[ref_canon][nome_cor][tam_norm] = {
+            "real": atual["real"] + qtd_real,
+            "disponivel": atual["disponivel"] + qtd_disp,
+        }
 
     if codigos_sem_nome:
         avisos.append(
@@ -189,4 +198,4 @@ def ler_relatorio_estoque(caminho_pdf):
             + ", ".join(sorted(codigos_sem_nome))
         )
 
-    return disponibilidade, refs_encontradas, avisos
+    return dados, refs_encontradas, avisos

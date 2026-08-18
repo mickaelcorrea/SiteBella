@@ -4,7 +4,6 @@
     "nome": "Bermuda Modeladora",
     "preco": 49.9,
     "tamanhos": [
-      "P",
       "M",
       "G",
       "GG"
@@ -26,33 +25,8 @@
     "cores": [
       "Pink",
       "Preto",
-      "Frozen",
-      "Rubi"
-    ]
-  },
-  {
-    "ref": "2265",
-    "nome": "Calcinha Strass",
-    "preco": 22.9,
-    "tamanhos": [
-      "Único"
-    ],
-    "cores": [
-      "Preto",
-      "Branco",
       "Rubi",
-      "Frozen",
-      "Pink",
-      "Romance",
-      "Cidreira",
-      "Desejo",
-      "Pantera"
-    ],
-    "frases": [
-      "Safada",
-      "Faz o Pix",
-      "Gostosa",
-      "Sou Sua"
+      "Branco"
     ]
   },
   {
@@ -66,10 +40,12 @@
       "GG"
     ],
     "cores": [
-      " Preto",
+      "Preto",
       "Rubi",
       "Satin",
-      "Base"
+      "Base",
+      "Desejo",
+      "Branco"
     ]
   },
   {
@@ -84,11 +60,14 @@
     ],
     "cores": [
       "Preto",
-      "Marinho",
       "Rubi",
       "Desejo",
       "Cidreira",
-      "Frozen"
+      "Frozen",
+      "Pantera",
+      "Romance",
+      "Pink",
+      "Branco"
     ]
   },
   {
@@ -102,16 +81,19 @@
       "G",
       "GG",
       "48",
-      "50",
-      "52",
-      "54"
+      "50"
     ],
     "cores": [
       "Pink",
       "Pantera",
       "Preto",
       "Romance",
-      "Base"
+      "Base",
+      "Cidreira",
+      "Desejo",
+      "Rubi",
+      "Branco",
+      "Satin"
     ]
   },
   {
@@ -123,10 +105,8 @@
     ],
     "cores": [
       "Preto",
-      "Branco",
       "Rubi",
-      "Pink",
-      "Frozen"
+      "Romance"
     ]
   },
   {
@@ -139,16 +119,16 @@
       "M",
       "G",
       "GG",
-      "48",
-      "50",
-      "52",
-      "54"
+      "48"
     ],
     "cores": [
       "Pink",
       "Frozen",
       "Pantera",
-      "Marinho"
+      "Preto",
+      "Desejo",
+      "Rubi",
+      "Branco"
     ]
   },
   {
@@ -160,17 +140,12 @@
       "P",
       "M",
       "G",
-      "GG",
-      "48",
-      "50",
-      "52",
-      "54"
+      "GG"
     ],
     "cores": [
       "Preto",
-      "Chocolate",
-      "Branco",
-      "Pantera"
+      "Romance",
+      "Base"
     ]
   },
   {
@@ -192,7 +167,12 @@
       "Preto",
       "Rubi",
       "Cidreira",
-      "Pink"
+      "Pink",
+      "Pantera",
+      "Frozen",
+      "Romance",
+      "Desejo",
+      "Base"
     ]
   },
   {
@@ -203,10 +183,12 @@
       "Único"
     ],
     "cores": [
-      "Romance",
       "Frozen",
       "Rubi",
-      "Cidreira"
+      "Preto",
+      "Pantera",
+      "Desejo",
+      "Pink"
     ]
   },
   {
@@ -222,8 +204,12 @@
     "cores": [
       "Preto",
       "Pantera",
-      "Pink",
-      "Frozen"
+      "Frozen",
+      "Romance",
+      "Cidreira",
+      "Desejo",
+      "Rubi",
+      "Branco"
     ]
   },
   {
@@ -236,30 +222,16 @@
       "M",
       "G",
       "GG",
-      "48",
-      "50",
-      "52",
       "54"
     ],
     "cores": [
       "Preto",
       "Romance",
-      "Chocolate",
-      "Frozen"
-    ]
-  },
-  {
-    "ref": "2268",
-    "nome": "Calcinha Micro Fio Duplo c/ Regulagem",
-    "preco": 14.9,
-    "tamanhos": [
-      "Único"
-    ],
-    "cores": [
-      "Preto",
-      "Rubi",
+      "Frozen",
       "Pantera",
-      "Desejo"
+      "Desejo",
+      "Rubi",
+      "Pink"
     ]
   },
   {
@@ -275,11 +247,14 @@
     "cores": [
       "Base",
       "Preto",
-      "Branco",
       "Rubi",
       "Romance",
       "Satin",
-      "Pantera"
+      "Pantera",
+      "Frozen",
+      "Cidreira",
+      "Desejo",
+      "Pink"
     ]
   },
   {
@@ -290,14 +265,15 @@
       "P",
       "M",
       "G",
-      "GG",
-      "XG"
+      "GG"
     ],
     "cores": [
-      "Frozen",
-      "Romance",
       "Rubi",
-      "Preto"
+      "Preto",
+      "Cidreira",
+      "Desejo",
+      "Pink",
+      "Branco"
     ]
   },
   {
@@ -310,16 +286,17 @@
       "M",
       "G",
       "GG",
-      "48",
-      "50",
       "52",
       "54"
     ],
     "cores": [
       "Preto",
-      "Chocolate",
       "Branco",
-      "Satin"
+      "Satin",
+      "Pantera",
+      "Cidreira",
+      "Rubi",
+      "Base"
     ]
   },
   {
@@ -332,15 +309,12 @@
       "M",
       "G",
       "GG",
-      "48",
-      "50",
       "52",
       "54"
     ],
     "cores": [
       "Preto",
       "Desejo",
-      "Romance",
       "Base"
     ]
   },
@@ -349,10 +323,8 @@
     "nome": "Cueca Boxer Masculina",
     "preco": 16.9,
     "tamanhos": [
-      "P",
       "M",
-      "G",
-      "GG"
+      "G"
     ],
     "cores": [
       "Sortidas",
@@ -375,7 +347,9 @@
       "Branco",
       "Base",
       "Preto",
-      "Satin"
+      "Satin",
+      "Cidreira",
+      "Desejo"
     ]
   },
   {
@@ -384,19 +358,13 @@
     "preco": 32.9,
     "precoPlus": 39.9,
     "tamanhos": [
-      "P",
       "M",
       "G",
-      "GG",
-      "48",
-      "50",
-      "52",
-      "54"
+      "GG"
     ],
     "cores": [
       "Preto",
-      "Base",
-      "Satin"
+      "Base"
     ]
   },
   {
@@ -416,9 +384,12 @@
     ],
     "cores": [
       "Preto",
-      "Marinho",
       "Base",
-      "Romance"
+      "Romance",
+      "Pantera",
+      "Frozen",
+      "Branco",
+      "Satin"
     ]
   },
   {
@@ -428,56 +399,13 @@
     "tamanhos": [
       "P",
       "M",
-      "G",
       "GG"
     ],
     "cores": [
       "Preto",
-      "Chocolate",
-      "Frozen",
-      "Rubi"
-    ]
-  },
-  {
-    "ref": "2243-1",
-    "nome": "Top de Renda sem Bojo/Fecho",
-    "preco": 34.9,
-    "tamanhos": [
-      "P",
-      "M",
-      "G",
-      "GG"
-    ],
-    "cores": [
-      "Preto",
-      "Branco",
       "Rubi",
-      "Frozen",
-      "Pink",
-      "Romance",
-      "Cidreira",
-      "Desejo",
-      "Pantera"
-    ]
-  },
-  {
-    "ref": "7081-1",
-    "nome": "Sutiã Básico Micro c/ Barra",
-    "preco": 45.9,
-    "tamanhos": [
-      "P",
-      "M",
-      "G",
-      "GG"
-    ],
-    "cores": [
       "Base",
-      "Preto",
-      "Branco",
-      "Rubi",
-      "Romance",
-      "Satin",
-      "Pantera"
+      "Satin"
     ]
   },
   {
@@ -491,10 +419,12 @@
       "GG"
     ],
     "cores": [
-      "Chocolate",
       "Preto",
       "Satin",
-      "Frozen"
+      "Pantera",
+      "Rubi",
+      "Base",
+      "Branco"
     ]
   },
   {
@@ -502,16 +432,17 @@
     "nome": "Top de Micro Bojo Removível",
     "preco": 44.9,
     "tamanhos": [
-      "P",
       "M",
       "G",
       "GG"
     ],
     "cores": [
-      "Marinho",
       "Preto",
       "Base",
-      "Satin"
+      "Satin",
+      "Romance",
+      "Rubi",
+      "Branco"
     ]
   },
   {
@@ -526,142 +457,8 @@
     ],
     "cores": [
       "Preto",
-      "Rubi",
-      "Branco",
-      "Cidreira"
-    ]
-  },
-  {
-    "ref": "7085-1",
-    "nome": "Sutiã Reforçado com Bojo",
-    "preco": 47.9,
-    "precoPlus": 52.9,
-    "tamanhos": [
-      "P",
-      "M",
-      "G",
-      "GG",
-      "XG"
-    ],
-    "cores": [
-      "Preto",
-      "Chocolate",
-      "Branco",
-      "Brownie"
-    ]
-  },
-  {
-    "ref": "094-1",
-    "nome": "Sutiã Bojo Top",
-    "preco": 55.9,
-    "tamanhos": [
-      "P",
-      "M",
-      "G",
-      "GG"
-    ],
-    "cores": [
-      "Preto",
-      "Base",
-      "Rubi"
-    ]
-  },
-  {
-    "ref": "2351-L",
-    "nome": "Camisola Canelado",
-    "preco": 48.9,
-    "precoPlus": 51.9,
-    "tamanhos": [
-      "P",
-      "M",
-      "G",
-      "GG",
-      "XG"
-    ],
-    "cores": [
-      "Estampa Sortida"
-    ]
-  },
-  {
-    "ref": "2346-L",
-    "nome": "Short Doll Canelado",
-    "preco": 44.9,
-    "precoPlus": 47.9,
-    "tamanhos": [
-      "P",
-      "M",
-      "G",
-      "GG",
-      "XG"
-    ],
-    "cores": [
-      "Estampa Sortida"
-    ]
-  },
-  {
-    "ref": "2352-L",
-    "nome": "Camisola Suedine",
-    "preco": 48.9,
-    "precoPlus": 51.9,
-    "tamanhos": [
-      "P",
-      "M",
-      "G",
-      "GG",
-      "XG"
-    ],
-    "cores": [
-      "Estampa Sortida"
-    ]
-  },
-  {
-    "ref": "2347-L",
-    "nome": "Short Doll Suedine",
-    "preco": 44.9,
-    "precoPlus": 47.9,
-    "tamanhos": [
-      "P",
-      "M",
-      "G",
-      "GG",
-      "XG"
-    ],
-    "cores": [
-      "Estampa Sortida"
-    ]
-  },
-  {
-    "ref": "2344-L",
-    "nome": "Short Doll Cetim com Renda",
-    "preco": 44.9,
-    "precoPlus": 47.9,
-    "tamanhos": [
-      "P",
-      "M",
-      "G",
-      "GG",
-      "XG"
-    ],
-    "cores": [
-      "Preto",
-      "Rubi"
-    ]
-  },
-  {
-    "ref": "2345-L",
-    "nome": "Camisola Cetim com Renda",
-    "preco": 44.9,
-    "precoPlus": 47.9,
-    "tamanhos": [
-      "P",
-      "M",
-      "G",
-      "GG",
-      "XG"
-    ],
-    "cores": [
-      "Preto",
-      "Rubi"
+      "Cidreira",
+      "Romance"
     ]
   },
   {
@@ -685,14 +482,11 @@
     "nome": "Camisola Liganete e Renda",
     "preco": 65.9,
     "tamanhos": [
-      "P",
       "M",
-      "G",
       "GG"
     ],
     "cores": [
       "Preto",
-      "Branco",
       "Rubi"
     ]
   },
@@ -702,9 +496,7 @@
     "preco": 59.9,
     "tamanhos": [
       "P",
-      "M",
-      "G",
-      "GG"
+      "M"
     ],
     "cores": [
       "Preto",
@@ -723,8 +515,6 @@
       "G",
       "GG",
       "48",
-      "50",
-      "52",
       "54"
     ],
     "cores": [
@@ -743,10 +533,7 @@
       "M",
       "G",
       "GG",
-      "48",
-      "50",
-      "52",
-      "54"
+      "48"
     ],
     "cores": [
       "Preto",
@@ -762,9 +549,7 @@
       "Único"
     ],
     "cores": [
-      "Preto",
-      "Branco",
-      "Rubi"
+      "Preto"
     ]
   },
   {
@@ -772,7 +557,6 @@
     "nome": "Short Doll Liganete com Renda",
     "preco": 69.9,
     "tamanhos": [
-      "P",
       "M",
       "G",
       "GG"
@@ -807,11 +591,8 @@
     "tamanhos": [
       "P",
       "M",
-      "G",
       "GG",
       "48",
-      "50",
-      "52",
       "54"
     ],
     "cores": [
@@ -828,9 +609,7 @@
       "Único"
     ],
     "cores": [
-      "Preto",
-      "Branco",
-      "Rubi"
+      "Branco"
     ]
   },
   {
@@ -840,7 +619,6 @@
     "tamanhos": [
       "P",
       "M",
-      "G",
       "GG"
     ],
     "cores": [
@@ -872,7 +650,6 @@
     "tamanhos": [
       "P",
       "M",
-      "G",
       "GG"
     ],
     "cores": [
@@ -886,7 +663,6 @@
     "tamanhos": [
       "P",
       "M",
-      "G",
       "GG"
     ],
     "cores": [
@@ -923,14 +699,10 @@
     ],
     "cores": [
       "Preto",
-      "Branco",
-      "Rubi",
       "Frozen",
-      "Pink",
       "Romance",
       "Cidreira",
-      "Desejo",
-      "Pantera"
+      "Desejo"
     ]
   },
   {
@@ -939,15 +711,16 @@
     "preco": 69.9,
     "tamanhos": [
       "P",
-      "M",
-      "G",
-      "GG"
+      "M"
     ],
     "cores": [
       "Preto",
       "Frozen",
       "Rubi",
-      "Branco"
+      "Branco",
+      "Romance",
+      "Cidreira",
+      "Desejo"
     ]
   },
   {
@@ -957,14 +730,12 @@
     "tamanhos": [
       "P",
       "M",
-      "G",
       "GG"
     ],
     "cores": [
       "Preto",
-      "Pantera",
       "Pink",
-      "Frozen"
+      "Cidreira"
     ]
   },
   {
@@ -979,9 +750,11 @@
     ],
     "cores": [
       "Preto",
-      "Pantera",
       "Desejo",
-      "Rubi"
+      "Rubi",
+      "Frozen",
+      "Cidreira",
+      "Branco"
     ]
   },
   {
@@ -997,8 +770,10 @@
     "cores": [
       "Cidreira",
       "Rubi",
-      "Romance",
-      "Branco"
+      "Branco",
+      "Preto",
+      "Frozen",
+      "Desejo"
     ]
   },
   {
@@ -1008,7 +783,6 @@
     "tamanhos": [
       "P",
       "M",
-      "G",
       "GG"
     ],
     "cores": [
@@ -1016,11 +790,8 @@
       "Branco",
       "Rubi",
       "Frozen",
-      "Pink",
-      "Romance",
       "Cidreira",
-      "Desejo",
-      "Pantera"
+      "Desejo"
     ]
   }
 ]

@@ -3,7 +3,7 @@
 Atualiza o estoque do site (index.html) a partir do relatório de estoque do Dapic.
 
 Uso:
-    python atualizar_estoque.py [caminho_do_pdf]
+    python atualizar_estoque.py [caminho_do_pdf] [--sem-git]
 
 Se nenhum caminho for informado, procura por: relatorios/estoque.pdf
 
@@ -15,20 +15,24 @@ O que o script faz:
 3. Para cada produto do catálogo master, decide quais tamanhos e cores
    continuam disponíveis hoje (com base no relatório) e monta a lista final
    que vai pro site.
-4. Regrava o array `produtos` dentro do index.html.
+4. Regrava DOIS blocos dentro do index.html:
+   - o array `produtos` (quais tamanhos/cores aparecem como opção);
+   - o objeto `estoquePorCorTamanho` (quantidade exata por cor/tamanho,
+     usada pelo seletor de quantidade e pela validação do carrinho).
 5. Faz commit e push automático pro GitHub (a menos que rode com --sem-git).
 
 Regra de negócio (definida com o dono da loja):
-- Se uma cor não tem NENHUM tamanho com saldo disponível > 0 -> a cor some
-  das opções do produto.
-- Se um tamanho não tem NENHUMA cor com saldo disponível > 0 -> o tamanho
-  some das opções do produto.
-- Se o produto inteiro zerar (nenhuma combinação de cor/tamanho com saldo)
-  -> o produto some do catálogo do site.
-- Se uma referência do site não aparecer OU uma cor/tamanho específico do
-  produto não aparecer no relatório do Dapic, o script NÃO mexe nessa
-  cor/tamanho (mantém como estava) e avisa no final — isso evita apagar
-  coisa por falta de dado, só por saldo realmente zerado.
+- Se uma cor não tem NENHUM tamanho com saldo > 0 (coluna "Real" do Dapic)
+  -> a cor some das opções do produto.
+- Se um tamanho não tem NENHUMA cor com saldo > 0 -> o tamanho some das
+  opções do produto.
+- Se o produto inteiro zerar -> o produto some do catálogo do site.
+- Se uma referência do site não aparecer no relatório do Dapic, o script
+  NÃO mexe nela (mantém como estava) e avisa no final.
+- O script só decide entre MOSTRAR ou ESCONDER cores/tamanhos que já
+  existem no catálogo master — ele não inventa cor/tamanho novo que nunca
+  foi cadastrado. Se aparecer estoque de uma cor/tamanho totalmente novo no
+  Dapic, o script avisa no final para você decidir se quer cadastrar.
 """
 import json
 import re
@@ -44,47 +48,66 @@ CATALOGO_MASTER = PASTA_BASE / "dados" / "catalogo_master.json"
 INDEX_HTML = PASTA_BASE / "index.html"
 PDF_PADRAO = PASTA_BASE / "relatorios" / "estoque.pdf"
 
+# Ordem "natural" de tamanho, só para deixar os botões no site em ordem
+# lógica (P, M, G... depois os plus size) em vez da ordem em que apareceram
+# no relatório do Dapic.
+ORDEM_TAMANHO = ["ÚNICO", "PP", "P", "M", "G", "GG", "XG", "36", "38", "40", "42", "44", "46", "48", "50", "52", "54"]
+
 
 def carregar_catalogo_master():
     with open(CATALOGO_MASTER, "r", encoding="utf-8") as f:
         return json.load(f)
 
 
-def calcular_novo_catalogo(catalogo_master, disponibilidade, refs_encontradas):
-    """Devolve (novo_catalogo, relatorio_mudancas)."""
+def ordenar_tamanhos(tamanhos):
+    def chave(t):
+        t_norm = normalizar(t)
+        return (ORDEM_TAMANHO.index(t_norm) if t_norm in ORDEM_TAMANHO else 999, t)
+    return sorted(tamanhos, key=chave)
+
+
+def calcular_novo_catalogo(catalogo_master, dados, refs_encontradas):
+    """Devolve (novo_catalogo, relatorio_mudancas, cores_novas_detectadas)."""
     novo_catalogo = []
     mudancas = []
+    cores_novas_detectadas = []
 
     for produto in catalogo_master:
         ref = produto["ref"]
         ref_canon = canonicalizar_ref(ref)
 
         if ref_canon not in refs_encontradas:
-            # referência não apareceu no relatório -> não mexe, só avisa
             mudancas.append(f"[AVISO] Ref {ref} não encontrada no relatório do Dapic — mantido como estava.")
             novo_catalogo.append(produto)
             continue
 
-        disp_produto = disponibilidade.get(ref_canon, {})
+        disp_produto = dados.get(ref_canon, {})
 
         cores_originais = produto.get("cores", [])
         tamanhos_originais = produto.get("tamanhos", [])
 
-        def tem_estoque(cor, tamanho):
+        # avisa (sem agir) sobre cor/tamanho que o Dapic conhece mas o
+        # catálogo master não — pode ser produto novo que vale cadastrar.
+        cores_norm_conhecidas = {normalizar(c) for c in cores_originais}
+        for cor_relatorio, tam_dict in disp_produto.items():
+            if cor_relatorio not in cores_norm_conhecidas:
+                total = sum(v["real"] for v in tam_dict.values())
+                if total > 0:
+                    cores_novas_detectadas.append((ref, produto["nome"], cor_relatorio, total))
+
+        def saldo(cor, tamanho):
             cor_norm = normalizar(cor)
             tam_norm = normalizar(tamanho)
             if cor_norm not in disp_produto:
                 return None  # sem dado -> desconhecido
-            qtd = disp_produto[cor_norm].get(tam_norm)
-            if qtd is None:
+            info = disp_produto[cor_norm].get(tam_norm)
+            if info is None:
                 return None
-            return qtd > 0
+            return info["real"] > 0
 
         novas_cores = []
         for cor in cores_originais:
-            resultados = [tem_estoque(cor, t) for t in tamanhos_originais]
-            # some só se TODOS os tamanhos dessa cor deram resultado
-            # conhecido (não-None) e nenhum tinha estoque
+            resultados = [saldo(cor, t) for t in tamanhos_originais]
             conhecidos = [r for r in resultados if r is not None]
             if conhecidos and not any(conhecidos):
                 mudancas.append(f"  - {ref} ({produto['nome']}): cor '{cor}' removida (sem estoque em nenhum tamanho)")
@@ -93,7 +116,7 @@ def calcular_novo_catalogo(catalogo_master, disponibilidade, refs_encontradas):
 
         novos_tamanhos = []
         for tamanho in tamanhos_originais:
-            resultados = [tem_estoque(c, tamanho) for c in cores_originais]
+            resultados = [saldo(c, tamanho) for c in cores_originais]
             conhecidos = [r for r in resultados if r is not None]
             if conhecidos and not any(conhecidos):
                 mudancas.append(f"  - {ref} ({produto['nome']}): tamanho '{tamanho}' removido (sem estoque em nenhuma cor)")
@@ -106,17 +129,48 @@ def calcular_novo_catalogo(catalogo_master, disponibilidade, refs_encontradas):
 
         produto_novo = dict(produto)
         produto_novo["cores"] = novas_cores
-        produto_novo["tamanhos"] = novos_tamanhos
+        produto_novo["tamanhos"] = ordenar_tamanhos(novos_tamanhos)
         novo_catalogo.append(produto_novo)
 
-    return novo_catalogo, mudancas
+    return novo_catalogo, mudancas, cores_novas_detectadas
+
+
+def montar_estoque_por_cor_tamanho(novo_catalogo, dados):
+    """Monta o dicionário ref -> cor -> tamanho -> quantidade "real", só
+    para as combinações que sobreviveram no novo_catalogo (ou seja, que
+    têm estoque > 0) e que têm dado no relatório do Dapic."""
+    resultado = {}
+    for produto in novo_catalogo:
+        ref = produto["ref"]
+        ref_canon = canonicalizar_ref(ref)
+        disp_produto = dados.get(ref_canon)
+        if not disp_produto:
+            continue
+        bloco_produto = {}
+        for cor in produto["cores"]:
+            cor_norm = normalizar(cor)
+            info_cor = disp_produto.get(cor_norm)
+            if not info_cor:
+                continue
+            bloco_cor = {}
+            for tamanho in produto["tamanhos"]:
+                tam_norm = normalizar(tamanho)
+                info_tam = info_cor.get(tam_norm)
+                if info_tam is None:
+                    continue
+                bloco_cor[tamanho] = info_tam["real"]
+            if bloco_cor:
+                bloco_produto[cor] = bloco_cor
+        if bloco_produto:
+            resultado[ref] = bloco_produto
+    return resultado
 
 
 def _js_str(valor):
     return json.dumps(valor, ensure_ascii=False)
 
 
-def montar_bloco_js(catalogo):
+def montar_bloco_produtos(catalogo):
     linhas = ["const produtos = [", ""]
     for p in catalogo:
         partes = [f'ref:{_js_str(p["ref"])}', f'nome:{_js_str(p["nome"])}', f'preco:{p["preco"]}']
@@ -135,13 +189,55 @@ def montar_bloco_js(catalogo):
     return "\n".join(linhas)
 
 
-def gravar_no_index_html(bloco_js):
+def montar_bloco_estoque(estoque_por_ref, catalogo, data_relatorio):
+    nomes_por_ref = {p["ref"]: p["nome"] for p in catalogo}
+    linhas = [
+        "// ===== Estoque por COR x TAMANHO x QUANTIDADE =====",
+        "//",
+        f'// Preenchido automaticamente pelo atualizar_estoque.py a partir da',
+        f'// coluna "Real" do relatório do Dapic ({data_relatorio}).',
+        "//",
+        "// Produto -> Cor -> Tamanho -> Quantidade.",
+        "// Produtos ou cores que não constam no relatório ficam com estoque",
+        "// ilimitado (comportamento antigo preservado).",
+        "const estoquePorCorTamanho = {",
+    ]
+    refs = list(estoque_por_ref.keys())
+    for i, ref in enumerate(refs):
+        nome = nomes_por_ref.get(ref, "")
+        if nome:
+            linhas.append(f"  // {nome}")
+        linhas.append(f'  {_js_str(ref)}: {{')
+        cores = list(estoque_por_ref[ref].keys())
+        for j, cor in enumerate(cores):
+            tamanhos = estoque_por_ref[ref][cor]
+            partes_tam = ", ".join(f"{_js_str(t)}: {q}" for t, q in tamanhos.items())
+            virgula = "," if j < len(cores) - 1 else ""
+            linhas.append(f"    {_js_str(cor)}: {{ {partes_tam} }}{virgula}")
+        virgula_ref = "," if i < len(refs) - 1 else ""
+        linhas.append(f"  }}{virgula_ref}")
+    linhas.append("};")
+    return "\n".join(linhas)
+
+
+def gravar_no_index_html(bloco_produtos, bloco_estoque):
     html = INDEX_HTML.read_text(encoding="utf-8")
-    padrao = re.compile(r"const produtos = \[[\s\S]*?\n\s*\];")
-    if not padrao.search(html):
+
+    padrao_produtos = re.compile(r"const produtos = \[[\s\S]*?\n\s*\];")
+    if not padrao_produtos.search(html):
         raise RuntimeError("Não encontrei o array 'const produtos = [...]' no index.html — nada foi alterado.")
-    novo_html = padrao.sub(lambda _m: bloco_js, html, count=1)
-    INDEX_HTML.write_text(novo_html, encoding="utf-8")
+    html = padrao_produtos.sub(lambda _m: bloco_produtos, html, count=1)
+
+    padrao_estoque = re.compile(
+        r"// ===== Estoque por COR x TAMANHO x QUANTIDADE =====[\s\S]*?\nconst estoquePorCorTamanho = \{[\s\S]*?\n\};"
+    )
+    if padrao_estoque.search(html):
+        html = padrao_estoque.sub(lambda _m: bloco_estoque, html, count=1)
+    else:
+        print("AVISO: não encontrei o bloco 'estoquePorCorTamanho' no index.html — ele não foi atualizado.")
+        print("(Isso é esperado se o seu site ainda não tem esse sistema de estoque numérico.)")
+
+    INDEX_HTML.write_text(html, encoding="utf-8")
 
 
 def git_commit_e_push():
@@ -172,8 +268,15 @@ def git_commit_e_push():
 
 
 def main():
-    caminho_pdf = Path(sys.argv[1]) if len(sys.argv) > 1 else PDF_PADRAO
-    sem_git = "--sem-git" in sys.argv
+    caminho_pdf = None
+    sem_git = False
+    for arg in sys.argv[1:]:
+        if arg == "--sem-git":
+            sem_git = True
+        else:
+            caminho_pdf = Path(arg)
+    if caminho_pdf is None:
+        caminho_pdf = PDF_PADRAO
 
     if not caminho_pdf.exists():
         print(f"ERRO: não encontrei o PDF em {caminho_pdf}")
@@ -181,13 +284,13 @@ def main():
         sys.exit(1)
 
     print(f"Lendo relatório: {caminho_pdf}")
-    disponibilidade, refs_encontradas, avisos = ler_relatorio_estoque(str(caminho_pdf))
+    dados, refs_encontradas, avisos = ler_relatorio_estoque(str(caminho_pdf))
     print(f"Referências encontradas no relatório: {len(refs_encontradas)}")
     for a in avisos:
         print("AVISO:", a)
 
     catalogo_master = carregar_catalogo_master()
-    novo_catalogo, mudancas = calcular_novo_catalogo(catalogo_master, disponibilidade, refs_encontradas)
+    novo_catalogo, mudancas, cores_novas = calcular_novo_catalogo(catalogo_master, dados, refs_encontradas)
 
     print("\n--- Resumo das mudanças ---")
     if mudancas:
@@ -196,12 +299,21 @@ def main():
     else:
         print("Nenhuma mudança de estoque detectada.")
 
+    if cores_novas:
+        print("\n--- Cores com estoque no Dapic que NÃO estão cadastradas no catálogo master ---")
+        print("(o script não adicionou automaticamente — cadastre em dados/catalogo_master.json se quiser vendê-las)")
+        for ref, nome, cor, total in cores_novas:
+            print(f"  - {ref} ({nome}): cor '{cor}' com {total} unidades no Dapic, mas não cadastrada no site")
+
     print(f"\nProdutos no catálogo master: {len(catalogo_master)}")
     print(f"Produtos que continuam visíveis no site: {len(novo_catalogo)}")
 
-    bloco_js = montar_bloco_js(novo_catalogo)
-    gravar_no_index_html(bloco_js)
-    print("\nindex.html atualizado.")
+    estoque_por_ref = montar_estoque_por_cor_tamanho(novo_catalogo, dados)
+    bloco_produtos = montar_bloco_produtos(novo_catalogo)
+    bloco_estoque = montar_bloco_estoque(estoque_por_ref, novo_catalogo, date.today().strftime("%d/%m/%Y"))
+
+    gravar_no_index_html(bloco_produtos, bloco_estoque)
+    print("\nindex.html atualizado (lista de produtos + quantidades por cor/tamanho).")
 
     if sem_git:
         print("Rodado com --sem-git: revise o index.html e faça o commit/push você mesmo.")

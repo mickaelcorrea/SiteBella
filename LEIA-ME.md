@@ -10,9 +10,12 @@ atualização pro GitHub.
 2. Salva esse PDF sempre no mesmo lugar: `relatorios/estoque.pdf` (substituindo
    o do dia anterior).
 3. Clica duas vezes em `atualizar_estoque.bat`.
-4. O script lê o PDF, decide quais tamanhos/cores de cada produto continuam
-   disponíveis, reescreve o `index.html` e já faz commit + push pro GitHub.
-5. Em poucos minutos o GitHub Pages publica a versão nova do site.
+4. O script lê o PDF e atualiza DUAS coisas no `index.html`:
+   - quais tamanhos/cores aparecem como opção em cada produto;
+   - a quantidade exata disponível de cada combinação cor/tamanho (o número
+     que trava o seletor de quantidade e valida o carrinho no site).
+5. Ele reescreve o `index.html` e já faz commit + push pro GitHub.
+6. Em poucos minutos o GitHub Pages publica a versão nova do site.
 
 ## Passo a passo detalhado
 
@@ -21,7 +24,7 @@ atualização pro GitHub.
 - Copie todos os arquivos deste pacote para dentro da pasta do seu projeto
   `SiteBella` (a mesma pasta onde já está o `index.html` e a pasta `imagens`).
 - Você precisa ter o **Python** instalado (baixe em python.org se não tiver,
-  marcando a opção "Add Python to PATH" na instalação).
+  marcando a opção "Add python.exe to PATH" na instalação).
 - Dê dois cliques em `instalar.bat` (só precisa fazer isso uma vez).
 
 ### 2) Todos os dias
@@ -51,12 +54,12 @@ diferença no VS Code (aba "Source Control") e decide se quer subir.
 ## Como o script decide o que mostrar no site
 
 - `dados/catalogo_master.json` é o "catálogo completo": a lista de TODOS os
-  produtos, tamanhos e cores que a loja já ofereceu. Esse arquivo é a fonte
+  produtos, tamanhos e cores que a loja oferece hoje. Esse arquivo é a fonte
   da verdade sobre o que EXISTE (nome, preço, tamanhos e cores possíveis).
   Ele só deve ser editado manualmente quando você cadastrar um produto, cor
   ou tamanho **novo** que ainda não existe no site.
-- Todo dia, o script cruza esse catálogo completo com o relatório do Dapic e
-  decide o que fica visível:
+- Todo dia, o script cruza esse catálogo completo com a coluna "Real" do
+  relatório do Dapic e decide o que fica visível:
   - Se uma **cor** não tem estoque em nenhum tamanho, ela some das opções
     daquele produto.
   - Se um **tamanho** não tem estoque em nenhuma cor, ele some das opções.
@@ -64,22 +67,30 @@ diferença no VS Code (aba "Source Control") e decide se quer subir.
   - Se uma referência do site **não aparecer** no relatório do Dapic (ex:
     produto desativado no Dapic), o script não mexe nela e avisa na tela,
     pra você decidir manualmente se ainda faz sentido ela estar no site.
+- Além disso, o script preenche o `estoquePorCorTamanho` com a quantidade
+  exata de cada combinação cor/tamanho que sobrou — é esse número que trava
+  o "+" da quantidade no site e bloqueia o "Adicionar" quando não tem
+  estoque suficiente.
+- Se o Dapic tiver estoque de uma cor que **nunca foi cadastrada** no
+  `catalogo_master.json` daquele produto, o script NÃO adiciona ela
+  sozinho — só avisa no resumo ("Cores com estoque no Dapic que NÃO estão
+  cadastradas"). Você decide se vale a pena cadastrar essa cor (confirmar
+  que tem foto, preço certo etc.) antes de colocar pra vender.
 
-### Uma limitação importante
+### Sobre a precisão
 
-O site guarda tamanhos e cores como duas listas separadas por produto (não
-como uma grade tamanho×cor). Então a regra acima é uma aproximação: um
-tamanho "P" só some se **nenhuma** cor tiver P em estoque, e uma cor só some
-se **nenhum** tamanho dela tiver estoque. Ou seja, pode acontecer de o site
-mostrar "P" e "Preto" como disponíveis mesmo que "P Preto" especificamente
-esteja zerado (mas "P Branco" tenha estoque, por exemplo). Se no futuro você
-quiser um controle exato por combinação de tamanho+cor, dá pra evoluir o
-site pra isso — é uma mudança maior na estrutura do catálogo, me avise se
-quiser fazer.
+Diferente da primeira versão deste script, agora a trava de quantidade usa
+o número exato por cor+tamanho (não uma aproximação). A lista de "quais
+tamanhos/cores aparecem como botão" ainda segue a regra de "sumir se
+zerar em TODOS os tamanhos/todas as cores" — isso é intencional, é só pra
+decidir o que aparece como opção clicável; o número real de peças
+disponíveis em cada combinação específica já está certo no
+`estoquePorCorTamanho`.
 
 ## Arquivos deste pacote
 
-- `dapic_parser.py` — lê o PDF do Dapic e extrai a disponibilidade.
+- `dapic_parser.py` — lê o PDF do Dapic e extrai a quantidade (Real e
+  Disponível) por produto/cor/tamanho.
 - `atualizar_estoque.py` — script principal (roda todo dia).
 - `dados/catalogo_master.json` — catálogo completo (edite manualmente para
   produtos/cores/tamanhos novos).
@@ -95,8 +106,6 @@ PDF que você me mandou (provavelmente estão desativadas no Dapic). Vale
 conferir se ainda fazem sentido no site:
 
 - CUECA-015 — Cueca Boxer Masculina
-- 2243-1 — Top de Renda sem Bojo/Fecho
-- 7081-1 — Sutiã Básico Micro c/ Barra
 - 0142-L — Camisola Longa Liganete c/ Renda
 - 2231-L — Short Doll Liganete
 - 4192-2 — Conjunto Bojo Inteiro Renda
