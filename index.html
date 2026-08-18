@@ -88,7 +88,7 @@ img{max-width:100%;display:block}
 .card-name{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;line-height:1.22;min-height:44px}
 .card-meta{font-size:11px;opacity:.6}
 .card-price-row{margin-top:2px}
-.price-new{font-size:19px;font-weight:600;color:var(--wine-dark);font-family:'Cormorant Garamond',serif}
+.price-new{font-size:19px;font-weight:600;color:var(--wine-dark);font-family:'Jost',sans-serif}
 
 .opcao-label{font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:var(--gold);margin-top:4px}
 .cores-opcoes{display:flex;flex-wrap:wrap;gap:7px;margin:4px 0 2px}
@@ -101,6 +101,9 @@ img{max-width:100%;display:block}
 .tam-pill{padding:5px 11px;border:1.5px solid var(--line);border-radius:8px;font-size:11px;cursor:pointer;background:#fff;color:var(--ink);transition:.15s;user-select:none}
 .tam-pill:hover{border-color:var(--wine)}
 .tam-pill.selecionada{background:var(--wine);color:#fff;border-color:var(--wine)}
+.tam-pill.indisponivel{opacity:.35;color:#999;background:#f5f5f5;border-color:#ddd;text-decoration:line-through;cursor:not-allowed}
+.disponibilidade-info{font-size:10.5px;color:var(--wine-dark);min-height:15px;margin-top:1px}
+
 
 .qtd-card-box{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:8px;border:1.5px solid var(--line);border-radius:30px;padding:4px}
 .qtd-card-box button{background:none;border:none;width:26px;height:26px;font-size:16px;color:var(--wine);border-radius:50%}
@@ -330,65 +333,472 @@ const WHATSAPP_LOJISTA = "5548996333473"; // com DDI 55
 
 const produtos = [
 
- {ref:"33",nome:"Bermuda Modeladora",preco:49.90,tamanhos:["P","M","G","GG"],cores:["Base"]},
- {ref:"30",nome:"Caleçon de Renda",preco:15.90,tamanhos:["P","M","G","GG"],cores:["Pink","Preto","Frozen","Rubi"]},
- {ref:"2265",nome:"Calcinha Strass",preco:22.90,tamanhos:["Único"],cores:["Preto","Branco","Rubi","Frozen","Pink","Romance","Cidreira","Desejo","Pantera"],frases:["Safada","Faz o Pix","Gostosa","Sou Sua"]},
- {ref:"270",nome:"Calcinha Micro Fio Duplo Estreita",preco:15.90,tamanhos:["P","M","G","GG"],cores:[" Preto","Rubi","Satin","Base"]},
- {ref:"408",nome:"Calcinha Micro/Cintura Renda",preco:16.90,tamanhos:["P","M","G","GG"],cores:["Preto","Marinho","Rubi","Desejo","Cidreira","Frozen"]},
- {ref:"2069",nome:"Calcinha Micro Fio Duplo",preco:15.90,precoPlus:19.90,tamanhos:["P","M","G","GG","48","50","52","54"],cores:["Pink","Pantera","Preto","Romance","Base"]},
- {ref:"2113",nome:"Calcinha Fio Duplo Renda c/ Regulagem",preco:14.90,tamanhos:["Único"],cores:["Preto","Branco","Rubi","Pink","Frozen"]},
- {ref:"2127",nome:"Calcinha Micro Fio Duplo Renda Frente",preco:16.90,precoPlus:20.90,tamanhos:["P","M","G","GG","48","50","52","54"],cores:["Pink","Frozen","Pantera","Marinho"]},
- {ref:"2168",nome:"Calcinha Micro Barra Larga Bumbum",preco:15.90,precoPlus:19.90,tamanhos:["P","M","G","GG","48","50","52","54"],cores:["Preto","Chocolate","Branco","Pantera"]},
- {ref:"2173",nome:"Calcinha Micro Barra Larga Fio Duplo",preco:16.90,precoPlus:19.90,tamanhos:["P","M","G","GG","48","50","52","54"],cores:["Preto","Rubi","Cidreira","Pink"]},
- {ref:"2197",nome:"Calcinha Micro Fio Duplo/Renda Frente",preco:14.90,tamanhos:["Único"],cores:["Romance","Frozen","Rubi","Cidreira"]},
- {ref:"2223",nome:"Calcinha Fio Duplo Renda Lateral",preco:15.90,tamanhos:["P","M","G","GG"],cores:["Preto","Pantera","Pink","Frozen"]},
- {ref:"2224",nome:"Calcinha Micro Fio Duplo Costura Frente",preco:15.90,precoPlus:19.90,tamanhos:["P","M","G","GG","48","50","52","54"],cores:["Preto","Romance","Chocolate","Frozen"]},
- {ref:"2268",nome:"Calcinha Micro Fio Duplo c/ Regulagem",preco:14.90,tamanhos:["Único"],cores:["Preto","Rubi","Pantera","Desejo"]},
- {ref:"2269",nome:"Calcinha Micro Fio Duplo Biquíni",preco:14.90,tamanhos:["P","M","G","GG"],cores:["Base","Preto","Branco","Rubi","Romance","Satin","Pantera"]},
- {ref:"2287",nome:"Calcinha Fio Duplo Toda de Renda",preco:15.90,tamanhos:["P","M","G","GG","XG"],cores:["Frozen","Romance","Rubi","Preto"]},
- {ref:"2295",nome:"Calcinha Micro Tecido Duplo Alta",preco:18.90,precoPlus:22.90,tamanhos:["P","M","G","GG","48","50","52","54"],cores:["Preto","Chocolate","Branco","Satin"]},
- {ref:"2304",nome:"Calcinha Micro Inteira no Bumbum",preco:15.90,precoPlus:19.90,tamanhos:["P","M","G","GG","48","50","52","54"],cores:["Preto","Desejo","Romance","Base"]},
- {ref:"CUECA-015",nome:"Cueca Boxer Masculina",preco:16.90,tamanhos:["P","M","G","GG"],cores:["Sortidas","Preto","Chumbo","Marinho"]},
- {ref:"088-1",nome:"Sutiã Básico de Micro",preco:34.90,tamanhos:["P","M","G","GG"],cores:["Branco","Base","Preto","Satin"]},
- {ref:"095-1",nome:"Sutiã Micro sem Bojo sem Aro",preco:32.90,precoPlus:39.90,tamanhos:["P","M","G","GG","48","50","52","54"],cores:["Preto","Base","Satin"]},
- {ref:"2069-1",nome:"Sutiã Básico de Micro",preco:45.90,precoPlus:52.90,tamanhos:["P","M","G","GG","48","50","52","54"],cores:["Preto","Marinho","Base","Romance"]},
- {ref:"2103-1",nome:"Sutiã Bojo 3D Liso Micro",preco:47.90,tamanhos:["P","M","G","GG"],cores:["Preto","Chocolate","Frozen","Rubi"]},
- {ref:"2243-1",nome:"Top de Renda sem Bojo/Fecho",preco:34.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi","Frozen","Pink","Romance","Cidreira","Desejo","Pantera"]},
- {ref:"7081-1",nome:"Sutiã Básico Micro c/ Barra",preco:45.90,tamanhos:["P","M","G","GG"],cores:["Base","Preto","Branco","Rubi","Romance","Satin","Pantera"]},
- {ref:"7082-1",nome:"Sutiã Básico Liso de Micro",preco:42.90,tamanhos:["P","M","G","GG"],cores:["Chocolate","Preto","Satin","Frozen"]},
- {ref:"7083-1",nome:"Top de Micro Bojo Removível",preco:44.90,tamanhos:["P","M","G","GG"],cores:["Marinho","Preto","Base","Satin"]},
- {ref:"7084-1",nome:"Sutiã Plus Micro/Renda c/ Aro",preco:55.90,tamanhos:["P","M","G","GG"],cores:["Preto","Rubi","Branco","Cidreira"]},
- {ref:"7085-1",nome:"Sutiã Reforçado com Bojo",preco:47.90,precoPlus:52.90,tamanhos:["P","M","G","GG","XG"],cores:["Preto","Chocolate","Branco","Brownie"]},
- {ref:"094-1",nome:"Sutiã Bojo Top",preco:55.90,tamanhos:["P","M","G","GG"],cores:["Preto","Base","Rubi"]},
- {ref:"2351-L",nome:"Camisola Canelado",preco:48.90,precoPlus:51.90,tamanhos:["P","M","G","GG","XG"],cores:["Estampa Sortida"]},
- {ref:"2346-L",nome:"Short Doll Canelado",preco:44.90,precoPlus:47.90,tamanhos:["P","M","G","GG","XG"],cores:["Estampa Sortida"]},
- {ref:"2352-L",nome:"Camisola Suedine",preco:48.90,precoPlus:51.90,tamanhos:["P","M","G","GG","XG"],cores:["Estampa Sortida"]},
- {ref:"2347-L",nome:"Short Doll Suedine",preco:44.90,precoPlus:47.90,tamanhos:["P","M","G","GG","XG"],cores:["Estampa Sortida"]},
- {ref:"2344-L",nome:"Short Doll Cetim com Renda",preco:44.90,precoPlus:47.90,tamanhos:["P","M","G","GG","XG"],cores:["Preto","Rubi"]},
- {ref:"2345-L",nome:"Camisola Cetim com Renda",preco:44.90,precoPlus:47.90,tamanhos:["P","M","G","GG","XG"],cores:["Preto","Rubi"]},
- {ref:"0142-L",nome:"Camisola Longa Liganete c/ Renda",preco:99.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi"]},
- {ref:"0143-L",nome:"Camisola Liganete e Renda",preco:65.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi"]},
- {ref:"0144-L",nome:"Short Doll Liganete Liso",preco:59.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi"]},
- {ref:"1029-L",nome:"Camisola Liganete com Renda",preco:69.90,precoPlus:79.90,tamanhos:["P","M","G","GG","48","50","52","54"],cores:["Preto","Branco","Rubi"]},
- {ref:"1059-L",nome:"Short Doll Liganete com Renda",preco:69.90,precoPlus:79.90,tamanhos:["P","M","G","GG","48","50","52","54"],cores:["Preto","Branco","Rubi"]},
- {ref:"2079-L",nome:"Hobby de Liganete com Renda",preco:79.90,tamanhos:["Único"],cores:["Preto","Branco","Rubi"]},
- {ref:"2230-L",nome:"Short Doll Liganete com Renda",preco:69.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi"]},
- {ref:"2231-L",nome:"Short Doll Liganete",preco:69.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi"]},
- {ref:"2234-L",nome:"Short Doll Liganete com Renda",preco:69.90,precoPlus:79.90,tamanhos:["P","M","G","GG","48","50","52","54"],cores:["Preto","Branco","Rubi"]},
- {ref:"2237-L",nome:"Hobby de Tule com Renda",preco:98.90,tamanhos:["Único"],cores:["Preto","Branco","Rubi"]},
- {ref:"2248-L",nome:"Camisola de Tule com Renda",preco:79.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi"]},
- {ref:"4029-L",nome:"Camisola Liganete c/ Tule nas Costas",preco:75.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi"]},
- {ref:"TERMICA",nome:"Blusa Manga Longa Térmica",preco:34.90,tamanhos:["P","M","G","GG"],cores:["Preto"]},
- {ref:"4190-2",nome:"Conjunto Cropped Tule Bojo/Renda",preco:79.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi"]},
- {ref:"4192-2",nome:"Conjunto Bojo Inteiro Renda",preco:79.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi"]},
- {ref:"1048-2",nome:"Conjunto Bojo Cortinão",preco:65.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi","Frozen","Pink","Romance","Cidreira","Desejo","Pantera"]},
- {ref:"2067-2",nome:"Conjunto Bojo/Renda Elástico",preco:69.90,tamanhos:["P","M","G","GG"],cores:["Preto","Frozen","Rubi","Branco"]},
- {ref:"2104-2",nome:"Conjunto Bojo 3D Renda",preco:69.90,tamanhos:["P","M","G","GG"],cores:["Preto","Pantera","Pink","Frozen"]},
- {ref:"2238-2",nome:"Conjunto Bojo/Renda",preco:65.90,tamanhos:["P","M","G","GG"],cores:["Preto","Pantera","Desejo","Rubi"]},
- {ref:"267-2",nome:"Conjunto Bojo/Renda Básico",preco:65.90,tamanhos:["P","M","G","GG"],cores:["Cidreira","Rubi","Romance","Branco"]},
- {ref:"4195-2",nome:"Conjunto sem Bojo Arco/Renda",preco:59.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi","Frozen","Pink","Romance","Cidreira","Desejo","Pantera"]},
+ {ref:"33",nome:"Bermuda Modeladora",preco:109.90,tamanhos:["P","M","G","GG"],cores:["Base"]},
+ {ref:"30",nome:"Caleçon de Renda",preco:34.90,tamanhos:["P","M","G","GG"],cores:["Pink","Preto","Frozen","Rubi"]},
+ {ref:"2265",nome:"Calcinha Strass",preco:49.90,tamanhos:["Único"],cores:["Preto","Branco","Rubi","Frozen","Pink","Romance","Cidreira","Desejo","Pantera"],frases:["Safada","Faz o Pix","Gostosa","Sou Sua"]},
+ {ref:"270",nome:"Calcinha Micro Fio Duplo Estreita",preco:34.90,tamanhos:["P","M","G","GG"],cores:[" Preto","Rubi","Satin","Base"]},
+ {ref:"408",nome:"Calcinha Micro/Cintura Renda",preco:37.90,tamanhos:["P","M","G","GG"],cores:["Preto","Marinho","Rubi","Desejo","Cidreira","Frozen"]},
+ {ref:"2069",nome:"Calcinha Micro Fio Duplo",preco:34.90,precoPlus:43.90,tamanhos:["P","M","G","GG","48","50","52","54"],cores:["Pink","Pantera","Preto","Romance","Base"]},
+ {ref:"2113",nome:"Calcinha Fio Duplo Renda c/ Regulagem",preco:32.90,tamanhos:["Único"],cores:["Preto","Branco","Rubi","Pink","Frozen"]},
+ {ref:"2127",nome:"Calcinha Micro Fio Duplo Renda Frente",preco:37.90,precoPlus:45.90,tamanhos:["P","M","G","GG","48","50","52","54"],cores:["Pink","Frozen","Pantera","Marinho"]},
+ {ref:"2168",nome:"Calcinha Micro Barra Larga Bumbum",preco:34.90,precoPlus:43.90,tamanhos:["P","M","G","GG","48","50","52","54"],cores:["Preto","Chocolate","Branco","Pantera"]},
+ {ref:"2173",nome:"Calcinha Micro Barra Larga Fio Duplo",preco:37.90,precoPlus:43.90,tamanhos:["P","M","G","GG","48","50","52","54"],cores:["Preto","Rubi","Cidreira","Pink"]},
+ {ref:"2197",nome:"Calcinha Micro Fio Duplo/Renda Frente",preco:32.90,tamanhos:["Único"],cores:["Romance","Frozen","Rubi","Cidreira"]},
+ {ref:"2223",nome:"Calcinha Fio Duplo Renda Lateral",preco:34.90,tamanhos:["P","M","G","GG"],cores:["Preto","Pantera","Pink","Frozen"]},
+ {ref:"2224",nome:"Calcinha Micro Fio Duplo Costura Frente",preco:34.90,precoPlus:43.90,tamanhos:["P","M","G","GG","48","50","52","54"],cores:["Preto","Romance","Chocolate","Frozen"]},
+ {ref:"2268",nome:"Calcinha Micro Fio Duplo c/ Regulagem",preco:32.90,tamanhos:["Único"],cores:["Preto","Rubi","Pantera","Desejo"]},
+ {ref:"2269",nome:"Calcinha Micro Fio Duplo Biquíni",preco:32.90,tamanhos:["P","M","G","GG"],cores:["Base","Preto","Branco","Rubi","Romance","Satin","Pantera"]},
+ {ref:"2287",nome:"Calcinha Fio Duplo Toda de Renda",preco:34.90,tamanhos:["P","M","G","GG","XG"],cores:["Frozen","Romance","Rubi","Preto"]},
+ {ref:"2295",nome:"Calcinha Micro Tecido Duplo Alta",preco:41.90,precoPlus:49.90,tamanhos:["P","M","G","GG","48","50","52","54"],cores:["Preto","Chocolate","Branco","Satin"]},
+ {ref:"2304",nome:"Calcinha Micro Inteira no Bumbum",preco:34.90,precoPlus:43.90,tamanhos:["P","M","G","GG","48","50","52","54"],cores:["Preto","Desejo","Romance","Base"]},
+ {ref:"CUECA-015",nome:"Cueca Boxer Masculina",preco:37.90,tamanhos:["P","M","G","GG"],cores:["Sortidas","Preto","Chumbo","Marinho"]},
+ {ref:"088-1",nome:"Sutiã Básico de Micro",preco:76.90,tamanhos:["P","M","G","GG"],cores:["Branco","Base","Preto","Satin","Cidreira","Desejo"]},
+ {ref:"095-1",nome:"Sutiã Micro sem Bojo sem Aro",preco:72.90,precoPlus:87.90,tamanhos:["P","M","G","GG","48","50","52","54"],cores:["Preto","Base","Satin"]},
+ {ref:"2069-1",nome:"Sutiã Básico de Micro",preco:99.90,precoPlus:116.90,tamanhos:["P","M","G","GG","48","50","52","54"],cores:["Preto","Marinho","Base","Romance"]},
+ {ref:"2103-1",nome:"Sutiã Bojo 3D Liso Micro",preco:105.90,tamanhos:["P","M","G","GG"],cores:["Preto","Chocolate","Frozen","Rubi"]},
+ {ref:"7081-1",nome:"Sutiã Básico Micro c/ Barra",preco:99.90,tamanhos:["P","M","G","GG"],cores:["Base","Preto","Branco","Rubi","Romance","Satin","Pantera"]},
+ {ref:"7082-1",nome:"Sutiã Básico Liso de Micro",preco:94.90,tamanhos:["P","M","G","GG"],cores:["Chocolate","Preto","Satin","Frozen"]},
+ {ref:"7083-1",nome:"Top de Micro Bojo Removível",preco:98.90,tamanhos:["P","M","G","GG"],cores:["Marinho","Preto","Base","Satin"]},
+ {ref:"7084-1",nome:"Sutiã Plus Micro/Renda c/ Aro",preco:122.90,tamanhos:["P","M","G","GG"],cores:["Preto","Rubi","Branco","Cidreira"]},
+ {ref:"7085-1",nome:"Sutiã Reforçado com Bojo",preco:99.90,precoPlus:116.90,tamanhos:["P","M","G","GG","XG"],cores:["Preto","Chocolate","Branco","Brownie"]},
+ {ref:"094-1",nome:"Sutiã Bojo Top",preco:122.90,tamanhos:["P","M","G","GG"],cores:["Preto","Base","Rubi"]},
+ {ref:"2351-L",nome:"Camisola Canelado",preco:107.90,precoPlus:114.90,tamanhos:["P","M","G","GG","XG"],cores:["Estampa Sortida"]},
+ {ref:"2346-L",nome:"Short Doll Canelado",preco:98.90,precoPlus:105.90,tamanhos:["P","M","G","GG","XG"],cores:["Estampa Sortida"]},
+ {ref:"2352-L",nome:"Camisola Suedine",preco:107.90,precoPlus:114.90,tamanhos:["P","M","G","GG","XG"],cores:["Estampa Sortida"]},
+ {ref:"2347-L",nome:"Short Doll Suedine",preco:98.90,precoPlus:105.90,tamanhos:["P","M","G","GG","XG"],cores:["Estampa Sortida"]},
+ {ref:"2344-L",nome:"Short Doll Cetim com Renda",preco:98.90,precoPlus:105.90,tamanhos:["P","M","G","GG","XG"],cores:["Preto","Rubi"]},
+ {ref:"2345-L",nome:"Camisola Cetim com Renda",preco:98.90,precoPlus:105.90,tamanhos:["P","M","G","GG","XG"],cores:["Preto","Rubi"]},
+ {ref:"0143-L",nome:"Camisola Liganete e Renda",preco:144.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi"]},
+ {ref:"0144-L",nome:"Short Doll Liganete Liso",preco:129.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi"]},
+ {ref:"1029-L",nome:"Camisola Liganete com Renda",preco:153.90,precoPlus:175.90,tamanhos:["P","M","G","GG","48","50","52","54"],cores:["Preto","Branco","Rubi"]},
+ {ref:"1059-L",nome:"Short Doll Liganete com Renda",preco:153.90,precoPlus:175.90,tamanhos:["P","M","G","GG","48","50","52","54"],cores:["Preto","Branco","Rubi"]},
+ {ref:"2079-L",nome:"Hobby de Liganete com Renda",preco:175.90,tamanhos:["Único"],cores:["Preto","Branco","Rubi"]},
+ {ref:"2230-L",nome:"Short Doll Liganete com Renda",preco:153.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi"]},
+ {ref:"2231-L",nome:"Short Doll Liganete",preco:153.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi"]},
+ {ref:"2234-L",nome:"Short Doll Liganete com Renda",preco:153.90,precoPlus:175.90,tamanhos:["P","M","G","GG","48","50","52","54"],cores:["Preto","Branco","Rubi"]},
+ {ref:"2237-L",nome:"Hobby de Tule com Renda",preco:217.90,tamanhos:["Único"],cores:["Preto","Branco","Rubi"]},
+ {ref:"2248-L",nome:"Camisola de Tule com Renda",preco:175.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi"]},
+ {ref:"4029-L",nome:"Camisola Liganete c/ Tule nas Costas",preco:166.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi"]},
+ {ref:"TERMICA",nome:"Blusa Manga Longa Térmica",preco:76.90,tamanhos:["P","M","G","GG"],cores:["Preto"]},
+ {ref:"4190-2",nome:"Conjunto Cropped Tule Bojo/Renda",preco:175.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi"]},
+ {ref:"4192-2",nome:"Conjunto Bojo Inteiro Renda",preco:175.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi"]},
+ {ref:"1048-2",nome:"Conjunto Bojo Cortinão",preco:144.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi","Frozen","Pink","Romance","Cidreira","Desejo","Pantera"]},
+ {ref:"2067-2",nome:"Conjunto Bojo/Renda Elástico",preco:153.90,tamanhos:["P","M","G","GG"],cores:["Preto","Frozen","Rubi","Branco"]},
+ {ref:"2104-2",nome:"Conjunto Bojo 3D Renda",preco:153.90,tamanhos:["P","M","G","GG"],cores:["Preto","Pantera","Pink","Frozen"]},
+ {ref:"2238-2",nome:"Conjunto Bojo/Renda",preco:144.90,tamanhos:["P","M","G","GG"],cores:["Preto","Pantera","Desejo","Rubi"]},
+ {ref:"267-2",nome:"Conjunto Bojo/Renda Básico",preco:144.90,tamanhos:["P","M","G","GG"],cores:["Cidreira","Rubi","Romance","Branco"]},
+ {ref:"4195-2",nome:"Conjunto sem Bojo Arco/Renda",preco:129.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi","Frozen","Pink","Romance","Cidreira","Desejo","Pantera"]},
  
  ];
+
+// ===== Disponibilidade por COR x TAMANHO =====
+//
+// Use este bloco somente nos produtos que possuem restrições de tamanho por cor.
+// Exemplo:
+// "2069-1": { "Preto": ["P","M","G"], "Base": ["48","50"] }
+//
+// Se um produto não estiver aqui, o site considera que todos os tamanhos
+// cadastrados no produto estão disponíveis para todas as cores.
+const disponibilidadePorCor = {
+     "088-1": {
+       "Preto": ["M","G","GG"],
+       "Cidreira": ["P"],
+       "Desejo": ["P"],
+       "Base": ["P","M","G","GG"],
+       "Branco": ["P","G"],
+       "Satin": ["P","M","GG"]
+  }
+};
+
+// ===== Estoque por COR x TAMANHO x QUANTIDADE =====
+//
+// Preencha aqui a quantidade real em estoque de cada combinação
+// Produto -> Cor -> Tamanho -> Quantidade.
+// Exemplo:
+// "2069-1": {
+//   "Preto":   { "P": 10, "M": 8, "G": 5, "GG": 2 },
+//   "Marinho": { "G": 3, "GG": 1 }
+// }
+//
+// Se um produto NÃO estiver cadastrado aqui, o site considera que ele
+// tem estoque ilimitado (comportamento atual preservado) e a
+// disponibilidade de tamanho por cor continua sendo controlada
+// apenas pelo bloco "disponibilidadePorCor" acima.
+//
+// ATENÇÃO: nenhuma quantidade real foi informada até o momento desta
+// auditoria — este objeto está vazio de propósito para não inventar
+// números de estoque. Preencha as quantidades reais aqui.
+// Estoque preenchido a partir do relatório "Dapic_2026.pdf" (consulta de
+// estoque admin de 18/08/2026). Produtos ou cores que não constam no
+// relatório ficam com estoque ilimitado (comportamento antigo preservado) —
+// veja a lista de pendências na resposta do chat.
+const estoquePorCorTamanho = {
+  // Bermuda Modeladora
+  "33": {
+    "Base": { "P": 0, "M": 20, "G": 18, "GG": 16 }
+  },
+  // Caleçon de Renda
+  "30": {
+    "Pink": { "P": 0, "M": 2, "G": 0, "GG": 0 },
+    "Preto": { "P": 1, "M": 0, "G": 0, "GG": 1 },
+    "Frozen": { "P": 0, "M": 0, "G": 0, "GG": 0 },
+    "Rubi": { "P": 0, "M": 1, "G": 0, "GG": 0 }
+  },
+  // Calcinha Strass
+  "2265": {
+    "Preto": { "Único": 0 },
+    "Branco": { "Único": 0 },
+    "Rubi": { "Único": 0 },
+    "Frozen": { "Único": 0 },
+    "Pink": { "Único": 0 },
+    "Romance": { "Único": 0 },
+    "Cidreira": { "Único": 0 },
+    "Desejo": { "Único": 0 },
+    "Pantera": { "Único": 0 }
+  },
+  // Calcinha Micro Fio Duplo Estreita
+  "270": {
+    " Preto": { "P": 0, "M": 1, "G": 1, "GG": 7 },
+    "Rubi": { "P": 5, "M": 0, "G": 0, "GG": 5 },
+    "Satin": { "P": 0, "M": 3, "G": 1, "GG": 2 },
+    "Base": { "P": 0, "M": 1, "G": 2, "GG": 3 }
+  },
+  // Calcinha Micro/Cintura Renda
+  "408": {
+    "Preto": { "P": 1, "M": 1, "G": 0, "GG": 3 },
+    "Marinho": { "P": 0, "M": 0, "G": 0, "GG": 0 },
+    "Rubi": { "P": 2, "M": 6, "G": 4, "GG": 10 },
+    "Desejo": { "P": 1, "M": 1, "G": 0, "GG": 0 },
+    "Cidreira": { "P": 2, "M": 2, "G": 1, "GG": 0 },
+    "Frozen": { "P": 1, "M": 0, "G": 0, "GG": 0 }
+  },
+  // Calcinha Micro Fio Duplo
+  "2069": {
+    "Pink": { "P": 2, "M": 8, "G": 7, "GG": 8, "48": 6, "50": 0, "52": 0, "54": 0 },
+    "Pantera": { "P": 0, "M": 7, "G": 3, "GG": 4, "48": 2, "50": 2, "52": 0, "54": 0 },
+    "Preto": { "P": 0, "M": 7, "G": 12, "GG": 5, "48": 2, "50": 0, "52": 0, "54": 0 },
+    "Romance": { "P": 1, "M": 4, "G": 1, "GG": 0, "48": 0, "50": 0, "52": 0, "54": 0 },
+    "Base": { "P": 0, "M": 6, "G": 2, "GG": 5, "48": 1, "50": 0, "52": 0, "54": 0 }
+  },
+  // Calcinha Fio Duplo Renda c/ Regulagem
+  "2113": {
+    "Preto": { "Único": 2 },
+    "Branco": { "Único": 0 },
+    "Rubi": { "Único": 2 },
+    "Pink": { "Único": 0 },
+    "Frozen": { "Único": 0 }
+  },
+  // Calcinha Micro Fio Duplo Renda Frente
+  "2127": {
+    "Pink": { "P": 1, "M": 0, "G": 0, "GG": 0, "48": 1, "50": 0, "52": 0, "54": 0 },
+    "Frozen": { "P": 1, "M": 1, "G": 1, "GG": 1, "48": 1, "50": 0, "52": 0, "54": 0 },
+    "Pantera": { "P": 1, "M": 3, "G": 1, "GG": 0, "48": 1, "50": 0, "52": 0, "54": 0 },
+    "Marinho": { "P": 0, "M": 0, "G": 0, "GG": 0, "48": 0, "50": 0, "52": 0, "54": 0 }
+  },
+  // Calcinha Micro Barra Larga Bumbum
+  "2168": {
+    "Preto": { "P": 1, "M": 4, "G": 3, "GG": 3, "48": 0, "50": 0, "52": 0, "54": 0 },
+    "Chocolate": { "P": 0, "M": 0, "G": 0, "GG": 0, "48": 0, "50": 0, "52": 0, "54": 0 },
+    "Branco": { "P": 0, "M": 0, "G": 0, "GG": 0, "48": 0, "50": 0, "52": 0, "54": 0 },
+    "Pantera": { "P": 0, "M": 0, "G": 0, "GG": 0, "48": 0, "50": 0, "52": 0, "54": 0 }
+  },
+  // Calcinha Micro Barra Larga Fio Duplo
+  "2173": {
+    "Preto": { "P": 7, "M": 7, "G": 7, "GG": 3, "48": 1, "50": 1, "52": 1, "54": 2 },
+    "Rubi": { "P": 3, "M": 1, "G": 2, "GG": 0, "48": 0, "50": 1, "52": 1, "54": 1 },
+    "Cidreira": { "P": 1, "M": 0, "G": 0, "GG": 0, "48": 0, "50": 1, "52": 0, "54": 1 },
+    "Pink": { "P": 1, "M": 0, "G": 0, "GG": 0, "48": 0, "50": 0, "52": 1, "54": 1 }
+  },
+  // Calcinha Micro Fio Duplo/Renda Frente
+  "2197": {
+    "Romance": { "Único": 0 },
+    "Frozen": { "Único": 3 },
+    "Rubi": { "Único": 6 },
+    "Cidreira": { "Único": 0 }
+  },
+  // Calcinha Fio Duplo Renda Lateral
+  "2223": {
+    "Preto": { "P": 2, "M": 3, "G": 4, "GG": 0 },
+    "Pantera": { "P": 2, "M": 2, "G": 2, "GG": 0 },
+    "Pink": { "P": 0, "M": 0, "G": 0, "GG": 0 },
+    "Frozen": { "P": 3, "M": 4, "G": 2, "GG": 0 }
+  },
+  // Calcinha Micro Fio Duplo Costura Frente
+  "2224": {
+    "Preto": { "P": 2, "M": 0, "G": 0, "GG": 1, "48": 0, "50": 0, "52": 0, "54": 0 },
+    "Romance": { "P": 1, "M": 0, "G": 0, "GG": 0, "48": 0, "50": 0, "52": 0, "54": 1 },
+    "Chocolate": { "P": 0, "M": 0, "G": 0, "GG": 0, "48": 0, "50": 0, "52": 0, "54": 0 },
+    "Frozen": { "P": 1, "M": 0, "G": 0, "GG": 0, "48": 0, "50": 0, "52": 0, "54": 0 }
+  },
+  // Calcinha Micro Fio Duplo c/ Regulagem
+  "2268": {
+    "Preto": { "Único": 0 },
+    "Rubi": { "Único": 0 },
+    "Pantera": { "Único": 0 },
+    "Desejo": { "Único": 0 }
+  },
+  // Calcinha Micro Fio Duplo Biquíni
+  "2269": {
+    "Base": { "P": 2, "M": 7, "G": 2, "GG": 8 },
+    "Preto": { "P": 1, "M": 15, "G": 6, "GG": 9 },
+    "Branco": { "P": 0, "M": 0, "G": 0, "GG": 0 },
+    "Rubi": { "P": 2, "M": 1, "G": 0, "GG": 1 },
+    "Romance": { "P": 0, "M": 0, "G": 1, "GG": 1 },
+    "Satin": { "P": 3, "M": 9, "G": 6, "GG": 9 },
+    "Pantera": { "P": 2, "M": 0, "G": 0, "GG": 8 }
+  },
+  // Calcinha Fio Duplo Toda de Renda
+  "2287": {
+    "Frozen": { "P": 0, "M": 0, "G": 0, "GG": 0, "XG": 0 },
+    "Romance": { "P": 0, "M": 0, "G": 0, "GG": 0, "XG": 0 },
+    "Rubi": { "P": 2, "M": 2, "G": 1, "GG": 2, "XG": 0 },
+    "Preto": { "P": 2, "M": 2, "G": 1, "GG": 2, "XG": 0 }
+  },
+  // Calcinha Micro Tecido Duplo Alta
+  "2295": {
+    "Preto": { "P": 2, "M": 0, "G": 1, "GG": 0, "48": 0, "50": 0, "52": 0, "54": 0 },
+    "Chocolate": { "P": 0, "M": 0, "G": 0, "GG": 0, "48": 0, "50": 0, "52": 0, "54": 0 },
+    "Branco": { "P": 1, "M": 0, "G": 0, "GG": 0, "48": 0, "50": 0, "52": 0, "54": 0 },
+    "Satin": { "P": 6, "M": 2, "G": 0, "GG": 0, "48": 0, "50": 0, "52": 0, "54": 1 }
+  },
+  // Calcinha Micro Inteira no Bumbum
+  "2304": {
+    "Preto": { "P": 1, "M": 0, "G": 0, "GG": 0, "48": 0, "50": 0, "52": 0, "54": 0 },
+    "Desejo": { "P": 0, "M": 3, "G": 2, "GG": 2, "48": 0, "50": 0, "52": 0, "54": 1 },
+    "Romance": { "P": 0, "M": 0, "G": 0, "GG": 0, "48": 0, "50": 0, "52": 0, "54": 0 },
+    "Base": { "P": 0, "M": 2, "G": 2, "GG": 2, "48": 0, "50": 0, "52": 1, "54": 0 }
+  },
+  // Cueca Boxer Masculina
+  "CUECA-015": {
+    "Preto": { "P": 0, "M": 0, "G": 6, "GG": 0 },
+    "Chumbo": { "P": 0, "M": 1, "G": 1, "GG": 0 },
+    "Marinho": { "P": 0, "M": 2, "G": 5, "GG": 0 }
+  },
+  // Sutiã Básico de Micro
+  "088-1": {
+    "Branco": { "P": 1, "M": 0, "G": 4, "GG": 0 },
+    "Base": { "P": 2, "M": 3, "G": 2, "GG": 2 },
+    "Preto": { "P": 0, "M": 2, "G": 1, "GG": 3 },
+    "Satin": { "P": 2, "M": 3, "G": 0, "GG": 2 },
+    "Cidreira": { "P": 1, "M": 0, "G": 0, "GG": 0 },
+    "Desejo": { "P": 1, "M": 0, "G": 0, "GG": 0 }
+  },
+  // Sutiã Micro sem Bojo sem Aro
+  "095-1": {
+    "Preto": { "P": 0, "M": 0, "G": 1, "GG": 1, "48": 0, "50": 0, "52": 0, "54": 0 },
+    "Base": { "P": 0, "M": 9, "G": 1, "GG": 1, "48": 0, "50": 0, "52": 0, "54": 0 },
+    "Satin": { "P": 0, "M": 0, "G": 0, "GG": 0, "48": 0, "50": 0, "52": 0, "54": 0 }
+  },
+  // Sutiã Básico de Micro
+  "2069-1": {
+    "Preto": { "P": 1, "M": 1, "G": 3, "GG": 2, "48": 2, "50": 0, "52": 2, "54": 2 },
+    "Marinho": { "P": 0, "M": 0, "G": 0, "GG": 0, "48": 0, "50": 0, "52": 0, "54": 0 },
+    "Base": { "P": 2, "M": 3, "G": 4, "GG": 4, "48": 4, "50": 4, "52": 0, "54": 1 },
+    "Romance": { "P": 0, "M": 2, "G": 7, "GG": 13, "48": 0, "50": 0, "52": 0, "54": 0 }
+  },
+  // Sutiã Bojo 3D Liso Micro
+  "2103-1": {
+    "Preto": { "P": 1, "M": 0, "G": 0, "GG": 0 },
+    "Chocolate": { "P": 0, "M": 0, "G": 0, "GG": 0 },
+    "Frozen": { "P": 0, "M": 0, "G": 0, "GG": 0 },
+    "Rubi": { "P": 0, "M": 2, "G": 0, "GG": 0 }
+  },
+  // Sutiã Básico Liso de Micro
+  "7082-1": {
+    "Chocolate": { "P": 0, "M": 0, "G": 0, "GG": 0 },
+    "Preto": { "P": 0, "M": 11, "G": 6, "GG": 6 },
+    "Satin": { "P": 2, "M": 3, "G": 1, "GG": 5 },
+    "Frozen": { "P": 0, "M": 0, "G": 0, "GG": 0 }
+  },
+  // Top de Micro Bojo Removível
+  "7083-1": {
+    "Marinho": { "P": 0, "M": 0, "G": 0, "GG": 0 },
+    "Preto": { "P": 0, "M": 0, "G": 2, "GG": 2 },
+    "Base": { "P": 0, "M": 0, "G": 6, "GG": 1 },
+    "Satin": { "P": 0, "M": 0, "G": 1, "GG": 2 }
+  },
+  // Sutiã Plus Micro/Renda c/ Aro
+  "7084-1": {
+    "Preto": { "P": 1, "M": 2, "G": 2, "GG": 2 },
+    "Rubi": { "P": 0, "M": 0, "G": 0, "GG": 0 },
+    "Branco": { "P": 0, "M": 0, "G": 0, "GG": 0 },
+    "Cidreira": { "P": 0, "M": 1, "G": 1, "GG": 1 }
+  },
+  // Sutiã Reforçado com Bojo
+  "7085-1": {
+    "Preto": { "P": 0, "M": 0, "G": 0, "GG": 0 },
+    "Chocolate": { "P": 0, "M": 0, "G": 0, "GG": 0 },
+    "Branco": { "P": 0, "M": 0, "G": 0, "GG": 0 },
+    "Brownie": { "P": 0, "M": 0, "G": 0, "GG": 0 }
+  },
+  // Sutiã Bojo Top
+  "094-1": {
+    "Preto": { "P": 0, "M": 0, "G": 0, "GG": 0 },
+    "Base": { "P": 0, "M": 0, "G": 0, "GG": 0 },
+    "Rubi": { "P": 0, "M": 0, "G": 0, "GG": 0 }
+  },
+  // Short Doll Cetim com Renda
+  "2344-L": {
+    "Preto": { "P": 0, "M": 0, "G": 0, "GG": 0, "XG": 0 },
+    "Rubi": { "P": 0, "M": 0, "G": 0, "GG": 0, "XG": 0 }
+  },
+  // Camisola Cetim com Renda
+  "2345-L": {
+    "Preto": { "P": 0, "M": 0, "G": 0, "GG": 0, "XG": 0 },
+    "Rubi": { "P": 0, "M": 0, "G": 0, "GG": 0, "XG": 0 }
+  },
+  // Camisola Liganete e Renda
+  "0143-L": {
+    "Preto": { "P": 0, "M": 6, "G": 0, "GG": 1 },
+    "Branco": { "P": 0, "M": 0, "G": 0, "GG": 0 },
+    "Rubi": { "P": 0, "M": 0, "G": 0, "GG": 1 }
+  },
+  // Short Doll Liganete Liso
+  "0144-L": {
+    "Preto": { "P": 1, "M": 0, "G": 0, "GG": 0 },
+    "Branco": { "P": 1, "M": 2, "G": 0, "GG": 0 },
+    "Rubi": { "P": 1, "M": 0, "G": 0, "GG": 0 }
+  },
+  // Camisola Liganete com Renda
+  "1029-L": {
+    "Preto": { "P": 1, "M": 1, "G": 1, "GG": 1, "48": 1, "50": 0, "52": 0, "54": 2 },
+    "Branco": { "P": 1, "M": 1, "G": 2, "GG": 0, "48": 1, "50": 0, "52": 0, "54": 1 },
+    "Rubi": { "P": 0, "M": 4, "G": 1, "GG": 0, "48": 1, "50": 0, "52": 0, "54": 1 }
+  },
+  // Short Doll Liganete com Renda
+  "1059-L": {
+    "Preto": { "P": 1, "M": 1, "G": 1, "GG": 1, "48": 1, "50": 0, "52": 0, "54": 0 },
+    "Branco": { "P": 0, "M": 0, "G": 0, "GG": 1, "48": 1, "50": 0, "52": 0, "54": 0 },
+    "Rubi": { "P": 1, "M": 3, "G": 0, "GG": 1, "48": 0, "50": 0, "52": 0, "54": 0 }
+  },
+  // Hobby de Liganete com Renda
+  "2079-L": {
+    "Preto": { "Único": 1 },
+    "Branco": { "Único": 0 },
+    "Rubi": { "Único": 0 }
+  },
+  // Short Doll Liganete com Renda
+  "2230-L": {
+    "Preto": { "P": 0, "M": 0, "G": 0, "GG": 1 },
+    "Branco": { "P": 0, "M": 0, "G": 1, "GG": 2 },
+    "Rubi": { "P": 0, "M": 4, "G": 1, "GG": 1 }
+  },
+  // Short Doll Liganete com Renda
+  "2234-L": {
+    "Preto": { "P": 2, "M": 3, "G": 0, "GG": 0, "48": 0, "50": 0, "52": 0, "54": 1 },
+    "Branco": { "P": 0, "M": 0, "G": 0, "GG": 1, "48": 0, "50": 0, "52": 0, "54": 0 },
+    "Rubi": { "P": 0, "M": 2, "G": 0, "GG": 1, "48": 1, "50": 0, "52": 0, "54": 0 }
+  },
+  // Hobby de Tule com Renda
+  "2237-L": {
+    "Preto": { "Único": 0 },
+    "Branco": { "Único": 5 },
+    "Rubi": { "Único": 0 }
+  },
+  // Camisola de Tule com Renda
+  "2248-L": {
+    "Preto": { "P": 1, "M": 2, "G": 0, "GG": 1 },
+    "Branco": { "P": 0, "M": 2, "G": 0, "GG": 1 },
+    "Rubi": { "P": 1, "M": 0, "G": 0, "GG": 1 }
+  },
+  // Blusa Manga Longa Térmica
+  "TERMICA": {
+    "Preto": { "P": 1, "M": 1, "G": 0, "GG": 1 }
+  },
+  // Conjunto Bojo Cortinão
+  "1048-2": {
+    "Preto": { "P": 2, "M": 0, "G": 0, "GG": 0 },
+    "Branco": { "P": 0, "M": 0, "G": 0, "GG": 0 },
+    "Rubi": { "P": 0, "M": 0, "G": 0, "GG": 0 },
+    "Frozen": { "P": 1, "M": 1, "G": 0, "GG": 1 },
+    "Pink": { "P": 0, "M": 0, "G": 0, "GG": 0 },
+    "Romance": { "P": 0, "M": 1, "G": 0, "GG": 0 },
+    "Cidreira": { "P": 1, "M": 0, "G": 0, "GG": 0 },
+    "Desejo": { "P": 1, "M": 1, "G": 1, "GG": 0 },
+    "Pantera": { "P": 0, "M": 0, "G": 0, "GG": 0 }
+  },
+  // Conjunto Bojo/Renda Elástico
+  "2067-2": {
+    "Preto": { "P": 2, "M": 2, "G": 0, "GG": 0 },
+    "Frozen": { "P": 1, "M": 0, "G": 0, "GG": 0 },
+    "Rubi": { "P": 2, "M": 0, "G": 0, "GG": 0 },
+    "Branco": { "P": 1, "M": 0, "G": 0, "GG": 0 }
+  },
+  // Conjunto Bojo 3D Renda
+  "2104-2": {
+    "Preto": { "P": 0, "M": 0, "G": 0, "GG": 1 },
+    "Pantera": { "P": 0, "M": 0, "G": 0, "GG": 0 },
+    "Pink": { "P": 0, "M": 2, "G": 0, "GG": 0 },
+    "Frozen": { "P": 0, "M": 0, "G": 0, "GG": 0 }
+  },
+  // Conjunto Bojo/Renda
+  "2238-2": {
+    "Preto": { "P": 4, "M": 0, "G": 0, "GG": 1 },
+    "Pantera": { "P": 0, "M": 0, "G": 0, "GG": 0 },
+    "Desejo": { "P": 5, "M": 5, "G": 1, "GG": 2 },
+    "Rubi": { "P": 1, "M": 0, "G": 0, "GG": 0 }
+  },
+  // Conjunto Bojo/Renda Básico
+  "267-2": {
+    "Cidreira": { "P": 0, "M": 3, "G": 0, "GG": 0 },
+    "Rubi": { "P": 2, "M": 1, "G": 0, "GG": 1 },
+    "Romance": { "P": 0, "M": 0, "G": 0, "GG": 0 },
+    "Branco": { "P": 1, "M": 1, "G": 2, "GG": 1 }
+  }
+};
+
+function temControleDeEstoqueNumerico(ref){
+  return !!estoquePorCorTamanho[ref];
+}
+
+// Estoque TOTAL cadastrado para a combinação (não desconta o carrinho).
+// Retorna Infinity quando não há controle numérico cadastrado para o produto/cor/tamanho.
+function estoqueTotalCombinacao(ref, cor, tam){
+  const produtoEstoque = estoquePorCorTamanho[ref];
+  if(!produtoEstoque || !cor || !tam) return Infinity;
+  const estoqueCor = produtoEstoque[cor];
+  if(!estoqueCor || estoqueCor[tam] === undefined) return Infinity;
+  return estoqueCor[tam];
+}
+
+// Soma quantas unidades dessa mesma combinação (produto+cor+tamanho) já
+// estão no carrinho. excluirIdx permite ignorar o próprio item ao
+// recalcular o limite de um item que já está no carrinho.
+function qtdNoCarrinho(ref, cor, tam, excluirIdx){
+  return carrinho.reduce((soma, item, idx) => {
+    if(idx === excluirIdx) return soma;
+    if(item.ref === ref && item.cor === cor && item.tamanho === tam) return soma + item.qtd;
+    return soma;
+  }, 0);
+}
+
+// Estoque que ainda pode ser adicionado ao carrinho para essa combinação,
+// já descontando o que já está no carrinho.
+function estoqueRestante(ref, cor, tam, excluirIdx){
+  const total = estoqueTotalCombinacao(ref, cor, tam);
+  if(total === Infinity) return Infinity;
+  return Math.max(0, total - qtdNoCarrinho(ref, cor, tam, excluirIdx));
+}
+
+function tamanhosDisponiveis(produto, cor){
+  // Se este produto tem estoque numérico cadastrado E esta cor específica
+  // está no relatório, a quantidade manda: tamanho some da lista se
+  // a quantidade cadastrada for 0. Se o tamanho nem aparece no relatório
+  // para essa cor (dado não informado), ele continua disponível
+  // (comportamento antigo preservado) em vez de ser escondido por engano.
+  const estoqueProduto = estoquePorCorTamanho[produto.ref];
+  if(estoqueProduto && cor && estoqueProduto[cor]){
+    const estoqueCor = estoqueProduto[cor];
+    return produto.tamanhos.filter(t => estoqueCor[t] === undefined ? true : estoqueCor[t] > 0);
+  }
+  const regras = disponibilidadePorCor[produto.ref];
+  if(!regras || !cor || !regras[cor]) return produto.tamanhos;
+  return regras[cor];
+}
+
+function corTemDisponibilidade(produto, cor){
+  return tamanhosDisponiveis(produto, cor).length > 0;
+}
 
 // ===== Mapa de cores para os swatches =====
 const coresMap = {
@@ -575,6 +985,7 @@ function renderizar(){
               onclick="selecionarTamanho('${p.ref}','${t.replace(/'/g,"\\'")}',this)">${t}</span>
           `).join('')}
         </div>
+        <div class="disponibilidade-info" id="disponibilidade-${p.ref}"></div>
         <input type="hidden" id="tam-${p.ref}">
 
         ${p.frases ? `
@@ -590,9 +1001,9 @@ function renderizar(){
 
         <div class="opcao-label">Quantidade</div>
         <div class="qtd-card-box">
-          <button type="button" onclick="alterarQtdCard('${p.ref}', -1)">−</button>
+          <button type="button" id="qtd-menos-${p.ref}" onclick="alterarQtdCard('${p.ref}', -1)">−</button>
           <span id="qtd-view-${p.ref}">1</span>
-          <button type="button" onclick="alterarQtdCard('${p.ref}', 1)">+</button>
+          <button type="button" id="qtd-mais-${p.ref}" onclick="alterarQtdCard('${p.ref}', 1)">+</button>
         </div>
         <input type="hidden" id="qtd-${p.ref}" value="1">
 
@@ -623,24 +1034,80 @@ function renderizar(){
   });
 }
 
+function atualizarTamanhos(ref){
+  const p = produtos.find(x=>x.ref===ref);
+  if(!p) return;
+
+  const cor = document.getElementById(`cor-${ref}`).value;
+  const tamanhos = tamanhosDisponiveis(p, cor);
+  const container = document.getElementById(`tamanhos-${ref}`);
+  const input = document.getElementById(`tam-${ref}`);
+  const info = document.getElementById(`disponibilidade-${ref}`);
+  if(!container || !input) return;
+
+  container.querySelectorAll('.tam-pill').forEach(el=>{
+    const disponivel = tamanhos.includes(el.dataset.tam);
+    el.classList.toggle('indisponivel', !disponivel);
+    el.setAttribute('aria-disabled', disponivel ? 'false' : 'true');
+    el.title = disponivel ? `Disponível em ${el.dataset.tam}` : `Indisponível na cor ${cor || ''}`;
+  });
+
+  if(info){
+    if(cor && tamanhos.length === 0){
+      info.innerText = 'Produto indisponível nesta cor.';
+    } else if(cor){
+      info.innerText = `Disponível nesta cor: ${tamanhos.join(' · ')}`;
+    } else {
+      info.innerText = 'Selecione uma cor para ver os tamanhos disponíveis';
+    }
+  }
+
+  if(input.value && !tamanhos.includes(input.value)){
+    // O tamanho selecionado deixou de estar disponível nesta cor:
+    // seleciona automaticamente o primeiro tamanho disponível, se houver.
+    input.value = '';
+    container.querySelectorAll('.tam-pill').forEach(el=>el.classList.remove('selecionada'));
+    if(tamanhos.length > 0){
+      const novoEl = container.querySelector(`.tam-pill[data-tam="${tamanhos[0]}"]`);
+      if(novoEl) selecionarTamanho(ref, tamanhos[0], novoEl);
+    }
+  }
+
+  atualizarLimiteQtdCard(ref);
+}
+
 function selecionarCor(ref, cor, el){
   document.getElementById(`cor-${ref}`).value = cor;
   document.getElementById(`cor-nome-${ref}`).innerText = cor;
   document.querySelectorAll(`#cores-${ref} .swatch`).forEach(s=>s.classList.remove('selecionada'));
   el.classList.add('selecionada');
+  atualizarTamanhos(ref);
 }
 
 function selecionarTamanho(ref, tam, el){
+  const p = produtos.find(x=>x.ref===ref);
+  const cor = document.getElementById(`cor-${ref}`).value;
+  const disponiveis = tamanhosDisponiveis(p, cor);
+
+  if(!disponiveis.includes(tam)){
+    toast(`⚠️ O tamanho ${tam} não está disponível na cor ${cor}.`);
+    return;
+  }
+
   document.getElementById(`tam-${ref}`).value = tam;
   document.querySelectorAll(`#tamanhos-${ref} .tam-pill`).forEach(s=>s.classList.remove('selecionada'));
   el.classList.add('selecionada');
 
-  const p = produtos.find(x=>x.ref===ref);
   const precoEl = document.getElementById(`preco-${ref}`);
   if(precoEl){
     const precoFinal = precoAtualProduto(p, tam);
     precoEl.innerHTML = `R$ ${precoFinal.toFixed(2).replace('.',',')}`;
   }
+
+  // Nova combinação cor/tamanho pode ter um limite de estoque diferente.
+  const qtdInput = document.getElementById(`qtd-${ref}`);
+  if(qtdInput) qtdInput.value = 1;
+  atualizarLimiteQtdCard(ref);
 }
 
 function selecionarFrase(ref, frase, el){
@@ -649,11 +1116,38 @@ function selecionarFrase(ref, frase, el){
   el.classList.add('selecionada');
 }
 
+// Estoque restante para a cor/tamanho atualmente selecionados no card do produto.
+function limiteQtdCard(ref){
+  const corInput = document.getElementById(`cor-${ref}`);
+  const tamInput = document.getElementById(`tam-${ref}`);
+  if(!corInput || !tamInput || !corInput.value || !tamInput.value) return Infinity;
+  return estoqueRestante(ref, corInput.value, tamInput.value);
+}
+
+function atualizarLimiteQtdCard(ref){
+  const input = document.getElementById(`qtd-${ref}`);
+  const view = document.getElementById(`qtd-view-${ref}`);
+  const btnMais = document.getElementById(`qtd-mais-${ref}`);
+  if(!input || !view) return;
+
+  const limite = limiteQtdCard(ref);
+  let val = parseInt(input.value) || 1;
+  if(limite !== Infinity) val = Math.min(Math.max(val, limite > 0 ? 1 : 0), Math.max(limite, 0));
+  if(limite === Infinity) val = Math.max(val, 1);
+
+  input.value = val;
+  view.innerText = val;
+  if(btnMais) btnMais.disabled = (limite !== Infinity && val >= limite);
+}
+
 function alterarQtdCard(ref, delta){
   const input = document.getElementById(`qtd-${ref}`);
+  const limite = limiteQtdCard(ref);
   let val = Math.max(1, parseInt(input.value) + delta);
+  if(limite !== Infinity) val = Math.min(val, Math.max(limite, 1));
   input.value = val;
   document.getElementById(`qtd-view-${ref}`).innerText = val;
+  atualizarLimiteQtdCard(ref);
 }
 
 function handleAdd(btn){
@@ -684,6 +1178,23 @@ function adicionar(ref){
     return;
   }
 
+  if(!tamanhosDisponiveis(p, cor).includes(tamanho)){
+    toast(`⚠️ O tamanho ${tamanho} não está disponível na cor ${cor}.`);
+    return;
+  }
+
+  // Verifica se o estoque restante (já descontando o que está no carrinho)
+  // comporta a quantidade que o cliente está tentando adicionar agora.
+  const restante = estoqueRestante(ref, cor, tamanho);
+  if(restante !== Infinity && qtd > restante){
+    if(restante <= 0){
+      toast(`⚠️ Estoque esgotado para ${p.nome} (${cor}/${tamanho}).`);
+    } else {
+      toast(`⚠️ Estoque insuficiente. Disponível: ${restante} unidade${restante===1?'':'s'}.`);
+    }
+    return;
+  }
+
   const precoFinal = precoAtualProduto(p, tamanho);
 
   const existente = carrinho.find(i => i.ref===ref && i.cor===cor && i.tamanho===tamanho && i.frase===frase);
@@ -695,6 +1206,7 @@ function adicionar(ref){
 
   qtdInput.value = 1;
   document.getElementById(`qtd-view-${ref}`).innerText = 1;
+  atualizarLimiteQtdCard(ref);
 
   atualizarTotal();
   toast(`✅ ${qtd}x ${p.nome} (${cor}/${tamanho}${frase ? '/'+frase : ''}) adicionado!`);
@@ -725,7 +1237,12 @@ function renderizarCarrinhoModal(){
   totalRow.style.display = 'flex';
   blocoCliente.style.display = 'block';
 
-  lista.innerHTML = carrinho.map((item, idx) => `
+  lista.innerHTML = carrinho.map((item, idx) => {
+    // Estoque restante para esta combinação, considerando a própria
+    // quantidade já reservada por este item (por isso excluirIdx=idx).
+    const restanteMaisEsteItem = estoqueRestante(item.ref, item.cor, item.tamanho, idx);
+    const limiteAtingido = restanteMaisEsteItem !== Infinity && item.qtd >= restanteMaisEsteItem;
+    return `
     <div class="carrinho-item">
       <img src="${imgSrc(item.ref)}" alt="${item.nome}" onerror="this.src='https://via.placeholder.com/64x80/f2dedd/832c3d?text=Foto'">
       <div class="carrinho-item-info">
@@ -736,7 +1253,7 @@ function renderizarCarrinhoModal(){
             ${item.produtoRef.cores.map(c => `<option value="${c}" ${c===item.cor?'selected':''}>${c}</option>`).join('')}
           </select>
           <select onchange="alterarTamanho(${idx}, this.value)">
-            ${item.produtoRef.tamanhos.map(t => `<option value="${t}" ${t===item.tamanho?'selected':''}>${t}</option>`).join('')}
+            ${tamanhosDisponiveis(item.produtoRef, item.cor).map(t => `<option value="${t}" ${t===item.tamanho?'selected':''}>${t}</option>`).join('')}
           </select>
           ${item.produtoRef.frases ? `
           <select onchange="alterarFrase(${idx}, this.value)">
@@ -746,25 +1263,50 @@ function renderizarCarrinhoModal(){
           <div class="qtd-box">
             <button onclick="alterarQtd(${idx}, -1)">−</button>
             <span>${item.qtd}</span>
-            <button onclick="alterarQtd(${idx}, 1)">+</button>
+            <button onclick="alterarQtd(${idx}, 1)" ${limiteAtingido ? 'disabled' : ''}>+</button>
           </div>
           <span class="item-preco">R$ ${(item.preco*item.qtd).toFixed(2).replace('.',',')}</span>
         </div>
+        ${restanteMaisEsteItem !== Infinity ? `<small style="opacity:.6">Estoque disponível: ${restanteMaisEsteItem}</small>` : ''}
         <button class="remover-item" onclick="removerItem(${idx})">Remover</button>
       </div>
     </div>
-  `).join('');
+  `;
+  }).join('');
 
   atualizarTotalModal();
 }
 
+// Ajusta a quantidade do item ao estoque restante da combinação (produto/cor/tamanho),
+// excluindo a própria quantidade do item para não se autopenalizar.
+function ajustarQtdAoEstoque(idx){
+  const item = carrinho[idx];
+  const restante = estoqueRestante(item.ref, item.cor, item.tamanho, idx);
+  if(restante !== Infinity && item.qtd > restante){
+    item.qtd = Math.max(0, restante);
+    toast(`⚠️ Quantidade ajustada ao estoque disponível (${item.qtd}).`);
+  }
+}
+
 function alterarCor(idx, novaCor){
-  carrinho[idx].cor = novaCor;
+  const item = carrinho[idx];
+  const disponiveis = tamanhosDisponiveis(item.produtoRef, novaCor);
+  item.cor = novaCor;
+
+  // Se o tamanho atual não existir na nova cor, usa o primeiro disponível.
+  if(!disponiveis.includes(item.tamanho)){
+    item.tamanho = disponiveis[0] || '';
+    item.preco = item.tamanho ? precoAtualProduto(item.produtoRef, item.tamanho) : item.preco;
+  }
+
+  ajustarQtdAoEstoque(idx);
+  renderizarCarrinhoModal();
   atualizarTotal();
 }
 function alterarTamanho(idx, novoTam){
   carrinho[idx].tamanho = novoTam;
   carrinho[idx].preco = precoAtualProduto(carrinho[idx].produtoRef, novoTam);
+  ajustarQtdAoEstoque(idx);
   renderizarCarrinhoModal();
   atualizarTotal();
 }
@@ -773,7 +1315,20 @@ function alterarFrase(idx, novaFrase){
   atualizarTotal();
 }
 function alterarQtd(idx, delta){
-  carrinho[idx].qtd = Math.max(1, carrinho[idx].qtd + delta);
+  const item = carrinho[idx];
+  let novaQtd = Math.max(1, item.qtd + delta);
+
+  if(delta > 0){
+    // Só pode aumentar se ainda houver estoque restante para esta combinação
+    // (considerando o que já está reservado pelo próprio item).
+    const restante = estoqueRestante(item.ref, item.cor, item.tamanho, idx);
+    if(restante !== Infinity && novaQtd > restante){
+      toast(`⚠️ Estoque disponível: ${restante} unidade${restante===1?'':'s'}.`);
+      return;
+    }
+  }
+
+  item.qtd = novaQtd;
   renderizarCarrinhoModal();
   atualizarTotal();
 }
@@ -882,8 +1437,34 @@ function validarEmail(email){
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
+// Revalida o estoque de TODAS as combinações do carrinho antes de enviar o
+// pedido, somando quantidades quando a mesma combinação aparece mais de uma vez.
+function validarEstoqueCarrinhoFinal(){
+  const grupos = {};
+  carrinho.forEach(item=>{
+    const chave = `${item.ref}||${item.cor}||${item.tamanho}`;
+    if(!grupos[chave]) grupos[chave] = { ref:item.ref, nome:item.nome, cor:item.cor, tamanho:item.tamanho, qtd:0 };
+    grupos[chave].qtd += item.qtd;
+  });
+
+  for(const chave in grupos){
+    const g = grupos[chave];
+    const total = estoqueTotalCombinacao(g.ref, g.cor, g.tamanho);
+    if(total !== Infinity && g.qtd > total){
+      return { ok:false, ...g, disponivel: total };
+    }
+  }
+  return { ok:true };
+}
+
 function finalizarPedido(){
   if(carrinho.length===0){ toast("❌ Carrinho vazio!"); return; }
+
+  const validacao = validarEstoqueCarrinhoFinal();
+  if(!validacao.ok){
+    toast(`⚠️ Estoque insuficiente: ${validacao.nome} / ${validacao.cor} / ${validacao.tamanho} — Solicitado: ${validacao.qtd}, Disponível: ${validacao.disponivel}`);
+    return;
+  }
 
   const nome = document.getElementById('clienteNome').value.trim();
   const doc = document.getElementById('clienteDoc').value.trim();
