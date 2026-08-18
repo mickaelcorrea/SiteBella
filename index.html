@@ -329,74 +329,72 @@ footer{border-top:1px solid var(--line);margin-top:10px;padding:46px 24px 28px;b
 const WHATSAPP_LOJISTA = "5548996333473"; // com DDI 55
 
 const produtos = [
- // ===== TODO DIA =====
- {ref:"33",categoria:"Todo dia",nome:"Bermuda Modeladora",preco:45.90,tamanhos:["P","M","G","GG"],cores:["Base"]},
- {ref:"30",categoria:"Todo dia",nome:"Caleçon de Renda",preco:15.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi","Frozen","Pink","Romance","Cidreira","Desejo","Pantera"]},
- {ref:"2265",categoria:"Todo dia",nome:"Calcinha Strass",preco:22.90,tamanhos:["Único"],cores:["Preto","Branco","Rubi","Frozen","Pink","Romance","Cidreira","Desejo","Pantera"],frases:["Safada","Faz o Pix","Gostosa","Sou Sua"]},
- {ref:"270",categoria:"Todo dia",nome:"Calcinha Micro Fio Duplo Estreita",preco:15.90,tamanhos:["P","M","G","GG"],cores:["Base","Preto","Branco","Rubi","Romance","Satin","Pantera"]},
- {ref:"408",categoria:"Todo dia",nome:"Calcinha Micro/Cintura Renda",preco:16.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi","Frozen","Pink","Romance","Cidreira","Desejo","Pantera"]},
- {ref:"2068",categoria:"Todo dia",nome:"Calcinha Fio Duplo Tule c/ Renda",preco:15.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi"]},
- {ref:"2069",categoria:"Todo dia",nome:"Calcinha Micro Fio Duplo",preco:15.90,precoPlus:19.90,tamanhos:["P","M","G","GG","48","50","52","54"],cores:["Base","Preto","Branco","Rubi","Romance","Satin","Pantera"]},
- {ref:"2113",categoria:"Todo dia",nome:"Calcinha Fio Duplo Renda c/ Regulagem",preco:14.90,tamanhos:["Único"],cores:["Preto","Branco","Rubi","Frozen","Pink","Romance","Cidreira","Desejo","Pantera"]},
- {ref:"2127",categoria:"Todo dia",nome:"Calcinha Micro Fio Duplo Renda Frente",preco:16.90,precoPlus:20.90,tamanhos:["P","M","G","GG","48","50","52","54"],cores:["Preto","Branco","Rubi","Frozen","Pink","Romance","Cidreira","Desejo","Pantera"]},
- {ref:"2168",categoria:"Todo dia",nome:"Calcinha Micro Barra Larga Bumbum",preco:15.90,precoPlus:19.90,tamanhos:["P","M","G","GG","48","50","52","54"],cores:["Base","Preto","Branco","Rubi","Romance","Satin","Pantera"]},
- {ref:"2173",categoria:"Todo dia",nome:"Calcinha Micro Barra Larga Fio Duplo",preco:15.90,precoPlus:19.90,tamanhos:["P","M","G","GG","48","50","52","54"],cores:["Base","Preto","Branco","Rubi","Romance","Satin","Pantera"]},
- {ref:"2197",categoria:"Todo dia",nome:"Calcinha Micro Fio Duplo/Renda Frente",preco:14.90,tamanhos:["Único"],cores:["Preto","Branco","Rubi","Frozen","Pink","Romance","Cidreira","Desejo","Pantera"]},
- {ref:"2223",categoria:"Todo dia",nome:"Calcinha Fio Duplo Renda Lateral",preco:15.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi","Frozen","Pink","Romance","Cidreira","Desejo","Pantera"]},
- {ref:"2224",categoria:"Todo dia",nome:"Calcinha Micro Fio Duplo Costura Frente",preco:15.90,precoPlus:19.90,tamanhos:["P","M","G","GG","48","50","52","54"],cores:["Base","Preto","Branco","Rubi","Romance","Satin","Pantera"]},
- {ref:"2225",categoria:"Todo dia",nome:"Calcinha Fio Duplo Renda Laterais",preco:15.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi","Frozen","Pink","Romance","Cidreira","Desejo","Pantera"]},
- {ref:"2268",categoria:"Todo dia",nome:"Calcinha Micro Fio Duplo c/ Regulagem",preco:14.90,tamanhos:["Único"],cores:["Base","Preto","Branco","Rubi","Romance","Satin","Pantera"]},
- {ref:"2269",categoria:"Todo dia",nome:"Calcinha Micro Fio Duplo Biquíni",preco:14.90,tamanhos:["P","M","G","GG"],cores:["Base","Preto","Branco","Rubi","Romance","Satin","Pantera"]},
- {ref:"2273",categoria:"Todo dia",nome:"Calcinha Micro Fio Duplo Renda Bordas",preco:15.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi","Frozen","Pink","Romance","Cidreira","Desejo","Pantera"]},
- {ref:"2287",categoria:"Todo dia",nome:"Calcinha Fio Duplo Toda de Renda",preco:15.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi","Frozen","Pink","Romance","Cidreira","Desejo","Pantera"]},
- {ref:"2295",categoria:"Todo dia",nome:"Calcinha Micro Tecido Duplo Alta",preco:18.90,precoPlus:22.90,tamanhos:["P","M","G","GG","48","50","52","54"],cores:["Base","Preto","Branco","Rubi","Romance","Satin","Pantera"]},
- {ref:"2304",categoria:"Todo dia",nome:"Calcinha Micro Inteira no Bumbum",preco:15.90,precoPlus:19.90,tamanhos:["P","M","G","GG","48","50","52","54"],cores:["Base","Preto","Branco","Rubi","Romance","Satin","Pantera"]},
- {ref:"CUECA-015",categoria:"Todo dia",nome:"Cueca Boxer Masculina",preco:16.90,tamanhos:["P","M","G","GG"],cores:["Sortidas","Preto","Chumbo","Marinho"]},
- {ref:"088-1",categoria:"Todo dia",nome:"Sutiã Básico de Micro",preco:34.90,tamanhos:["P","M","G","GG"],cores:["Base","Preto","Branco","Rubi","Romance","Satin","Pantera"]},
- {ref:"095-1",categoria:"Todo dia",nome:"Sutiã Micro sem Bojo sem Aro",preco:32.90,precoPlus:39.90,tamanhos:["P","M","G","GG","48","50","52","54"],cores:["Base","Preto","Branco","Rubi","Romance","Satin","Pantera"]},
- {ref:"2069-1",categoria:"Todo dia",nome:"Sutiã Básico de Micro",preco:45.90,precoPlus:52.90,tamanhos:["P","M","G","GG","48","50","52","54"],cores:["Base","Preto","Branco","Rubi","Romance","Satin","Pantera"]},
- {ref:"2103-1",categoria:"Todo dia",nome:"Sutiã Bojo 3D Liso Micro",preco:47.90,tamanhos:["P","M","G","GG"],cores:["Base","Preto","Branco","Rubi","Romance","Satin","Pantera"]},
- {ref:"2243-1",categoria:"Todo dia",nome:"Top de Renda sem Bojo/Fecho",preco:34.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi","Frozen","Pink","Romance","Cidreira","Desejo","Pantera"]},
- {ref:"7081-1",categoria:"Todo dia",nome:"Sutiã Básico Micro c/ Barra",preco:45.90,tamanhos:["P","M","G","GG"],cores:["Base","Preto","Branco","Rubi","Romance","Satin","Pantera"]},
- {ref:"7082-1",categoria:"Todo dia",nome:"Sutiã Básico Liso de Micro",preco:42.90,tamanhos:["P","M","G","GG"],cores:["Base","Preto","Branco","Rubi","Romance","Satin","Pantera"]},
- {ref:"7083-1",categoria:"Todo dia",nome:"Top de Micro Bojo Removível",preco:44.90,tamanhos:["P","M","G","GG"],cores:["Base","Preto","Branco","Rubi","Romance","Satin","Pantera"]},
- {ref:"7084-1",categoria:"Todo dia",nome:"Sutiã Plus Micro/Renda c/ Aro",preco:55.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi","Frozen","Pink","Romance","Cidreira","Desejo","Pantera"]},
 
- // ===== NOITE =====
- {ref:"0142-1",categoria:"Noite",nome:"Camisola Longa Liganete c/ Renda",preco:99.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi"]},
- {ref:"0143-1",categoria:"Noite",nome:"Camisola Liganete e Renda",preco:65.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi"]},
- {ref:"0144-1",categoria:"Noite",nome:"Short Doll Liganete Liso",preco:59.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi"]},
- {ref:"1029-L",categoria:"Noite",nome:"Camisola Liganete com Renda",preco:69.90,precoPlus:79.90,tamanhos:["P","M","G","GG","48","50","52","54"],cores:["Preto","Branco","Rubi"]},
- {ref:"1059-L",categoria:"Noite",nome:"Short Doll Liganete com Renda",preco:69.90,precoPlus:79.90,tamanhos:["P","M","G","GG","48","50","52","54"],cores:["Preto","Branco","Rubi"]},
- {ref:"2079-L",categoria:"Noite",nome:"Hobby de Liganete com Renda",preco:79.90,tamanhos:["Único"],cores:["Preto","Branco","Rubi"]},
- {ref:"2230-1",categoria:"Noite",nome:"Short Doll Liganete com Renda",preco:69.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi"]},
- {ref:"2231-1",categoria:"Noite",nome:"Short Doll Liganete",preco:69.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi"]},
- {ref:"2234-1",categoria:"Noite",nome:"Short Doll Liganete com Renda",preco:69.90,precoPlus:79.90,tamanhos:["P","M","G","GG","48","50","52","54"],cores:["Preto","Branco","Rubi"]},
- {ref:"2237-1",categoria:"Noite",nome:"Hobby de Tule com Renda",preco:98.90,tamanhos:["Único"],cores:["Preto","Branco","Rubi"]},
- {ref:"2248-1",categoria:"Noite",nome:"Camisola de Tule com Renda",preco:79.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi"]},
- {ref:"4029-1",categoria:"Noite",nome:"Camisola Liganete c/ Tule nas Costas",preco:75.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi"]},
- {ref:"TERMICA",categoria:"Noite",nome:"Blusa Manga Longa Térmica",preco:34.90,tamanhos:["P","M","G","GG"],cores:["Preto"]},
-
- // ===== INTENSA =====
- {ref:"4180-1",categoria:"Intensa",nome:"Espartilho de Tule c/ Fita e Zíper",preco:99.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi"]},
- {ref:"4183-1",categoria:"Intensa",nome:"Camisola de Tule Liso Sensual",preco:85.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi"]},
- {ref:"4185-2",categoria:"Intensa",nome:"Conjunto Tule Bojo/Renda",preco:85.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi"]},
- {ref:"4187-2",categoria:"Intensa",nome:"Conjunto Bicolor",preco:65.90,tamanhos:["P","M","G","GG"],cores:["Base/Preto","Rubi/Preto","Desejo/Preto","Branco/Preto","Pink/Preto"]},
- {ref:"4190-2",categoria:"Intensa",nome:"Cropped Tule Bojo/Renda",preco:79.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi"]},
- {ref:"4192-2",categoria:"Intensa",nome:"Conjunto Bojo Inteiro Renda",preco:79.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi"]},
- {ref:"1048-2",categoria:"Intensa",nome:"Conjunto Bojo Cortinão",preco:65.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi","Frozen","Pink","Romance","Cidreira","Desejo","Pantera"]},
- {ref:"2067-2",categoria:"Intensa",nome:"Conjunto Bojo/Renda Elástico",preco:69.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi","Frozen","Pink","Romance","Cidreira","Desejo","Pantera"]},
- {ref:"2104-2",categoria:"Intensa",nome:"Conjunto Bojo 3D Renda",preco:69.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi","Frozen","Pink","Romance","Cidreira","Desejo","Pantera"]},
- {ref:"2238-2",categoria:"Intensa",nome:"Conjunto Bojo/Renda",preco:65.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi","Frozen","Pink","Romance","Cidreira","Desejo","Pantera"]},
- {ref:"267-2",categoria:"Intensa",nome:"Conjunto Bojo/Renda Básico",preco:65.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi","Frozen","Pink","Romance","Cidreira","Desejo","Pantera"]},
- {ref:"4195-2",categoria:"Intensa",nome:"Conjunto sem Bojo Arco/Renda",preco:59.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi","Frozen","Pink","Romance","Cidreira","Desejo","Pantera"]},
-
+ {ref:"33",nome:"Bermuda Modeladora",preco:49.90,tamanhos:["P","M","G","GG"],cores:["Base"]},
+ {ref:"30",nome:"Caleçon de Renda",preco:15.90,tamanhos:["P","M","G","GG"],cores:["Pink","Preto","Frozen","Rubi"]},
+ {ref:"2265",nome:"Calcinha Strass",preco:22.90,tamanhos:["Único"],cores:["Preto","Branco","Rubi","Frozen","Pink","Romance","Cidreira","Desejo","Pantera"],frases:["Safada","Faz o Pix","Gostosa","Sou Sua"]},
+ {ref:"270",nome:"Calcinha Micro Fio Duplo Estreita",preco:15.90,tamanhos:["P","M","G","GG"],cores:[" Preto","Rubi","Satin","Base"]},
+ {ref:"408",nome:"Calcinha Micro/Cintura Renda",preco:16.90,tamanhos:["P","M","G","GG"],cores:["Preto","Marinho","Rubi","Desejo","Cidreira","Frozen"]},
+ {ref:"2069",nome:"Calcinha Micro Fio Duplo",preco:15.90,precoPlus:19.90,tamanhos:["P","M","G","GG","48","50","52","54"],cores:["Pink","Pantera","Preto","Romance","Base"]},
+ {ref:"2113",nome:"Calcinha Fio Duplo Renda c/ Regulagem",preco:14.90,tamanhos:["Único"],cores:["Preto","Branco","Rubi","Pink","Frozen"]},
+ {ref:"2127",nome:"Calcinha Micro Fio Duplo Renda Frente",preco:16.90,precoPlus:20.90,tamanhos:["P","M","G","GG","48","50","52","54"],cores:["Pink","Frozen","Pantera","Marinho"]},
+ {ref:"2168",nome:"Calcinha Micro Barra Larga Bumbum",preco:15.90,precoPlus:19.90,tamanhos:["P","M","G","GG","48","50","52","54"],cores:["Preto","Chocolate","Branco","Pantera"]},
+ {ref:"2173",nome:"Calcinha Micro Barra Larga Fio Duplo",preco:16.90,precoPlus:19.90,tamanhos:["P","M","G","GG","48","50","52","54"],cores:["Preto","Rubi","Cidreira","Pink"]},
+ {ref:"2197",nome:"Calcinha Micro Fio Duplo/Renda Frente",preco:14.90,tamanhos:["Único"],cores:["Romance","Frozen","Rubi","Cidreira"]},
+ {ref:"2223",nome:"Calcinha Fio Duplo Renda Lateral",preco:15.90,tamanhos:["P","M","G","GG"],cores:["Preto","Pantera","Pink","Frozen"]},
+ {ref:"2224",nome:"Calcinha Micro Fio Duplo Costura Frente",preco:15.90,precoPlus:19.90,tamanhos:["P","M","G","GG","48","50","52","54"],cores:["Preto","Romance","Chocolate","Frozen"]},
+ {ref:"2268",nome:"Calcinha Micro Fio Duplo c/ Regulagem",preco:14.90,tamanhos:["Único"],cores:["Preto","Rubi","Pantera","Desejo"]},
+ {ref:"2269",nome:"Calcinha Micro Fio Duplo Biquíni",preco:14.90,tamanhos:["P","M","G","GG"],cores:["Base","Preto","Branco","Rubi","Romance","Satin","Pantera"]},
+ {ref:"2287",nome:"Calcinha Fio Duplo Toda de Renda",preco:15.90,tamanhos:["P","M","G","GG","XG"],cores:["Frozen","Romance","Rubi","Preto"]},
+ {ref:"2295",nome:"Calcinha Micro Tecido Duplo Alta",preco:18.90,precoPlus:22.90,tamanhos:["P","M","G","GG","48","50","52","54"],cores:["Preto","Chocolate","Branco","Satin"]},
+ {ref:"2304",nome:"Calcinha Micro Inteira no Bumbum",preco:15.90,precoPlus:19.90,tamanhos:["P","M","G","GG","48","50","52","54"],cores:["Preto","Desejo","Romance","Base"]},
+ {ref:"CUECA-015",nome:"Cueca Boxer Masculina",preco:16.90,tamanhos:["P","M","G","GG"],cores:["Sortidas","Preto","Chumbo","Marinho"]},
+ {ref:"088-1",nome:"Sutiã Básico de Micro",preco:34.90,tamanhos:["P","M","G","GG"],cores:["Branco","Base","Preto","Satin"]},
+ {ref:"095-1",nome:"Sutiã Micro sem Bojo sem Aro",preco:32.90,precoPlus:39.90,tamanhos:["P","M","G","GG","48","50","52","54"],cores:["Preto","Base","Satin"]},
+ {ref:"2069-1",nome:"Sutiã Básico de Micro",preco:45.90,precoPlus:52.90,tamanhos:["P","M","G","GG","48","50","52","54"],cores:["Preto","Marinho","Base","Romance"]},
+ {ref:"2103-1",nome:"Sutiã Bojo 3D Liso Micro",preco:47.90,tamanhos:["P","M","G","GG"],cores:["Preto","Chocolate","Frozen","Rubi"]},
+ {ref:"2243-1",nome:"Top de Renda sem Bojo/Fecho",preco:34.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi","Frozen","Pink","Romance","Cidreira","Desejo","Pantera"]},
+ {ref:"7081-1",nome:"Sutiã Básico Micro c/ Barra",preco:45.90,tamanhos:["P","M","G","GG"],cores:["Base","Preto","Branco","Rubi","Romance","Satin","Pantera"]},
+ {ref:"7082-1",nome:"Sutiã Básico Liso de Micro",preco:42.90,tamanhos:["P","M","G","GG"],cores:["Chocolate","Preto","Satin","Frozen"]},
+ {ref:"7083-1",nome:"Top de Micro Bojo Removível",preco:44.90,tamanhos:["P","M","G","GG"],cores:["Marinho","Preto","Base","Satin"]},
+ {ref:"7084-1",nome:"Sutiã Plus Micro/Renda c/ Aro",preco:55.90,tamanhos:["P","M","G","GG"],cores:["Preto","Rubi","Branco","Cidreira"]},
+ {ref:"7085-1",nome:"Sutiã Reforçado com Bojo",preco:47.90,precoPlus:52.90,tamanhos:["P","M","G","GG","XG"],cores:["Preto","Chocolate","Branco","Brownie"]},
+ {ref:"094-1",nome:"Sutiã Bojo Top",preco:55.90,tamanhos:["P","M","G","GG"],cores:["Preto","Base","Rubi"]},
+ {ref:"2351-L",nome:"Camisola Canelado",preco:48.90,precoPlus:51.90,tamanhos:["P","M","G","GG","XG"],cores:["Estampa Sortida"]},
+ {ref:"2346-L",nome:"Short Doll Canelado",preco:44.90,precoPlus:47.90,tamanhos:["P","M","G","GG","XG"],cores:["Estampa Sortida"]},
+ {ref:"2352-L",nome:"Camisola Suedine",preco:48.90,precoPlus:51.90,tamanhos:["P","M","G","GG","XG"],cores:["Estampa Sortida"]},
+ {ref:"2347-L",nome:"Short Doll Suedine",preco:44.90,precoPlus:47.90,tamanhos:["P","M","G","GG","XG"],cores:["Estampa Sortida"]},
+ {ref:"2344-L",nome:"Short Doll Cetim com Renda",preco:44.90,precoPlus:47.90,tamanhos:["P","M","G","GG","XG"],cores:["Preto","Rubi"]},
+ {ref:"2345-L",nome:"Camisola Cetim com Renda",preco:44.90,precoPlus:47.90,tamanhos:["P","M","G","GG","XG"],cores:["Preto","Rubi"]},
+ {ref:"0142-L",nome:"Camisola Longa Liganete c/ Renda",preco:99.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi"]},
+ {ref:"0143-L",nome:"Camisola Liganete e Renda",preco:65.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi"]},
+ {ref:"0144-L",nome:"Short Doll Liganete Liso",preco:59.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi"]},
+ {ref:"1029-L",nome:"Camisola Liganete com Renda",preco:69.90,precoPlus:79.90,tamanhos:["P","M","G","GG","48","50","52","54"],cores:["Preto","Branco","Rubi"]},
+ {ref:"1059-L",nome:"Short Doll Liganete com Renda",preco:69.90,precoPlus:79.90,tamanhos:["P","M","G","GG","48","50","52","54"],cores:["Preto","Branco","Rubi"]},
+ {ref:"2079-L",nome:"Hobby de Liganete com Renda",preco:79.90,tamanhos:["Único"],cores:["Preto","Branco","Rubi"]},
+ {ref:"2230-L",nome:"Short Doll Liganete com Renda",preco:69.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi"]},
+ {ref:"2231-L",nome:"Short Doll Liganete",preco:69.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi"]},
+ {ref:"2234-L",nome:"Short Doll Liganete com Renda",preco:69.90,precoPlus:79.90,tamanhos:["P","M","G","GG","48","50","52","54"],cores:["Preto","Branco","Rubi"]},
+ {ref:"2237-L",nome:"Hobby de Tule com Renda",preco:98.90,tamanhos:["Único"],cores:["Preto","Branco","Rubi"]},
+ {ref:"2248-L",nome:"Camisola de Tule com Renda",preco:79.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi"]},
+ {ref:"4029-L",nome:"Camisola Liganete c/ Tule nas Costas",preco:75.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi"]},
+ {ref:"TERMICA",nome:"Blusa Manga Longa Térmica",preco:34.90,tamanhos:["P","M","G","GG"],cores:["Preto"]},
+ {ref:"4190-2",nome:"Conjunto Cropped Tule Bojo/Renda",preco:79.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi"]},
+ {ref:"4192-2",nome:"Conjunto Bojo Inteiro Renda",preco:79.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi"]},
+ {ref:"1048-2",nome:"Conjunto Bojo Cortinão",preco:65.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi","Frozen","Pink","Romance","Cidreira","Desejo","Pantera"]},
+ {ref:"2067-2",nome:"Conjunto Bojo/Renda Elástico",preco:69.90,tamanhos:["P","M","G","GG"],cores:["Preto","Frozen","Rubi","Branco"]},
+ {ref:"2104-2",nome:"Conjunto Bojo 3D Renda",preco:69.90,tamanhos:["P","M","G","GG"],cores:["Preto","Pantera","Pink","Frozen"]},
+ {ref:"2238-2",nome:"Conjunto Bojo/Renda",preco:65.90,tamanhos:["P","M","G","GG"],cores:["Preto","Pantera","Desejo","Rubi"]},
+ {ref:"267-2",nome:"Conjunto Bojo/Renda Básico",preco:65.90,tamanhos:["P","M","G","GG"],cores:["Cidreira","Rubi","Romance","Branco"]},
+ {ref:"4195-2",nome:"Conjunto sem Bojo Arco/Renda",preco:59.90,tamanhos:["P","M","G","GG"],cores:["Preto","Branco","Rubi","Frozen","Pink","Romance","Cidreira","Desejo","Pantera"]},
+ 
  ];
 
 // ===== Mapa de cores para os swatches =====
 const coresMap = {
   "Preto":"#1c1c1c",
   "Branco":"#ffffff",
+  "Brownie":"#5a2626",
   "Base":"#e7c3ad",
   "Rubi":"#c91d23",
   "Frozen":"#a7c7d9",
@@ -427,7 +425,7 @@ function formatarPrecoExibicao(p){
   return `R$ ${p.preco.toFixed(2).replace('.',',')}`;
 }
 function ehTamanhoPlus(tam){
-  return ["48","50","52","54"].includes(tam);
+  return ["XG","48","50","52","54"].includes(tam);
 }
 function precoAtualProduto(p, tamanho){
   if(p.precoPlus && ehTamanhoPlus(tamanho)) return p.precoPlus;
@@ -489,7 +487,37 @@ function mudarFoto(ref, delta){
   container.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('active', i===idx));
 }
 
-function categorias(){ return ["Todos", ...new Set(produtos.map(p=>p.categoria))]; }
+function categorias() {
+    return [
+        "Todos",
+        "Sutiã",
+        "Conjunto",
+        "Calcinha",
+        "Camisola",
+        "Short Doll"
+    ];
+}
+
+function categoriaProduto(produto) {
+    const nome = produto.nome.toLowerCase();
+
+    if (nome.includes("sutiã") || nome.includes("top"))
+        return "Sutiã";
+
+    if (nome.includes("conjunto"))
+        return "Conjunto";
+
+    if (nome.includes("calcinha"))
+        return "Calcinha";
+
+    if (nome.includes("camisola"))
+        return "Camisola";
+
+    if (nome.includes("short doll"))
+        return "Short Doll";
+
+    return "Outros";
+}
 
 let filtroAtivo = "Todos";
 
@@ -508,9 +536,12 @@ function renderizar(){
   const contagem = document.getElementById('contagem');
 
   const filtrados = produtos.filter(p =>
-    (filtroAtivo==="Todos" || p.categoria===filtroAtivo) &&
-    (p.nome.toLowerCase().includes(termo) || p.ref.toLowerCase().includes(termo))
-  );
+    (filtroAtivo === "Todos" || categoriaProduto(p) === filtroAtivo) &&
+    (
+        p.nome.toLowerCase().includes(termo) ||
+        p.ref.toLowerCase().includes(termo)
+    )
+);
 
   contagem.innerText = `${filtrados.length} peça${filtrados.length===1?'':'s'}`;
   empty.classList.toggle('show', filtrados.length===0);
@@ -522,7 +553,6 @@ function renderizar(){
              onerror="this.onerror=null;this.src='https://via.placeholder.com/300x375/f2dedd/832c3d?text=Sem+Foto'">
       </div>
       <div class="card-body">
-        <div class="card-cat">${p.categoria}</div>
         <div class="card-name">${p.nome}</div>
         <div class="card-meta">Ref: ${p.ref}</div>
         <div class="card-price-row"><span class="price-new" id="preco-${p.ref}">${formatarPrecoExibicao(p)}</span></div>
