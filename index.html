@@ -379,9 +379,7 @@ const produtos = [
  {ref:"2230-L",nome:"Short Doll Liganete com Renda",preco:153.9,tamanhos:["M","G","GG"],cores:["Preto","Branco","Rubi"]},
  {ref:"2234-L",nome:"Short Doll Liganete com Renda",preco:153.9,precoPlus:175.9,tamanhos:["P","M","GG","48","54"],cores:["Preto","Branco","Rubi"]},
  {ref:"2237-L",nome:"Hobby de Tule com Renda",preco:217.9,tamanhos:["Único"],cores:["Branco"]},
- {ref:"2248-L",nome:"Camisola de Tule com Renda",preco:175.9,tamanhos:["P","M","GG"],cores:["Preto","Branco","Rubi"]},
  {ref:"4029-L",nome:"Camisola Liganete c/ Tule nas Costas",preco:166.9,tamanhos:["G","GG"],cores:["Branco","Rubi"]},
- {ref:"TERMICA",nome:"Blusa Manga Longa Térmica",preco:76.9,tamanhos:["P","M","GG"],cores:["Preto"]},
  {ref:"4190-2",nome:"Conjunto Cropped Tule Bojo/Renda",preco:175.9,tamanhos:["P"],cores:["Rubi"]},
  {ref:"1048-2",nome:"Conjunto Bojo Cortinão",preco:144.9,tamanhos:["P","M","G","GG"],cores:["Preto","Frozen","Cidreira","Desejo"]},
  {ref:"2067-2",nome:"Conjunto Bojo/Renda Elástico",preco:153.9,tamanhos:["P","M"],cores:["Rubi","Romance","Cidreira","Desejo"]},
@@ -395,7 +393,7 @@ const produtos = [
 // ===== Estoque por COR x TAMANHO x QUANTIDADE =====
 //
 // Preenchido automaticamente pelo atualizar_estoque.py a partir da
-// coluna "Real" do relatório do Dapic (25/08/2026).
+// coluna "Real" do relatório do Dapic (26/08/2026).
 //
 // Produto -> Cor -> Tamanho -> Quantidade.
 // Produtos ou cores que não constam no relatório ficam com estoque
@@ -633,20 +631,10 @@ const estoquePorCorTamanho = {
   "2237-L": {
     "Branco": { "Único": 5 }
   },
-  // Camisola de Tule com Renda
-  "2248-L": {
-    "Preto": { "P": 1, "M": 2, "GG": 1 },
-    "Branco": { "P": 0, "M": 2, "GG": 1 },
-    "Rubi": { "P": 1, "M": 0, "GG": 1 }
-  },
   // Camisola Liganete c/ Tule nas Costas
   "4029-L": {
     "Branco": { "G": 0, "GG": 3 },
     "Rubi": { "G": 2, "GG": 0 }
-  },
-  // Blusa Manga Longa Térmica
-  "TERMICA": {
-    "Preto": { "P": 1, "M": 1, "GG": 1 }
   },
   // Conjunto Cropped Tule Bojo/Renda
   "4190-2": {
