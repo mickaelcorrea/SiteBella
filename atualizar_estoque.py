@@ -30,12 +30,18 @@ Regra de negócio (definida com o dono da loja):
 - Se um tamanho não tem NENHUMA cor com saldo > 0 -> o tamanho some das
   opções do produto.
 - Se o produto inteiro zerar -> o produto some do catálogo do site.
-- Se uma referência do site não aparecer no relatório do Dapic, o script
-  NÃO mexe nela (mantém como estava) e avisa no final.
-- O script só decide entre MOSTRAR ou ESCONDER cores/tamanhos que já
-  existem no catálogo master — ele não inventa cor/tamanho novo que nunca
-  foi cadastrado. Se aparecer estoque de uma cor/tamanho totalmente novo no
-  Dapic, o script avisa no final para você decidir se quer cadastrar.
+- Se uma referência do catálogo master NÃO aparecer no relatório do Dapic,
+  ela é tratada como SEM ESTOQUE e some do site (o relatório é considerado
+  a fonte da verdade: se a referência não está nele, é porque não tem
+  saldo). Por isso é importante gerar o relatório do Dapic sempre incluindo
+  TODAS as categorias/produtos — se você filtrar categorias na hora de
+  gerar o PDF, os produtos de fora do filtro vão ser escondidos do site.
+- Se o Dapic mostrar estoque de uma cor que ainda não estava marcada como
+  opção daquele produto no site, o script ADICIONA essa cor automaticamente
+  (usando o nome que veio do Dapic). Isso também é avisado no resumo final.
+  O script continua sem inventar produto novo (referência que não existe
+  de jeito nenhum no catalogo_master.json) — isso ainda precisa ser
+  cadastrado manualmente lá.
 
 IMPORTANTE sobre "Considerar saldo zerado" (opção do relatório do Dapic):
 - Se o relatório foi gerado com essa opção em "Sim", uma linha com
@@ -90,12 +96,21 @@ def ordenar_tamanhos(tamanhos):
 def calcular_novo_catalogo(catalogo_master, dados, refs_encontradas, inclui_zerados):
     """Devolve (novo_catalogo, relatorio_mudancas, cores_novas_detectadas).
 
+    Regra combinada (definida com o dono da loja): o relatório do Dapic é a
+    fonte da verdade. Se uma referência não aparece nele, ela é tratada como
+    sem estoque nenhum (não "mantém como estava"). Se uma cor aparece com
+    saldo > 0 no Dapic mas ainda não era uma opção cadastrada pro produto,
+    ela é adicionada automaticamente.
+
     inclui_zerados indica se o PDF foi gerado com "Considerar saldo zerado:
-    Sim" ou "Não" (ver docstring do módulo). Isso muda a regra pra uma
-    combinação cor/tamanho que não aparece nos dados de uma ref que FOI
-    encontrada no relatório:
+    Sim" ou "Não" (ver docstring do módulo). Isso só importa para uma
+    combinação cor/tamanho que não aparece nos dados de uma referência que
+    FOI encontrada no relatório:
     - Sim -> tratamos como "sem dado / desconhecido" (mantém como estava).
     - Não -> tratamos como "confirmadamente zerado" (esconde).
+    Quando a referência inteira está ausente do relatório, o resultado é
+    sempre "confirmadamente zerado" pra toda combinação, independente desse
+    modo — porque não há dado nenhum sobre ela.
     """
     novo_catalogo = []
     mudancas = []
@@ -104,49 +119,58 @@ def calcular_novo_catalogo(catalogo_master, dados, refs_encontradas, inclui_zera
     for produto in catalogo_master:
         ref = produto["ref"]
         ref_canon = canonicalizar_ref(ref)
-
-        if ref_canon not in refs_encontradas:
-            mudancas.append(f"[AVISO] Ref {ref} não encontrada no relatório do Dapic — mantido como estava.")
-            novo_catalogo.append(produto)
-            continue
+        ref_ausente = ref_canon not in refs_encontradas
 
         disp_produto = dados.get(ref_canon, {})
+
+        if ref_ausente:
+            mudancas.append(
+                f"[AVISO] Ref {ref} não encontrada no relatório do Dapic — tratada como SEM ESTOQUE."
+            )
 
         cores_originais = produto.get("cores", [])
         tamanhos_originais = produto.get("tamanhos", [])
 
-        # avisa (sem agir) sobre cor/tamanho que o Dapic conhece mas o
-        # catálogo master não — pode ser produto novo que vale cadastrar.
+        # detecta cor que o Dapic conhece mas o catálogo master não -> adiciona
         cores_norm_conhecidas = {normalizar(c) for c in cores_originais}
+        cores_novas_nomes = []
         for cor_relatorio, tam_dict in disp_produto.items():
             if cor_relatorio not in cores_norm_conhecidas:
                 total = sum(v["real"] for v in tam_dict.values())
                 if total > 0:
+                    nome_exibicao = cor_relatorio.title()
                     cores_novas_detectadas.append((ref, produto["nome"], cor_relatorio, total))
+                    cores_novas_nomes.append(nome_exibicao)
+
+        cores_consideradas = cores_originais + cores_novas_nomes
 
         def saldo(cor, tamanho):
             cor_norm = normalizar(cor)
             tam_norm = normalizar(tamanho)
             info_cor = disp_produto.get(cor_norm)
             if info_cor is None:
-                return None if inclui_zerados else False
+                return False if (ref_ausente or not inclui_zerados) else None
             info = info_cor.get(tam_norm)
             if info is None:
-                return None if inclui_zerados else False
+                return False if (ref_ausente or not inclui_zerados) else None
             return info["real"] > 0
 
         novas_cores = []
-        for cor in cores_originais:
+        for cor in cores_consideradas:
             resultados = [saldo(cor, t) for t in tamanhos_originais]
             conhecidos = [r for r in resultados if r is not None]
             if conhecidos and not any(conhecidos):
+                if cor in cores_novas_nomes:
+                    continue  # cor nova sem saldo em nenhum tamanho conhecido: não adiciona
                 mudancas.append(f"  - {ref} ({produto['nome']}): cor '{cor}' removida (sem estoque em nenhum tamanho)")
                 continue
+            if cor in cores_novas_nomes:
+                mudancas.append(f"  - {ref} ({produto['nome']}): cor '{cor}' ADICIONADA automaticamente (estoque encontrado no Dapic)")
             novas_cores.append(cor)
 
         novos_tamanhos = []
         for tamanho in tamanhos_originais:
-            resultados = [saldo(c, tamanho) for c in cores_originais]
+            resultados = [saldo(c, tamanho) for c in cores_consideradas]
             conhecidos = [r for r in resultados if r is not None]
             if conhecidos and not any(conhecidos):
                 mudancas.append(f"  - {ref} ({produto['nome']}): tamanho '{tamanho}' removido (sem estoque em nenhuma cor)")
@@ -341,10 +365,11 @@ def main():
         print("Nenhuma mudança de estoque detectada.")
 
     if cores_novas:
-        print("\n--- Cores com estoque no Dapic que NÃO estão cadastradas no catálogo master ---")
-        print("(o script não adicionou automaticamente — cadastre em dados/catalogo_master.json se quiser vendê-las)")
+        print("\n--- Cores novas detectadas no Dapic e adicionadas automaticamente ao site ---")
+        print("(revise se o nome/cor ficou coerente; se a cor não tiver uma bolinha certa no site,")
+        print(" pode ser necessário cadastrar o tom dela em coresMap dentro do index.html)")
         for ref, nome, cor, total in cores_novas:
-            print(f"  - {ref} ({nome}): cor '{cor}' com {total} unidades no Dapic, mas não cadastrada no site")
+            print(f"  - {ref} ({nome}): cor '{cor}' com {total} unidades no Dapic")
 
     print(f"\nProdutos no catálogo master: {len(catalogo_master)}")
     print(f"Produtos que continuam visíveis no site: {len(novo_catalogo)}")
