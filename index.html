@@ -298,6 +298,42 @@ footer{background:#fff;padding:56px 0 0;border-top:1px solid var(--linha)}
 .gaveta .btn.seguir,.gaveta .btn.seguir:hover{background:var(--texto);border-color:var(--texto)}
 [hidden]{display:none!important}
 .nota-pag{font-size:11.5px;color:var(--suave,#777);line-height:1.5;margin:2px 0 4px}
+.conta .corpo{padding:18px 22px 24px}
+.conta .intro{font-size:14px;color:#555;line-height:1.6;margin:6px 0 18px}
+.conta .campo-c{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.conta .campo-c label{font-size:12px;font-weight:600;letter-spacing:.5px;color:#444}
+.conta .campo-c input{padding:13px 14px;border:1px solid #d9d9d9;font:inherit;font-size:16px;border-radius:0}
+.conta .campo-c input:focus{outline:none;border-color:var(--destaque)}
+.conta .codigo-c{letter-spacing:8px;text-align:center;font-size:22px !important}
+.conta .btn-c{width:100%;padding:14px;background:var(--texto);color:#fff;border:0;font:inherit;font-size:13px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer}
+.conta .btn-c:disabled{opacity:.5}
+.conta .link-c{background:none;border:0;color:#777;font:inherit;font-size:12.5px;text-decoration:underline;cursor:pointer;margin-top:12px;display:block;width:100%}
+.conta .msg-c{font-size:13px;margin-top:12px;line-height:1.5}
+.conta .msg-c.erro{color:var(--destaque)}
+.conta .topo-c{display:flex;justify-content:space-between;align-items:center;font-size:12.5px;color:#777;margin-bottom:14px;gap:10px}
+.conta .topo-c b{color:#333;word-break:break-all}
+.ped-c{border:1px solid var(--linha);margin-bottom:14px}
+.ped-c .cab{display:flex;justify-content:space-between;align-items:flex-start;padding:14px 14px 10px;gap:10px}
+.ped-c .cab b{font-size:14px;letter-spacing:.5px}
+.ped-c .cab small{display:block;color:#888;font-size:12px;margin-top:2px}
+.ped-c .sit{font-size:11.5px;font-weight:600;padding:5px 9px;border-radius:20px;white-space:nowrap;background:#eef2f7;color:#2c5282}
+.ped-c .sit.ok{background:#e9f6ee;color:#2f7d4a}.ped-c .sit.alerta{background:#fdf1e7;color:#b05a12}.ped-c .sit.fim{background:#f0f0f0;color:#555}.ped-c .sit.cancel{background:#fbeff1;color:var(--destaque)}
+.ped-c .linha-tempo{display:flex;gap:4px;padding:0 14px 12px}
+.ped-c .linha-tempo i{flex:1;height:4px;background:#eee;border-radius:2px}.ped-c .linha-tempo i.on{background:var(--destaque)}
+.ped-c .passos-t{display:flex;justify-content:space-between;padding:0 14px 12px;font-size:10.5px;color:#999;text-transform:uppercase;letter-spacing:.5px}
+.ped-c details{border-top:1px solid var(--linha)}
+.ped-c summary{padding:11px 14px;font-size:13px;cursor:pointer;color:#555}
+.ped-c .itens-c{padding:0 14px 10px;font-size:13px}
+.ped-c .itens-c div{display:flex;justify-content:space-between;gap:10px;padding:6px 0;border-bottom:1px dashed #eee}
+.ped-c .itens-c small{color:#888;display:block}
+.ped-c .tot-c{padding:8px 14px 12px;font-size:13px;color:#555}
+.ped-c .tot-c div{display:flex;justify-content:space-between;padding:2px 0}
+.ped-c .tot-c .fim-t{font-weight:600;color:#222;font-size:14px;margin-top:4px}
+.ped-c .rastreio-c{margin:0 14px 12px;padding:12px;background:var(--fundo-claro);font-size:13px}
+.ped-c .rastreio-c b{font-size:15px;letter-spacing:1px;display:block;margin:4px 0 8px}
+.ped-c .acoes-c{display:flex;gap:8px;padding:0 14px 14px;flex-wrap:wrap}
+.ped-c .acoes-c a,.ped-c .acoes-c button{flex:1;text-align:center;padding:10px;font:inherit;font-size:12px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;border:1px solid var(--texto);background:#fff;color:var(--texto);cursor:pointer;text-decoration:none;min-width:130px}
+.ped-c .acoes-c .prim{background:var(--texto);color:#fff}
 .retorno-fundo{position:fixed;inset:0;background:rgba(20,16,17,.45);z-index:120;display:none}
 .retorno-pag{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);width:min(440px,92vw);background:#fff;z-index:121;padding:34px 30px 28px;text-align:center;display:none}
 .retorno-fundo.on,.retorno-pag.on{display:block}
@@ -398,6 +434,7 @@ body:has(.gaveta.on) .toast{bottom:auto;top:18px}
 
     <div class="acoes">
       <button aria-label="Buscar" onclick="abrirBusca()"><svg class="icone" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7.5"/><path d="M21 21l-4.6-4.6"/></svg></button>
+      <button aria-label="Meus pedidos" title="Meus pedidos" class="so-conta" hidden onclick="abrirConta()"><svg class="icone" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg></button>
       <button aria-label="Carrinho" class="carrinho-btn" onclick="abrirCarrinho()"><svg class="icone" viewBox="0 0 24 24"><path d="M5 8h14l-1.3 12H6.3z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg><b id="qtdCarrinho">0</b></button>
     </div>
   </div>
@@ -495,6 +532,7 @@ body:has(.gaveta.on) .toast{bottom:auto;top:18px}
       <h4>Atendimento</h4>
       <a href="#" onclick="abrirZap('Olá! Gostaria de falar com a Bella Moda Íntima.');return false">WhatsApp: (48) 99633-3473</a>
       <a href="https://www.instagram.com/bellamodaintima.oficial" target="_blank" rel="noopener">Instagram: @bellamodaintima.oficial</a>
+      <a href="#" class="so-conta" hidden onclick="abrirConta();return false">Meus pedidos</a>
     </div>
   </div>
   <div class="copy">© 2026 Bella Moda Íntima. Todos os direitos reservados.</div>
@@ -571,6 +609,12 @@ body:has(.gaveta.on) .toast{bottom:auto;top:18px}
 <div class="toast" id="toast"></div>
 
 <!-- ===== Volta do pagamento online ===== -->
+<!-- ===== Meus pedidos (área da cliente) ===== -->
+<aside class="gaveta conta" id="conta" aria-label="Meus pedidos">
+  <header><h3>Meus pedidos</h3><button class="fechar" style="position:static" onclick="fecharConta()" aria-label="Fechar">×</button></header>
+  <div class="corpo" id="contaCorpo"></div>
+</aside>
+
 <div class="retorno-fundo" id="avisoFundo" onclick="fecharAviso()"></div>
 <div class="retorno-pag" id="aviso" role="dialog" aria-modal="true"></div>
 
@@ -1444,7 +1488,98 @@ function mostrarResumoEntrega(){
     ${op ? `${op.gratis ? 'Frete grátis' : esc([op.empresa, op.nome].filter(Boolean).join(' ')) + ' — ' + brl(op.preco)}${op.prazo ? ` · até ${op.prazo} dias úteis` : ''}` : 'Frete a combinar pelo WhatsApp'}
     <br><a onclick="irPasso(2)">Alterar</a>`;
 }
-function fecharTudo(){ ['fundo','janela','gaveta'].forEach(id => $(id).classList.remove('on')); }
+function fecharTudo(){ ['fundo','janela','gaveta','conta'].forEach(id => $(id) && $(id).classList.remove('on')); }
+
+/* ---------- Meus pedidos: a cliente entra com um código que chega no e-mail (sem senha) ---------- */
+const CHAVE_CONTA = 'bella_cliente';
+let AREA_CLIENTE = false;   // só aparece quando o envio de e-mails está ligado (o código chega por e-mail)
+const CONTA = { email: '', etapa: 'email' };
+const contaSalva = () => { try { const c = JSON.parse(localStorage.getItem(CHAVE_CONTA) || 'null'); return c && c.expira > Date.now() ? c : null; } catch(e){ return null; } };
+function abrirConta(){
+  fecharTudo(); $('fundo').classList.add('on'); $('conta').classList.add('on');
+  if(!temApi()){ $('contaCorpo').innerHTML = '<p class="intro">Indisponível no momento. Fale com a loja pelo WhatsApp.</p>'; return; }
+  contaSalva() ? carregarMeusPedidos() : telaEmail();
+}
+function fecharConta(){ $('conta').classList.remove('on'); $('fundo').classList.remove('on'); }
+function telaEmail(msg){
+  CONTA.etapa = 'email';
+  $('contaCorpo').innerHTML = `<p class="intro">Acompanhe seus pedidos, o pagamento e o código de rastreio. Digite o <b>e-mail que você usou na compra</b> e enviamos um código para entrar — sem senha.</p>
+    <form onsubmit="pedirCodigo(event)"><div class="campo-c"><label for="contaEmail">E-mail</label><input id="contaEmail" type="email" autocomplete="email" required value="${esc(CONTA.email || $('cliEmail').value || '')}"></div>
+    <button class="btn-c" id="btnConta">Receber código</button></form><div class="msg-c ${msg ? 'erro' : ''}" id="msgConta">${esc(msg || '')}</div>`;
+}
+async function pedirCodigo(e){
+  e.preventDefault();
+  const email = $('contaEmail').value.trim(); if(!email) return;
+  $('btnConta').disabled = true;
+  const r = await fetch(API_URL + '/api/cliente/codigo', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email }) }).catch(() => null);
+  const d = r ? await r.json().catch(() => ({})) : {};
+  if(!r || !r.ok){ $('btnConta').disabled = false; $('msgConta').className = 'msg-c erro'; $('msgConta').textContent = d.erro || 'Não foi possível enviar agora. Tente de novo.'; return; }
+  CONTA.email = email; telaCodigo(d.mensagem);
+}
+function telaCodigo(msg){
+  CONTA.etapa = 'codigo';
+  $('contaCorpo').innerHTML = `<p class="intro">${esc(msg)}<br><br>Enviado para <b>${esc(CONTA.email)}</b>.</p>
+    <form onsubmit="entrarConta(event)"><div class="campo-c"><label for="contaCodigo">Código de 6 números</label><input id="contaCodigo" class="codigo-c" inputmode="numeric" autocomplete="one-time-code" maxlength="6" required></div>
+    <button class="btn-c" id="btnConta">Entrar</button></form><div class="msg-c" id="msgConta"></div>
+    <button class="link-c" onclick="telaEmail()">Usar outro e-mail ou pedir outro código</button>`;
+  setTimeout(() => $('contaCodigo') && $('contaCodigo').focus(), 100);
+}
+async function entrarConta(e){
+  e.preventDefault();
+  $('btnConta').disabled = true;
+  const r = await fetch(API_URL + '/api/cliente/entrar', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: CONTA.email, codigo: $('contaCodigo').value }) }).catch(() => null);
+  const d = r ? await r.json().catch(() => ({})) : {};
+  if(!r || !r.ok || !d.token){ $('btnConta').disabled = false; $('msgConta').className = 'msg-c erro'; $('msgConta').textContent = d.erro || 'Não foi possível entrar agora.'; return; }
+  try { localStorage.setItem(CHAVE_CONTA, JSON.stringify({ token: d.token, expira: d.expira, email: d.email })); } catch(err){}
+  carregarMeusPedidos();
+}
+function sairConta(){ try { localStorage.removeItem(CHAVE_CONTA); } catch(e){} CONTA.email = ''; telaEmail(); }
+const SIT_CLIENTE = {
+  aguardando: ['Aguardando pagamento', 'alerta'], novo: ['Pedido recebido', ''], confirmado: ['Confirmado', ''], pago: ['Pagamento aprovado', 'ok'],
+  separando: ['Separando', 'ok'], enviado: ['Enviado', 'ok'], retirar: ['Pronto para retirar', 'ok'], entregue: ['Entregue', 'fim'], cancelado: ['Cancelado', 'cancel'],
+};
+function situacaoCliente(p){
+  if(p.status === 'novo' && p.pode_pagar) return 'aguardando';
+  if(p.status === 'enviado' && p.retirada) return 'retirar';
+  return SIT_CLIENTE[p.status] ? p.status : 'novo';
+}
+async function carregarMeusPedidos(){
+  const c = contaSalva(); if(!c){ telaEmail(); return; }
+  $('contaCorpo').innerHTML = '<p class="intro">Carregando seus pedidos…</p>';
+  const r = await fetch(API_URL + '/api/cliente/pedidos', { headers: { Authorization: 'Bearer ' + c.token } }).catch(() => null);
+  const d = r ? await r.json().catch(() => ({})) : {};
+  if(r && r.status === 401){ sairConta(); return; }
+  if(!r || !r.ok){ $('contaCorpo').innerHTML = `<p class="intro">${esc(d.erro || 'Não foi possível carregar agora. Tente de novo.')}</p>`; return; }
+  const passos = p => p.retirada ? ['Recebido', 'Pago', 'Separando', 'Retirar'] : ['Recebido', 'Pago', 'Separando', 'Enviado', 'Entregue'];
+  const nivel = p => ({ novo: 1, confirmado: 1, pago: 2, separando: 3, enviado: 4, entregue: 5 }[p.status] || 0);
+  $('contaCorpo').innerHTML = `<div class="topo-c"><span>Conectada como <b>${esc(c.email)}</b></span><button class="link-c" style="width:auto;margin:0" onclick="sairConta()">Sair</button></div>`
+    + (d.pedidos.length ? d.pedidos.map(p => {
+      const [txt, cls] = SIT_CLIENTE[situacaoCliente(p)];
+      const ps = passos(p), nv = nivel(p);
+      const data = new Date(String(p.data).replace(' ', 'T') + 'Z').toLocaleDateString('pt-BR');
+      const pecas = p.itens.reduce((s, i) => s + i.qtd, 0);
+      const sub = p.itens.reduce((s, i) => s + i.preco * i.qtd, 0);
+      return `<div class="ped-c">
+        <div class="cab"><div><b>${esc(p.codigo)}</b><small>${data} · ${pecas} peça${pecas === 1 ? '' : 's'} · ${brl(p.total)}</small></div><span class="sit ${cls}">${txt}</span></div>
+        ${p.status !== 'cancelado' ? `<div class="linha-tempo">${ps.map((_, k) => `<i class="${k < nv ? 'on' : ''}"></i>`).join('')}</div><div class="passos-t">${ps.map(x => `<span>${x}</span>`).join('')}</div>` : ''}
+        ${p.rastreio && !p.retirada ? `<div class="rastreio-c">Código de rastreio<b>${esc(p.rastreio)}</b><a href="https://www.melhorrastreio.com.br/rastreio/${encodeURIComponent(p.rastreio)}" target="_blank" rel="noopener">Acompanhar a entrega ↗</a></div>` : ''}
+        ${p.retirada && p.status === 'enviado' ? `<div class="rastreio-c">Pronto para retirar em:<b style="font-size:13px;letter-spacing:0">${esc(p.entrega)}</b></div>` : ''}
+        <details><summary>Ver peças e valores</summary>
+          <div class="itens-c">${p.itens.map(i => `<div><span>${i.qtd}× ${esc(i.nome)}<small>${esc(i.cor)} · ${esc(i.tamanho)}${i.frase ? ' · ' + esc(i.frase) : ''}</small></span><span>${brl(i.preco * i.qtd)}</span></div>`).join('')}</div>
+          <div class="tot-c"><div><span>Peças</span><span>${brl(sub)}</span></div>
+            ${p.desconto > 0 ? `<div><span>Cupom ${esc(p.cupom)}</span><span>− ${brl(p.desconto)}</span></div>` : ''}
+            <div><span>Frete</span><span>${p.frete_valor > 0 ? brl(p.frete_valor) : p.retirada ? 'Retirada' : /grátis/i.test(p.frete) ? 'Grátis' : 'a combinar'}</span></div>
+            <div class="fim-t"><span>Total</span><span>${brl(p.total)}</span></div>
+            ${p.entrega && !p.retirada ? `<div style="margin-top:8px;color:#777">Entrega: ${esc(p.entrega)}</div>` : ''}
+            ${p.pagamento_metodo ? `<div style="color:#777">Pagamento: ${esc(p.pagamento_metodo)}</div>` : ''}</div>
+        </details>
+        <div class="acoes-c">
+          ${p.pode_pagar ? `<button class="prim" onclick="pagarNovamente('${esc(p.codigo)}','${esc(p.t)}')">Pagar agora</button>` : ''}
+          <a href="${linkWhatsLoja('Olá! Quero falar sobre o meu pedido ' + p.codigo + '.')}" target="_blank" rel="noopener">Falar com a loja</a>
+        </div>
+      </div>`;
+    }).join('') : '<p class="intro">Ainda não encontramos pedidos com esse e-mail.</p>');
+}
 document.addEventListener('keydown', e => { if(e.key === 'Escape') fecharTudo(); });
 
 /* ---------- Pedido no WhatsApp ---------- */
@@ -1769,7 +1904,7 @@ async function verificarVoltaDoPagamento(){
   if(!s){ mostrarAviso(`<div class="icone erro">!</div><h3>Não encontramos o pedido</h3><p>Se você pagou, fale com a loja pelo WhatsApp informando o código <b>${esc(codigo)}</b>.</p><div class="acoes"><a class="btn verde" target="_blank" href="${linkWhatsLoja('Olá! Fiz o pedido ' + codigo + ' pelo site.')}">Falar com a loja</a><button class="btn claro" onclick="fecharAviso()">Fechar</button></div>`); return; }
   const cod = `<div class="cod">Pedido <b>${esc(s.codigo)}</b> · ${brl(s.total)}${s.pagamento_metodo ? ' · ' + esc(s.pagamento_metodo) : ''}</div>`;
   const whats = (txt) => `<a class="btn verde" target="_blank" href="${linkWhatsLoja(txt)}">Falar com a loja no WhatsApp</a>`;
-  const continuar = `<button class="btn claro" onclick="fecharAviso()">Continuar comprando</button>`;
+  const continuar = `<button class="btn claro" onclick="fecharAviso()">Continuar comprando</button>${AREA_CLIENTE ? '<button class="btn claro" onclick="fecharAviso();abrirConta()">Meus pedidos</button>' : ''}`;
   const pagar = `<button class="btn" onclick="pagarNovamente('${esc(codigo)}','${esc(t)}')">Tentar pagar de novo</button>`;
   if(s.pagamento_status === 'aprovado'){
     mostrarAviso(`<div class="icone ok">✓</div><h3>Pagamento aprovado!</h3><p>Obrigada, ${esc(s.nome)}! Já recebemos seu pagamento e vamos separar suas peças.</p>${/combinar/i.test(s.frete) ? '<p>O frete será combinado com você pelo WhatsApp.</p>' : ''}${cod}<div class="acoes">${whats(`Olá! Fiz o pedido ${s.codigo} pelo site e o pagamento foi aprovado.`)}${continuar}</div>`);
@@ -1894,6 +2029,8 @@ async function carregarDoPainel(){
                 TURNSTILE_SITE_KEY = c.loja.turnstile_site_key || ''; PAGAMENTO_ONLINE = !!c.loja.pagamento_online; PROVEDOR = c.loja.provedor_pagamento || ''; ACEITA_BOLETO = c.loja.aceita_boleto !== false; }
     if(c.frete && Array.isArray(c.frete.estados_gratis)) ESTADOS_FRETE_GRATIS = c.frete.estados_gratis;
     if(c.loja && c.loja.retirada) RETIRADA = c.loja.retirada;
+    AREA_CLIENTE = !!(c.loja && c.loja.area_cliente);
+    document.querySelectorAll('.so-conta').forEach(e => e.hidden = !AREA_CLIENTE);
     return true;
   } catch(e){ console.warn('Usando os dados guardados no site (API indisponível):', e.message); return false; }
   finally { clearTimeout(limite); }
@@ -1917,6 +2054,7 @@ async function carregarDoPainel(){
   prepararPagamentoOnline();
   prepararRetirada();
   verificarVoltaDoPagamento();
+  if(AREA_CLIENTE && /[?&]meus-pedidos\b/.test(location.search)){ history.replaceState(null, '', location.pathname + location.hash); abrirConta(); }
 })();
 </script>
 </body>
