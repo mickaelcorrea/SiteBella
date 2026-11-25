@@ -3,350 +3,655 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bella Moda Íntima — Catálogo</title>
-<link rel="icon" type="image/webp" href="imagens/logoBella.webp">
+<!-- Segurança: o navegador só deixa a página falar com a API da loja e com os serviços listados aqui -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob: https://bella-api.carinhointimosync.workers.dev; connect-src 'self' https://bella-api.carinhointimosync.workers.dev https://viacep.com.br; frame-src https://challenges.cloudflare.com; base-uri 'none'; form-action 'self'; object-src 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>Bella Moda Íntima — Lingerie no varejo e atacado</title>
+<meta name="description" content="Bella Moda Íntima: conjuntos, calcinhas, sutiãs, camisolas e short dolls. Atacado com frete grátis para SC, PR e RS.">
+<link rel="icon" type="image/webp" href="../Imagens/Logo/logoBella.webp">
+<script>
+// Logo: procura em Imagens/Logo/ e, se não achar, direto em Imagens/ (.webp ou .png)
+var LOGOS = ['../Imagens/logoBella.webp','../Imagens/Logo/logoBella.png','../Imagens/logoBella.png'];
+function logoErro(el){ var i = +(el.dataset.i || 0); if(i < LOGOS.length){ el.dataset.i = i + 1; el.src = LOGOS[i]; } else el.remove(); }
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
+/* =====================================================================
+   BELLA MODA ÍNTIMA — visual do site
+   Cores principais: mude em :root
+   ===================================================================== */
 :root{
-  --bg: #FAF4F0;
-  --bg-card: #FFFFFF;
-  --ink: #211B18;
-  --wine: #832C3D;
-  --wine-dark: #5E1F2C;
-  --rose: #DDA9AE;
-  --rose-soft: #F2DEDD;
-  --taupe: #EAE0D9;
-  --gold: #B6904F;
-  --line: rgba(33,27,24,0.12);
-  --shadow: 0 18px 40px rgba(89,42,46,0.10);
+  --destaque:#832C3D;      /* vinho da marca: preços, botões, aba ativa */
+  --destaque-esc:#6a2231;
+  --rosa:#F6E9E9;          /* barra do topo e fundos suaves */
+  --texto:#222;
+  --cinza:#777;
+  --linha:#e9e9e9;
+  --fundo-claro:#f8f7f6;
+  --fonte:'Montserrat',system-ui,-apple-system,sans-serif;
 }
-*{box-sizing:border-box}
+*{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:'Jost',sans-serif;-webkit-font-smoothing:antialiased;padding-bottom:0}
-h1,h2,h3,.serif{font-family:'Cormorant Garamond',serif}
+body{font-family:var(--fonte);color:var(--texto);background:#fff;font-size:14px;-webkit-font-smoothing:antialiased}
 a{color:inherit;text-decoration:none}
-button{font-family:inherit;cursor:pointer}
-img{max-width:100%;display:block}
+button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit;font-size:inherit}
+img{display:block;max-width:100%}
+.wrap{max-width:1200px;margin:0 auto;padding:0 20px}
+.icone{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
 
-.lace{width:100%;height:26px;display:block;color:var(--gold);opacity:.55}
+/* ---------- Barra do topo ---------- */
+.aviso{background:var(--rosa);font-size:12px;color:#555}
+.aviso .wrap{display:flex;justify-content:space-between;align-items:center;height:34px;gap:12px}
+.aviso b{font-weight:600;color:var(--destaque)}
+.aviso a:hover{color:var(--destaque)}
 
-.topbar{position:sticky;top:0;z-index:60;background:rgba(250,244,240,0.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
-.topbar-inner{max-width:1220px;margin:0 auto;padding:4px 24px;display:flex;align-items:center;justify-content:space-between;gap:18px}
-.brand-mini{display:flex;align-items:center;gap:10px;white-space:nowrap}
-.logo-img{height:72px;width:auto;mix-blend-mode:multiply;display:block}
+/* ---------- Cabeçalho ---------- */
+.topo{position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid var(--linha)}
+.topo .wrap{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:84px}
+.redes{display:flex;gap:16px;color:#444}
+.redes a:hover,.acoes button:hover{color:var(--destaque)}
+.menu{display:flex;align-items:center;gap:28px;font-size:13.5px;font-weight:500}
+.menu a:hover,.menu a.ativo{color:var(--destaque)}
+.logo{display:flex;flex-direction:column;align-items:center;line-height:1;margin:0 22px}
+.logo img{height:60px;width:auto;display:none}
+.logo.com-img img{display:block}
+.logo.com-img .txt,.logo.com-img small{display:none}
+.logo .txt{font-size:28px;font-weight:600;color:var(--destaque)}
+.logo small{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--cinza);margin-top:4px}
+.acoes{display:flex;justify-content:flex-end;gap:20px;align-items:center;color:#444}
+.carrinho-btn{position:relative}
+.carrinho-btn b{position:absolute;top:-7px;right:-9px;background:var(--destaque);color:#fff;font-size:10px;font-weight:600;min-width:17px;height:17px;border-radius:9px;display:grid;place-items:center;padding:0 4px}
+.btn-menu,.logo-mob{display:none}
+.busca{display:none;border-top:1px solid var(--linha);background:#fff}
+.busca.aberta{display:block}
+.busca .wrap{height:60px;display:flex;align-items:center;gap:12px}
+.busca input{flex:1;border:0;outline:0;font:inherit;font-size:15px;padding:10px 0;background:none}
 
-.nav-links{display:flex;gap:24px;font-size:12.5px;letter-spacing:1.3px;text-transform:uppercase}
-.nav-links a{opacity:.7;transition:opacity .2s,color .2s}
-.nav-links a:hover{opacity:1;color:var(--wine)}
-.topbar-cta{display:flex;align-items:center;gap:8px;background:var(--wine);color:#fff;padding:9px 17px;border:none;border-radius:30px;font-size:12.5px;letter-spacing:.5px;box-shadow:var(--shadow);transition:transform .2s,background .2s;white-space:nowrap}
-.topbar-cta:hover{background:var(--wine-dark);transform:translateY(-1px)}
-.topbar-cta svg{width:16px;height:16px;flex-shrink:0}
+/* ---------- Banner ---------- */
+.banner{position:relative;overflow:hidden;background:var(--fundo-claro)}
+.slide{display:none;grid-template-columns:1fr 1fr;height:min(40vw,560px);min-height:420px}
+.slide.on{display:grid;animation:aparece .6s ease}
+@keyframes aparece{from{opacity:0}to{opacity:1}}
+.slide .fotos{display:grid;grid-template-columns:1fr 1fr;gap:6px;background:#fff;min-height:0;overflow:hidden}  /* gap = espaço entre a foto 1 e a 2 */
+.slide .fotos img{width:100%;height:100%;object-fit:cover;object-position:center top}
+.slide .fotos img:only-child{grid-column:1/3}
+.slide .texto{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding:40px 6vw}
+.slide h1{font-weight:300;font-size:clamp(30px,3.4vw,50px);line-height:1.12;margin-bottom:16px;letter-spacing:-.5px}
+.slide h1 b{font-weight:600}
+.slide p{font-size:15px;color:#555;max-width:420px;line-height:1.6;margin-bottom:28px}
+.slide.vinho .texto{background:var(--destaque);color:#fff}
+.slide.vinho p{color:rgba(255,255,255,.85)}
+.slide.vinho .btn{background:#fff;color:var(--texto);border-color:#fff}
+.slide.vinho .btn:hover{background:transparent;color:#fff}
+.pontos{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);display:flex;gap:8px}
+.pontos i{width:8px;height:8px;border-radius:50%;background:rgba(0,0,0,.2);cursor:pointer;box-shadow:0 0 0 1.5px #fff}
+.pontos i.on{background:var(--destaque)}
+.seta{position:absolute;top:50%;transform:translateY(-50%);width:40px;height:40px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:20px;z-index:2;box-shadow:0 2px 10px rgba(0,0,0,.1);color:#333}
+.seta:hover{color:var(--destaque)}
+.seta.ant{left:16px}.seta.prox{right:16px}
 
-.hero{max-width:1220px;margin:0 auto;padding:56px 24px 26px;text-align:center}
-.hero-eyebrow{font-size:11.5px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
-.hero h1{font-size:44px;font-weight:700;margin:0 0 4px}
-.hero p.tag{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:20px;color:var(--wine-dark);max-width:560px;margin:8px auto 28px;line-height:1.5}
-.search-row{max-width:520px;margin:0 auto}
-.search-box{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--line);border-radius:30px;padding:13px 20px;box-shadow:var(--shadow)}
-.search-box svg{width:16px;height:16px;opacity:.5;flex-shrink:0}
-.search-box input{border:none;outline:none;width:100%;font-size:14.5px;font-family:'Jost',sans-serif;background:transparent;color:var(--ink)}
+/* ---------- Botões ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--texto);color:#fff;border:1px solid var(--texto);font-size:12px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;padding:14px 30px;transition:all .2s}
+.btn:hover{background:var(--destaque);border-color:var(--destaque)}
 
-.info-strip{max-width:1220px;margin:34px auto 6px;padding:0 24px;display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-.info-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px 20px;display:flex;gap:12px;align-items:flex-start}
-.info-card svg{width:20px;height:20px;color:var(--wine);flex-shrink:0;margin-top:2px}
-.info-card b{display:block;font-size:13.5px;margin-bottom:3px}
-.info-card span{font-size:12.5px;opacity:.65;line-height:1.4}
+/* ---------- Títulos de seção ---------- */
+.secao{padding:64px 0 0}
+.titulo{text-align:center;margin-bottom:30px}
+.titulo h2{font-size:20px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase}
+.titulo p{font-size:13.5px;color:var(--cinza);margin-top:8px}
+.titulo::after{content:"";display:block;width:40px;height:2px;background:var(--destaque);margin:14px auto 0}
 
-.cats-wrap{max-width:1220px;margin:38px auto 4px;padding:0 24px}
-.cats{display:flex;gap:9px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none;justify-content:center;flex-wrap:wrap}
-.cats::-webkit-scrollbar{display:none}
-.cat-pill{flex-shrink:0;padding:9px 18px;border-radius:30px;border:1px solid var(--line);background:#fff;font-size:12.5px;letter-spacing:.6px;text-transform:uppercase;transition:all .2s}
-.cat-pill:hover{border-color:var(--wine)}
-.cat-pill.active{background:var(--wine);border-color:var(--wine);color:#fff}
+/* ---------- Categorias ---------- */
+.categorias{display:grid;grid-auto-flow:column;grid-auto-columns:calc((100% - 80px)/6);gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
+.categorias::-webkit-scrollbar{display:none}
+.categorias .cat{scroll-snap-align:start}
+.vitrine.cats .seta{top:40%}
+.cat{display:block;text-align:center}
+.cat .img{aspect-ratio:4/5;overflow:hidden;background:var(--fundo-claro)}
+.cat img{width:100%;height:100%;object-fit:cover;object-position:center top;transition:transform .5s}
+.cat:hover img{transform:scale(1.05)}
+.cat b{display:block;font-size:13px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;margin-top:14px}
+.cat small{display:block;font-size:12px;color:var(--cinza);margin-top:4px}
+.cat:hover b{color:var(--destaque)}
 
-.section-head{max-width:1220px;margin:28px auto 16px;padding:0 24px;display:flex;align-items:baseline;justify-content:space-between}
-.section-head h3{font-size:24px;font-weight:600;margin:0}
-.section-head span{font-size:12.5px;opacity:.55}
+/* ---------- Abas ---------- */
+.abas{display:flex;justify-content:center;flex-wrap:wrap;gap:6px 34px;margin:-6px 0 30px}
+.abas button{font-size:13px;font-weight:500;letter-spacing:1px;text-transform:uppercase;padding:8px 0;color:var(--cinza);border-bottom:2px solid transparent}
+.abas button.on,.abas button:hover{color:var(--texto);border-color:var(--destaque)}
 
-.grid{max-width:1220px;margin:0 auto;padding:0 24px 60px;display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
-.card{background:var(--bg-card);border-radius:16px;overflow:hidden;box-shadow:0 10px 24px rgba(89,42,46,0.07);border:1px solid var(--line);display:flex;flex-direction:column;transition:transform .25s,box-shadow .25s}
-.card:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
-.card.hidden{display:none}
-.card-media{aspect-ratio:2/3;overflow:hidden;background:var(--taupe);position:relative}
-.card-media img{width:100%;height:100%;object-fit:contain;object-position:center center}
+/* ---------- Cards de produto ---------- */
+.grade{display:grid;grid-template-columns:repeat(4,1fr);gap:36px 20px}
+.card{display:flex;flex-direction:column;text-align:center}
+.card .foto{position:relative;aspect-ratio:3/4;overflow:hidden;background:var(--fundo-claro);cursor:pointer}
+.card .foto img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;transition:opacity .4s}
+.card .foto img.f2{opacity:0}
+.card .foto:hover img.f2.ok{opacity:1}
+.card .selo{position:absolute;top:10px;left:10px;background:var(--destaque);color:#fff;font-size:10px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;padding:4px 8px;z-index:1}
+.card h3{font-weight:400;font-size:13.5px;margin:14px 0 4px;line-height:1.4;min-height:38px;cursor:pointer}
+.card h3:hover{color:var(--destaque)}
+.card .ref{font-size:11.5px;color:#999}
+.card .preco{font-size:15px;font-weight:600;color:var(--destaque);margin:6px 0 10px}
+.card .cores{display:flex;justify-content:center;gap:4px;margin-bottom:12px;min-height:12px}
+.card .cores i{width:11px;height:11px;border-radius:50%;border:1px solid rgba(0,0,0,.15)}
+.card .cores small{font-size:10.5px;color:#999;margin-left:2px;line-height:11px}
+.card .comprar{margin-top:auto;border:1px solid var(--texto);font-size:11.5px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;padding:11px;transition:all .2s}
+.card .comprar:hover{background:var(--texto);color:#fff}
 
-.foto-nav{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,0.88);border:none;width:28px;height:28px;border-radius:50%;font-size:17px;color:var(--wine-dark);opacity:0;transition:opacity .2s;z-index:5;display:flex;align-items:center;justify-content:center;line-height:1}
-.card-media:hover .foto-nav{opacity:1}
-.foto-nav.prev{left:8px}
-.foto-nav.next{right:8px}
-.foto-dots{position:absolute;bottom:8px;left:0;right:0;display:flex;justify-content:center;gap:5px;z-index:5}
-.dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.65);border:1px solid rgba(0,0,0,0.2);transition:background .2s}
-.dot.active{background:var(--wine);border-color:var(--wine)}
+/* Vitrine com setas (sem repetir produto) */
+.vitrine{position:relative}
+.trilho{display:grid;grid-auto-flow:column;grid-auto-columns:calc((100% - 60px)/4);gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
+.trilho::-webkit-scrollbar{display:none}
+.trilho .card{scroll-snap-align:start}
+.vitrine .seta{top:36%}
+.vitrine .seta.ant{left:-18px}.vitrine .seta.prox{right:-18px}
+.vitrine .seta[hidden]{display:none}
 
-.card-body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:6px;flex:1}
-.card-cat{font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:var(--gold)}
-.card-name{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;line-height:1.22;min-height:44px}
-.card-meta{font-size:11px;opacity:.6}
-.card-price-row{margin-top:2px}
-.price-new{font-size:19px;font-weight:600;color:var(--wine-dark);font-family:'Jost',sans-serif}
+/* Catálogo */
+.barra-cat{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:26px;color:var(--cinza);flex-wrap:wrap;border-bottom:1px solid var(--linha);padding-bottom:14px}
+.barra-cat select{font:inherit;font-size:13px;border:1px solid var(--linha);padding:8px 10px;background:#fff;color:var(--texto)}
+.filtro-ativo{display:none;align-items:center;gap:10px;background:var(--rosa);color:var(--texto);padding:6px 12px;font-size:12.5px}
+.filtro-ativo.on{display:inline-flex}
+.filtro-ativo button{text-decoration:underline;color:var(--destaque)}
+.vazio{display:none;text-align:center;padding:50px 0;color:var(--cinza)}
+.vazio.on{display:block}
 
-.opcao-label{font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:var(--gold);margin-top:4px}
-.cores-opcoes{display:flex;flex-wrap:wrap;gap:7px;margin:4px 0 2px}
-.swatch{width:20px;height:20px;border-radius:50%;border:2px solid var(--line);cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.15);transition:.15s;flex-shrink:0}
-.swatch:hover{transform:scale(1.15)}
-.swatch.selecionada{border-color:var(--wine);box-shadow:0 0 0 2px var(--rose-soft),0 1px 3px rgba(0,0,0,.15);transform:scale(1.1)}
-.cor-selecionada-nome{font-size:11px;color:var(--ink);opacity:.6;min-height:14px}
+/* ---------- Vantagens ---------- */
+.vantagens{background:var(--fundo-claro);margin-top:72px}
+.vantagens .wrap{display:grid;grid-template-columns:repeat(4,1fr)}
+.vant{display:flex;gap:14px;align-items:center;padding:30px 16px}
+.vant svg{width:32px;height:32px;stroke:var(--destaque);flex-shrink:0;fill:none;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round}
+.vant b{display:block;font-size:12.5px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;margin-bottom:4px}
+.vant span{font-size:12.5px;color:var(--cinza);line-height:1.4}
 
-.tamanhos-opcoes{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 2px}
-.tam-pill{padding:5px 11px;border:1.5px solid var(--line);border-radius:8px;font-size:11px;cursor:pointer;background:#fff;color:var(--ink);transition:.15s;user-select:none}
-.tam-pill:hover{border-color:var(--wine)}
-.tam-pill.selecionada{background:var(--wine);color:#fff;border-color:var(--wine)}
-.tam-pill.indisponivel{opacity:.35;color:#999;background:#f5f5f5;border-color:#ddd;text-decoration:line-through;cursor:not-allowed}
-.disponibilidade-info{font-size:10.5px;color:var(--wine-dark);min-height:15px;margin-top:1px}
+/* ---------- Rodapé ---------- */
+footer{background:#fff;padding:56px 0 0;border-top:1px solid var(--linha)}
+.rodape{display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;gap:36px}
+.rodape h4{font-size:12.5px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:16px}
+.rodape a,.rodape p{display:block;color:var(--cinza);margin-bottom:9px;line-height:1.5;font-size:13px}
+.rodape a:hover{color:var(--destaque)}
+.rodape .logo{align-items:flex-start;margin:0 0 14px}
+.rodape .logo img{height:72px}
+.copy{border-top:1px solid var(--linha);margin-top:40px;padding:20px 0;font-size:12px;color:#999;text-align:center}
 
+/* ---------- WhatsApp flutuante ---------- */
+.zap{position:fixed;right:20px;bottom:20px;width:56px;height:56px;border-radius:50%;background:#25D366;display:grid;place-items:center;box-shadow:0 6px 20px rgba(0,0,0,.18);z-index:40;transition:transform .2s}
+.zap:hover{transform:scale(1.06)}
+.zap svg{width:30px;height:30px;fill:#fff}
 
-.qtd-card-box{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:8px;border:1.5px solid var(--line);border-radius:30px;padding:4px}
-.qtd-card-box button{background:none;border:none;width:26px;height:26px;font-size:16px;color:var(--wine);border-radius:50%}
-.qtd-card-box button:hover{background:var(--rose-soft)}
-.qtd-card-box span{min-width:20px;text-align:center;font-size:13px;font-weight:600}
+/* ---------- Janela do produto ---------- */
+.fundo{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:80;opacity:0;pointer-events:none;transition:opacity .25s}
+.fundo.on{opacity:1;pointer-events:auto}
+.janela{position:fixed;left:50%;top:50%;transform:translate(-50%,-47%);width:min(940px,94vw);max-height:92vh;overflow:auto;background:#fff;z-index:90;display:grid;grid-template-columns:1fr 1fr;opacity:0;pointer-events:none;transition:all .25s}
+.janela.on{opacity:1;pointer-events:auto;transform:translate(-50%,-50%)}
+.fechar{position:absolute;top:10px;right:14px;font-size:28px;line-height:1;z-index:2;color:#999}
+.fechar:hover{color:var(--texto)}
+.galeria{background:var(--fundo-claro)}
+.galeria .principal{aspect-ratio:3/4;width:100%;object-fit:cover;object-position:center top}
+.miniaturas{display:flex;gap:8px;padding:10px;background:#fff;overflow-x:auto}
+.miniaturas img{width:60px;height:78px;object-fit:cover;object-position:center top;cursor:pointer;opacity:.5;border:1px solid transparent}
+.miniaturas img.on{opacity:1;border-color:var(--texto)}
+.info{padding:38px 34px 30px}
+.info .ref{font-size:11.5px;color:#999;letter-spacing:.5px}
+.info h3{font-weight:500;font-size:22px;line-height:1.3;margin:6px 0 10px}
+.info .preco{font-size:21px;color:var(--destaque);font-weight:600}
+.info .preco small{display:block;font-size:12px;color:var(--cinza);font-weight:400;margin-top:4px}
+.rotulo{font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;margin:22px 0 10px;display:flex;justify-content:space-between}
+.rotulo span{letter-spacing:0;text-transform:none;font-weight:400;color:var(--cinza)}
+.swatches{display:flex;flex-wrap:wrap;gap:9px}
+.sw{width:28px;height:28px;border-radius:50%;border:1px solid rgba(0,0,0,.15);position:relative}
+.sw.on{box-shadow:0 0 0 2px #fff,0 0 0 3.5px var(--texto)}
+.sw.esgotada{opacity:.35}
+.sw.esgotada::after{content:"";position:absolute;left:-2px;right:-2px;top:50%;height:1px;background:var(--texto);transform:rotate(-45deg)}
+.tams{display:flex;flex-wrap:wrap;gap:8px}
+.tam{min-width:44px;height:40px;border:1px solid #ddd;font-size:13px;padding:0 10px}
+.tam:hover{border-color:var(--texto)}
+.tam.on{background:var(--texto);color:#fff;border-color:var(--texto)}
+.tam:disabled{color:#ccc;text-decoration:line-through;cursor:not-allowed;border-color:#eee;background:#fff}
+.estoque{font-size:12.5px;color:var(--cinza);margin-top:10px;min-height:18px}
+.qtd{display:inline-flex;border:1px solid #ddd;height:46px}
+.qtd button{width:42px;font-size:17px}
+.qtd button:disabled{opacity:.3}
+.qtd span{min-width:36px;display:grid;place-items:center}
+.add-row{display:flex;gap:10px;margin-top:26px}
+.add-row .btn{flex:1}
 
-.card-btn{margin-top:10px;display:flex;align-items:center;justify-content:center;gap:7px;background:var(--ink);color:#fff;padding:10px 12px;border-radius:30px;font-size:11.5px;letter-spacing:.6px;text-transform:uppercase;border:none;transition:background .2s;width:100%}
-.card-btn:hover{background:var(--wine)}
-.card-btn svg{width:13px;height:13px}
+/* ---------- Carrinho ---------- */
+.gaveta{position:fixed;top:0;right:0;height:100%;width:min(430px,100vw);background:#fff;z-index:90;transform:translateX(100%);transition:transform .3s;display:flex;flex-direction:column}
+.gaveta.on{transform:none}
+.gaveta header{display:flex;justify-content:space-between;align-items:center;padding:20px 22px;border-bottom:1px solid var(--linha)}
+.gaveta header h3{font-size:15px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase}
+.gaveta .corpo{flex:1;overflow:auto;padding:4px 22px 16px}
+.item{display:grid;grid-template-columns:70px 1fr;gap:14px;padding:16px 0;border-bottom:1px solid var(--linha)}
+.item img{width:70px;height:92px;object-fit:cover;object-position:center top;background:var(--fundo-claro)}
+.item b{font-weight:500;font-size:13px;display:block;line-height:1.35}
+.item small{display:block;font-size:11.5px;color:#999;margin:2px 0 8px}
+.item .opcoes{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+.item select{font:inherit;font-size:12px;border:1px solid #ddd;padding:5px 6px;background:#fff;max-width:130px}
+.item .linha{display:flex;justify-content:space-between;align-items:center}
+.item .qtd{height:32px}.item .qtd button{width:30px;font-size:14px}.item .qtd span{min-width:26px;font-size:12.5px}
+.item .rem{font-size:11.5px;color:#999;text-decoration:underline;margin-top:8px}
+.item .valor{font-weight:600;color:var(--destaque)}
+.vazio-car{text-align:center;color:var(--cinza);padding:60px 10px;line-height:1.6}
+/* Cupom de desconto (na sacola) */
+.cupom{margin:14px 0 4px;border-top:1px dashed var(--linha);padding-top:12px}
+.cupom .abrir-cupom{background:none;border:0;color:var(--destaque);font:inherit;font-size:13px;font-weight:600;cursor:pointer;padding:4px 0;text-decoration:underline;text-underline-offset:3px}
+.cupom .linha-cupom{display:flex;gap:8px}
+.cupom .linha-cupom input{flex:1;min-width:0;padding:11px 12px;border:1px solid #d9d9d9;border-radius:8px;font:inherit;font-size:16px;text-transform:uppercase;letter-spacing:.5px}
+.cupom .linha-cupom input:focus{outline:none;border-color:var(--destaque)}
+.cupom .linha-cupom button{padding:0 16px;border:0;border-radius:8px;background:var(--texto);color:#fff;font:inherit;font-size:13px;font-weight:600;cursor:pointer}
+.cupom .linha-cupom button:disabled{opacity:.5}
+.cupom .aplicado{display:flex;align-items:center;gap:10px;background:#eef7f1;border:1px dashed #8fc4a2;border-radius:8px;padding:10px 12px;font-size:13px}
+.cupom .aplicado.invalido{background:#fbeff1;border-color:#e3a9b4}
+.cupom .aplicado b{font-family:ui-monospace,Consolas,monospace;letter-spacing:.5px}
+.cupom .aplicado small{display:block;color:#555;margin-top:2px}
+.cupom .aplicado.invalido small{color:var(--destaque)}
+.cupom .aplicado button{margin-left:auto;background:none;border:0;color:#777;font:inherit;font-size:12px;text-decoration:underline;cursor:pointer;white-space:nowrap}
+.cupom .erro-cupom{color:var(--destaque);font-size:12.5px;margin-top:6px}
+.resumo-valores .desconto{color:#2f7d4a;font-weight:600}
+.gaveta footer{padding:14px 22px 18px;border-top:1px solid var(--linha);background:var(--fundo-claro)}
+.etapas{display:flex;align-items:center;gap:6px;padding:12px 22px;border-bottom:1px solid var(--linha);font-size:11.5px;letter-spacing:.6px;text-transform:uppercase}
+.etapas button{display:flex;align-items:center;gap:7px;color:#aaa;font-weight:600;padding:0;background:none;border:0;cursor:pointer;font:inherit;letter-spacing:inherit;text-transform:inherit}
+.etapas button i{font-style:normal;width:22px;height:22px;border-radius:50%;border:1px solid #ccc;display:grid;place-items:center;font-size:11px}
+.etapas button.on{color:var(--texto)}.etapas button.on i{background:var(--texto);border-color:var(--texto);color:#fff}
+.etapas button.feito{color:var(--texto)}.etapas button.feito i{border-color:var(--texto)}
+.etapas button:disabled{cursor:default}
+.etapas span{flex:1;height:1px;background:var(--linha)}
+.passo{padding-top:18px}
+.passo-ajuda{font-size:13.5px;color:#555;margin-bottom:2px}
+.nao-sei-cep{font-size:11.5px;color:#888;text-decoration:underline;justify-self:start;margin-top:-2px}
+.campos-end{display:grid;gap:8px}
+.resumo-entrega{background:var(--fundo-claro);border:1px solid var(--linha);padding:12px 14px;font-size:12.5px;line-height:1.5;color:#444}
+.resumo-entrega b{display:block;font-size:11px;letter-spacing:1.2px;text-transform:uppercase;color:#888;font-weight:600;margin-bottom:2px}
+.resumo-entrega a{color:var(--destaque);text-decoration:underline;cursor:pointer;font-size:12px}
+.gaveta .voltar{display:block;width:100%;margin-top:10px;font-size:12px;color:#777;background:none;border:0;cursor:pointer;text-decoration:underline}
+.resumo-valores{display:grid;gap:4px;font-size:13px;margin-bottom:6px}
+.resumo-valores div{display:flex;justify-content:space-between}
+.resumo-valores .gratis{color:#2f7d4a;font-weight:600}
+.bloco-tit{font-size:11px;font-weight:600;letter-spacing:1.4px;text-transform:uppercase;color:#555;margin:6px 0 -2px}
+.linha-cep{display:grid;grid-template-columns:1fr auto;gap:8px}
+.linha-cep button{font:inherit;font-size:12px;font-weight:600;border:1px solid var(--texto);background:#fff;padding:0 14px;cursor:pointer}
+.linha-end{display:grid;grid-template-columns:2fr 1fr;gap:8px}
+.opcoes-frete{display:grid;gap:6px}
+.opcoes-frete label{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid #ddd;padding:9px 12px;font-size:12.5px;cursor:pointer}
+.opcoes-frete label:has(input:checked){border-color:var(--texto);box-shadow:inset 0 0 0 1px var(--texto)}
+.opcoes-frete label input{accent-color:var(--texto);width:auto;flex:0 0 auto;padding:0;margin:0}
+.opcoes-frete .nome{flex:1;line-height:1.35}.opcoes-frete .nome small{display:block;color:#888}
+.opcoes-frete .preco{font-weight:600;white-space:nowrap}.opcoes-frete .preco.gratis{color:#2f7d4a}
+.aviso-frete{font-size:12px;color:#777;line-height:1.5}
+.tipo-entrega{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:4px}
+.tipo-entrega label{display:flex;gap:9px;align-items:flex-start;border:1px solid #ddd;background:#fff;padding:11px 12px;cursor:pointer}
+.tipo-entrega label:has(input:checked){border-color:var(--texto);box-shadow:inset 0 0 0 1px var(--texto)}
+.tipo-entrega input{accent-color:var(--texto);width:auto!important;margin-top:2px}
+.tipo-entrega b{display:block;font-size:13px;font-weight:600}.tipo-entrega small{font-size:11.5px;color:#888}
+.info-retirada{background:var(--fundo-claro);border:1px solid var(--linha);padding:12px 14px;font-size:13px;line-height:1.55}
+.info-retirada b{display:block;font-size:11px;letter-spacing:1.2px;text-transform:uppercase;color:#888;font-weight:600;margin-bottom:3px}
+.total{display:flex;justify-content:space-between;font-size:15px;font-weight:600;margin-bottom:6px}
+.total b{color:var(--destaque)}
+.frete{font-size:12.5px;margin-bottom:12px}
+.frete.ok{color:#2f7d4a}.frete.falta{color:var(--destaque)}
+.form{display:grid;gap:9px;margin-bottom:12px}
+.form input,.form select{font:inherit;font-size:13px;border:1px solid #ddd;padding:10px 12px;background:#fff;width:100%}
+.form input:focus,.form select:focus{outline:1px solid var(--texto)}
+.gaveta .btn{width:100%;background:#1f8a4c;border-color:#1f8a4c}
+.gaveta .btn.online{background:#009ee3;border-color:#009ee3}
+.gaveta .btn.seguir,.gaveta .btn.seguir:hover{background:var(--texto);border-color:var(--texto)}
+[hidden]{display:none!important}
+.nota-pag{font-size:11.5px;color:var(--suave,#777);line-height:1.5;margin:2px 0 4px}
+.retorno-fundo{position:fixed;inset:0;background:rgba(20,16,17,.45);z-index:120;display:none}
+.retorno-pag{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);width:min(440px,92vw);background:#fff;z-index:121;padding:34px 30px 28px;text-align:center;display:none}
+.retorno-fundo.on,.retorno-pag.on{display:block}
+.retorno-pag .icone{width:58px;height:58px;border-radius:50%;margin:0 auto 16px;display:grid;place-items:center;font-size:26px}
+.retorno-pag .icone.ok{background:#e6f4ec;color:#1f8a4c}.retorno-pag .icone.espera{background:#fff4dd;color:#b7791f}.retorno-pag .icone.erro{background:#fbe9ec;color:#832c3d}
+.retorno-pag h3{font-size:19px;font-weight:600;margin-bottom:8px}
+.retorno-pag p{font-size:14px;color:#555;line-height:1.55;margin-bottom:6px}
+.retorno-pag .cod{font-size:13px;letter-spacing:1px;margin:10px 0 18px;color:#222}
+.retorno-pag .acoes{display:flex;flex-direction:column;gap:10px}
+.retorno-pag .btn{width:100%}
+.retorno-pag .btn.verde{background:#1f8a4c;border-color:#1f8a4c}
+.retorno-pag .btn.claro{background:#fff;color:var(--texto)}
+.gaveta .btn:hover{background:#17703d;border-color:#17703d}
 
-.empty-state{max-width:1220px;margin:30px auto;padding:50px 24px;text-align:center;color:rgba(33,27,24,0.55);display:none}
-.empty-state.show{display:block}
-.empty-state .serif{font-size:24px;display:block;margin-bottom:8px;color:var(--wine-dark)}
+.toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,30px);background:var(--texto);color:#fff;padding:12px 20px;font-size:13px;z-index:100;opacity:0;transition:all .3s;pointer-events:none;max-width:90vw;text-align:center}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+body:has(.gaveta.on) .toast{bottom:auto;top:18px}
 
-.terms{max-width:1220px;margin:20px auto 60px;padding:0 24px}
-.terms-inner{background:linear-gradient(120deg,var(--wine) 0%,var(--wine-dark) 100%);border-radius:22px;color:#fff;padding:38px 40px;display:flex;align-items:center;justify-content:space-between;gap:26px;flex-wrap:wrap;box-shadow:var(--shadow)}
-.terms-inner h3{font-size:26px;margin:0 0 6px;font-weight:600}
-.terms-inner p{margin:0;opacity:.85;font-size:13.5px;max-width:420px}
-.terms-btn{background:#fff;color:var(--wine-dark);padding:13px 26px;border-radius:30px;font-size:12.5px;letter-spacing:.6px;text-transform:uppercase;white-space:nowrap;transition:transform .2s;border:none}
-.terms-btn:hover{transform:translateY(-2px)}
-
-footer{border-top:1px solid var(--line);margin-top:10px;padding:46px 24px 28px;background:#fff}
-.footer-inner{max-width:1220px;margin:0 auto;display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:34px}
-.footer-col h4{font-size:11.5px;letter-spacing:1.4px;text-transform:uppercase;color:var(--gold);margin:0 0 14px}
-.footer-col p,.footer-col a,.footer-col span{display:block;font-size:13.5px;line-height:1.9;opacity:.75;padding:2px 0;width:fit-content}
-.footer-col a:hover{opacity:1;color:var(--wine)}
-.footer-logo p{opacity:.6;font-size:12.5px;line-height:1.6;max-width:280px}
-.footer-bottom{max-width:1220px;margin:36px auto 0;padding-top:18px;border-top:1px solid var(--line);display:flex;justify-content:space-between;font-size:11.5px;opacity:.55;flex-wrap:wrap;gap:8px}
-
-.toast{position:fixed;top:20px;left:20px;right:20px;margin:0 auto;max-width:320px;background:var(--ink);color:#fff;padding:12px 18px;border-radius:10px;font-size:13px;text-align:center;z-index:1000;opacity:0;transform:translateY(-16px);transition:.3s}
-.toast.mostrar{opacity:1;transform:translateY(0)}
-
-.wa-float{position:fixed;bottom:22px;right:22px;width:56px;height:56px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;box-shadow:0 12px 28px rgba(37,211,102,0.4);z-index:70;transition:transform .2s;border:none}
-.wa-float:hover{transform:scale(1.07)}
-.wa-float svg{width:28px;height:28px;color:#fff}
-
-.modal-overlay{position:fixed;inset:0;background:rgba(33,27,24,0.55);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
-.modal-overlay.show{display:flex}
-.modal-box{background:#fff;border-radius:20px;max-width:640px;width:100%;max-height:88vh;overflow-y:auto;box-shadow:var(--shadow);padding:28px;position:relative}
-.modal-box h3{margin:0 0 18px;font-size:26px;font-weight:600}
-.modal-box .fechar-x{position:absolute;top:18px;right:22px;background:none;border:none;font-size:22px;cursor:pointer;opacity:.5;line-height:1}
-.modal-box .fechar-x:hover{opacity:1}
-
-.carrinho-item{display:flex;gap:12px;border:1px solid var(--line);border-radius:14px;padding:12px;margin-bottom:12px}
-.carrinho-item img{width:64px;height:80px;object-fit:cover;object-position:center top;border-radius:8px;flex-shrink:0;background:var(--taupe)}
-.carrinho-item-info{flex:1;min-width:0}
-.carrinho-item-info b{font-size:14.5px;font-family:'Cormorant Garamond',serif}
-.carrinho-item-info small{display:block;font-size:11px;opacity:.55;margin-bottom:6px}
-.carrinho-item-controles{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
-.carrinho-item-controles select{border:1.5px solid var(--line);border-radius:8px;padding:4px 6px;font-size:11.5px;font-family:inherit;background:#fff}
-.qtd-box{display:flex;align-items:center;border:1.5px solid var(--line);border-radius:8px;overflow:hidden}
-.qtd-box button{background:#fff;border:none;width:24px;height:24px;font-size:14px;color:var(--wine)}
-.qtd-box button:hover{background:var(--rose-soft)}
-.qtd-box span{width:26px;text-align:center;font-size:12.5px}
-.item-preco{font-size:13.5px;font-weight:600;color:var(--wine-dark);margin-left:auto;white-space:nowrap}
-.remover-item{background:none;border:none;color:var(--wine);opacity:.6;font-size:11px;text-decoration:underline;padding:0;margin-top:4px}
-.remover-item:hover{opacity:1}
-
-.carrinho-total-row{display:flex;justify-content:space-between;align-items:baseline;margin:18px 0;padding-top:14px;border-top:1px solid var(--line);font-size:18px}
-.carrinho-total-row b{font-family:'Jost',serif;font-size:24px;color:var(--wine-dark)}
-
-.form-cliente{display:flex;flex-direction:column;gap:10px;margin-top:6px}
-.form-cliente label{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--gold);margin-bottom:-4px}
-.form-cliente input{border:1.5px solid var(--line);border-radius:10px;padding:11px 14px;font-size:14px;font-family:inherit;outline:none}
-.form-cliente input:focus{border-color:var(--wine)}
-.form-cliente select{border:1.5px solid var(--line);border-radius:10px;padding:11px 14px;font-size:14px;font-family:inherit;outline:none;background:#fff;color:var(--ink)}
-.form-cliente select:focus{border-color:var(--wine)}
-.frete-info{font-size:12.5px;padding-top:4px}
-.frete-info.gratis{color:#2e7d32}
-.frete-info.pendente{color:var(--wine-dark)}
-
-.modal-btn-final{margin-top:20px;width:100%;background:var(--wine);color:#fff;border:none;border-radius:30px;padding:14px;font-size:13px;letter-spacing:.6px;text-transform:uppercase;display:flex;align-items:center;justify-content:center;gap:8px}
-.modal-btn-final:hover{background:var(--wine-dark)}
-.carrinho-vazio-msg{text-align:center;opacity:.55;padding:30px 0;font-size:14px}
-
-@media (max-width:980px){
-  .grid{grid-template-columns:repeat(2,1fr)}
-  .footer-inner{grid-template-columns:1fr 1fr}
-  .nav-links{display:none}
-  .info-strip{grid-template-columns:1fr}
+/* ---------- Tablet ---------- */
+@media(max-width:1024px){
+  .grade{grid-template-columns:repeat(3,1fr)}
+  .trilho{grid-auto-columns:calc((100% - 40px)/3)}
+  .categorias{grid-auto-columns:calc((100% - 32px)/3)}
+  .vantagens .wrap{grid-template-columns:repeat(2,1fr)}
+  .rodape{grid-template-columns:1fr 1fr}
+  .menu{gap:20px}
 }
-@media (max-width:560px){
-  .grid{grid-template-columns:repeat(2,1fr);gap:12px}
-  .topbar-cta span{display:none}
-  .hero{padding:36px 16px 16px}
-  .hero h1{font-size:32px}
-  .hero p.tag{font-size:17px}
-  .terms-inner{padding:28px 24px;text-align:center;justify-content:center}
-  .terms-inner p{margin:0 auto}
-  .footer-inner{grid-template-columns:1fr;gap:24px}
-  .card-name{font-size:16px;min-height:auto}
+/* ---------- Celular ---------- */
+@media(max-width:820px){
+  .form input,.form select{font-size:16px}          /* evita o zoom automático do iPhone ao digitar */
+  .aviso .wrap>span{font-size:10.5px;letter-spacing:-.1px;white-space:nowrap}
+  .janela .add-row{position:sticky;bottom:0;background:#fff;margin:18px -20px 0;padding:12px 20px calc(12px + env(safe-area-inset-bottom));border-top:1px solid var(--linha);z-index:2}
+  .etapas{padding:12px 16px;font-size:10.5px;gap:4px}.etapas button{gap:5px}
+  .gaveta header,.gaveta .corpo,.gaveta footer{padding-left:16px;padding-right:16px}
+  .gaveta footer{padding-bottom:calc(16px + env(safe-area-inset-bottom))}
+  .aviso .lado{display:none}.aviso .wrap{justify-content:center}
+  .topo .wrap{grid-template-columns:auto 1fr auto;height:66px}
+  .btn-menu{display:block}
+  .logo-mob{display:flex;justify-self:center;margin:0}
+  .logo-mob img{height:46px}
+  .redes{display:none}
+  .menu{display:none;position:absolute;top:66px;left:0;right:0;background:#fff;flex-direction:column;align-items:stretch;gap:0;border-bottom:1px solid var(--linha)}
+  .menu.aberto{display:flex}
+  .menu a{padding:15px 20px;border-top:1px solid var(--linha)}
+  .menu .logo{display:none}
+  .slide{grid-template-columns:1fr;height:auto;min-height:0}
+  .slide .fotos{height:68vw}
+  .slide .texto{padding:28px 20px 50px}
+  .banner .seta{display:none}
+  .secao{padding-top:50px}
+  .categorias{grid-auto-columns:calc((100% - 14px)/2);gap:14px}
+  .grade{grid-template-columns:repeat(2,1fr);gap:28px 12px}
+  .trilho{grid-auto-columns:calc((100% - 12px)/2);gap:12px}
+  .vitrine .seta{display:none}
+  .abas{gap:4px 20px}
+  .vantagens .wrap{grid-template-columns:1fr}
+  .vant{padding:18px 4px}
+  .rodape{grid-template-columns:1fr}
+  .janela{grid-template-columns:1fr;top:0;left:0;transform:none;width:100%;max-height:100%;height:100%}
+  .janela.on{transform:none}
+  .info{padding:24px 20px 30px}
 }
 </style>
 </head>
 <body>
-<div id="toast" class="toast"></div>
 
-<div class="topbar">
-  <div class="topbar-inner">
-    <a href="#" class="brand-mini">
-      <img src="imagens/logoBella.webp" alt="Bella Moda Íntima" class="logo-img">
-    </a>
-    <nav class="nav-links">
-      <a href="#catalogo">Catálogo</a>
-      <a href="#contato">Contato</a>
-    </nav>
-    <button class="topbar-cta" onclick="abrirCarrinho()">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
-        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
-      </svg>
-      <span id="cartLabel">Fechar Pedido — R$ 0,00</span>
-    </button>
+<!-- ===== Barra de avisos ===== -->
+<div class="aviso">
+  <div class="wrap">
+    <a class="lado" href="#" onclick="irPara('Todos');irSlide(0);return false">Seja uma revendedora</a>
+    <span>Pedido mínimo <b class="txt-minimo">R$ 300,00</b> · Frete grátis para <b class="txt-estados">SC, PR e RS</b></span>
+    <a class="lado" href="#" onclick="abrirZap('Olá! Gostaria de falar com a Bella Moda Íntima.');return false">Fale conosco</a>
   </div>
 </div>
 
-<section class="hero">
-  <div class="hero-eyebrow">Catálogo 2026 · Moda Íntima</div>
-  <p class="tag">Sensualidade que veste, conforto que abraça. Descubra a coleção Bella e viva a elegância em cada detalhe.</p>
-  <div class="search-row">
-    <div class="search-box">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-      <input type="text" id="busca" placeholder="Buscar por nome ou referência..." oninput="renderizar()">
+<!-- ===== Cabeçalho ===== -->
+<header class="topo">
+  <div class="wrap">
+    <div class="redes">
+      <a href="https://www.instagram.com/bellamodaintima.oficial" target="_blank" rel="noopener" aria-label="Instagram"><svg class="icone" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".6"/></svg></a>
+      <a href="#" onclick="abrirZap('Olá! Gostaria de saber mais sobre o catálogo Bella Moda Íntima.');return false" aria-label="WhatsApp"><svg class="icone" viewBox="0 0 24 24"><path d="M12 2.5a9.5 9.5 0 0 0-8.2 14.3L2.5 21.5l4.8-1.2A9.5 9.5 0 1 0 12 2.5z"/></svg></a>
+    </div>
+    <button class="btn-menu" aria-label="Menu" onclick="document.getElementById('menu').classList.toggle('aberto')"><svg class="icone" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+    <a href="#" class="logo logo-mob" onclick="irPara('Todos');return false"><img src="../Imagens/Logo/logoBella.webp" alt="Bella Moda Íntima" onload="this.parentNode.classList.add('com-img')" onerror="logoErro(this)"><span class="txt">Bella</span><small>moda íntima</small></a>
+
+    <nav class="menu" id="menu">
+      <a href="#" data-cat="Todos" onclick="irPara('Todos');return false">Início</a>
+      <a href="#produtos" data-cat="Conjunto" onclick="irPara('Conjunto');return false">Conjuntos</a>
+      <a href="#produtos" data-cat="Calcinha" onclick="irPara('Calcinha');return false">Calcinhas</a>
+      <a href="#produtos" data-cat="Pijama" onclick="irPara('Pijama');return false">Pijamas</a>
+      <a href="#" class="logo" onclick="irPara('Todos');return false">
+        <img src="../Imagens/Logo/logoBella.webp" alt="Bella Moda Íntima" onload="this.parentNode.classList.add('com-img')" onerror="logoErro(this)"><span class="txt">Bella</span><small>moda íntima</small>
+      </a>
+      <a href="#produtos" data-cat="Sutiã" onclick="irPara('Sutiã');return false">Sutiãs</a>
+      <a href="#produtos" data-cat="Camisola" onclick="irPara('Camisola');return false">Camisolas</a>
+      <a href="#produtos" data-cat="Short Doll" onclick="irPara('Short Doll');return false">Short Doll</a>
+    </nav>
+
+    <div class="acoes">
+      <button aria-label="Buscar" onclick="abrirBusca()"><svg class="icone" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7.5"/><path d="M21 21l-4.6-4.6"/></svg></button>
+      <button aria-label="Carrinho" class="carrinho-btn" onclick="abrirCarrinho()"><svg class="icone" viewBox="0 0 24 24"><path d="M5 8h14l-1.3 12H6.3z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg><b id="qtdCarrinho">0</b></button>
+    </div>
+  </div>
+  <div class="busca" id="busca">
+    <div class="wrap">
+      <svg class="icone" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7.5"/><path d="M21 21l-4.6-4.6"/></svg>
+      <input id="campoBusca" type="text" placeholder="Buscar por nome ou referência..." oninput="buscar(this.value)">
+      <button onclick="fecharBusca()" aria-label="Fechar busca">✕</button>
+    </div>
+  </div>
+</header>
+
+<!-- ===== Banner ===== -->
+<section class="banner" id="banner"></section>
+
+<!-- ===== Categorias ===== -->
+<section class="secao">
+  <div class="wrap">
+    <div class="titulo"><h2>Compre por categoria</h2><p>Encontre a peça ideal para você e suas clientes</p></div>
+    <div class="vitrine cats">
+      <button class="seta ant" id="catAnt" aria-label="Anterior" onclick="rolarCats(-1)">‹</button>
+      <div class="categorias" id="categorias"></div>
+      <button class="seta prox" id="catProx" aria-label="Próximo" onclick="rolarCats(1)">›</button>
     </div>
   </div>
 </section>
 
-<svg class="lace" viewBox="0 0 1200 26" preserveAspectRatio="none"><path d="M0 13 Q 30 0, 60 13 T 120 13 T 180 13 T 240 13 T 300 13 T 360 13 T 420 13 T 480 13 T 540 13 T 600 13 T 660 13 T 720 13 T 780 13 T 840 13 T 900 13 T 960 13 T 1020 13 T 1080 13 T 1140 13 T 1200 13" fill="none" stroke="currentColor" stroke-width="1.2"/></svg>
-
-<div class="info-strip" id="condicoes">
-  <div class="info-card">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="6" width="18" height="14" rx="2"/><path d="M3 10h18M8 3v6"/></svg>
-    <div><b>Pedido mínimo</b><span>A partir de R$ 300,00 · Frete grátis para SC</span></div>
-  </div>
-  <div class="info-card">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
-    <div><b>Atacado</b><span>Para pedidos no atacado, entre em contato com a loja</span></div>
-  </div>
-  <div class="info-card">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
-    <div><b>Formas de pagamento</b><span>Cartão de crédito, Pix ou boleto</span></div>
-  </div>
-</div>
-
-<div class="cats-wrap" id="catalogo">
-  <div class="cats" id="filtros"></div>
-</div>
-
-<div class="section-head">
-  <h3>Nossa Coleção</h3>
-  <span id="contagem"></span>
-</div>
-
-<div class="grid" id="lista"></div>
-<div class="empty-state" id="emptyState"><span class="serif">Nenhum produto encontrado</span>Tente buscar por outro termo ou categoria.</div>
-
-<div class="terms" id="contato">
-  <div class="terms-inner">
-    <div>
-      <h3>Pronta para fechar seu pedido?</h3>
-      <p>Monte seu carrinho e envie direto para o nosso WhatsApp. Respondemos rapidinho!</p>
+<!-- ===== Destaques (Mais vendidos, Novidades...) — listas em VITRINE, no bloco de configuração ===== -->
+<section class="secao" id="destaques">
+  <div class="wrap">
+    <div class="titulo"><h2>Nossos destaques</h2><p>As peças que mais saem na loja</p></div>
+    <div class="abas" id="abasDestaques"></div>
+    <div class="vitrine">
+      <button class="seta ant" id="setaAnt" aria-label="Anterior" onclick="rolarVitrine(-1)">‹</button>
+      <div class="trilho" id="trilho"></div>
+      <button class="seta prox" id="setaProx" aria-label="Próximo" onclick="rolarVitrine(1)">›</button>
     </div>
-    <button class="terms-btn" onclick="abrirCarrinho()">Fechar Pedido</button>
   </div>
-</div>
+</section>
 
+<!-- ===== Catálogo completo ===== -->
+<section class="secao" id="produtos">
+  <div class="wrap">
+    <div class="titulo"><h2>Todos os produtos</h2><p>Escolha a categoria ou use a busca</p></div>
+    <div class="abas" id="abas"></div>
+    <div class="barra-cat">
+      <span id="contagem"></span>
+      <span class="filtro-ativo" id="filtroAtivo"><span id="filtroTexto"></span><button onclick="limparBusca()">Ver todos</button></span>
+      <select id="ordem" onchange="renderCatalogo()" aria-label="Ordenar">
+        <option value="">Ordenar: mais relevantes</option>
+        <option value="menor">Menor preço</option>
+        <option value="maior">Maior preço</option>
+        <option value="az">Nome A–Z</option>
+      </select>
+    </div>
+    <div class="grade" id="grade"></div>
+    <div class="vazio" id="vazio">Nenhum produto encontrado. <a href="#" onclick="limparBusca();return false" style="color:var(--destaque);text-decoration:underline">Ver todos</a></div>
+  </div>
+</section>
+
+<!-- ===== Vantagens ===== -->
+<section class="vantagens">
+  <div class="wrap">
+    <div class="vant"><svg viewBox="0 0 24 24"><path d="M2 7h12v9H2zM14 10h4.5l3 3v3H14z"/><circle cx="6" cy="17.5" r="1.7"/><circle cx="17.5" cy="17.5" r="1.7"/></svg><div><b>Frete grátis <span class="txt-estados">SC, PR e RS</span></b><span>Pedidos a partir de <span class="txt-minimo">R$ 300,00</span></span></div></div>
+    <div class="vant"><svg viewBox="0 0 24 24"><path d="M3 9l1.5-5h15L21 9M3 9h18v11H3zM9 13h6"/></svg><div><b>Atacado</b><span>Condições especiais para revenda</span></div></div>
+    <div class="vant"><svg viewBox="0 0 24 24"><rect x="2.5" y="5.5" width="19" height="13" rx="2"/><path d="M2.5 10h19M6.5 15h4"/></svg><div><b>Pagamento</b><span>Pix, cartão de crédito ou boleto</span></div></div>
+    <div class="vant"><svg viewBox="0 0 24 24"><path d="M12 2.5a9.5 9.5 0 0 0-8.2 14.3L2.5 21.5l4.8-1.2A9.5 9.5 0 1 0 12 2.5z"/><path d="M8.5 10.5h7M8.5 13.5h4.5"/></svg><div><b>Atendimento</b><span>Pedido finalizado pelo WhatsApp</span></div></div>
+  </div>
+</section>
+
+<!-- ===== Rodapé ===== -->
 <footer>
-  <div class="footer-inner">
-    <div class="footer-col footer-logo">
-      <h4>Bella Moda Íntima</h4>
-      <p>Tubarão/SC</p>
+  <div class="wrap rodape">
+    <div>
+      <a href="#" class="logo" onclick="irPara('Todos');return false"><img src="../Imagens/Logo/logoBella.webp" alt="Bella Moda Íntima" onload="this.parentNode.classList.add('com-img')" onerror="logoErro(this)"><span class="txt">Bella</span><small>moda íntima</small></a>
+      <p>Lingerie com conforto e delicadeza, no varejo e no atacado.</p>
+      <p>Tubarão / SC</p>
     </div>
-    <div class="footer-col">
-      <h4>Links</h4>
-      <a href="#catalogo">Catálogo</a>
-      <a href="#contato">Contato</a>
+    <div>
+      <h4>Categorias</h4>
+      <a href="#produtos" onclick="irPara('Conjunto');return false">Conjuntos</a>
+      <a href="#produtos" onclick="irPara('Calcinha');return false">Calcinhas</a>
+      <a href="#produtos" onclick="irPara('Sutiã');return false">Sutiãs</a>
+      <a href="#produtos" onclick="irPara('Camisola');return false">Camisolas</a>
+      <a href="#produtos" onclick="irPara('Short Doll');return false">Short Doll</a>
+      <a href="#produtos" onclick="irPara('Pijama');return false">Pijamas</a>
     </div>
-    <div class="footer-col">
+    <div>
+      <h4>Informações</h4>
+      <p>Pedido mínimo R$ 300,00</p>
+      <p>Frete grátis para <span class="txt-estados">SC, PR e RS</span></p>
+      <p>Cartão, Pix ou boleto</p>
+    </div>
+    <div>
       <h4>Atendimento</h4>
-      <a href="https://api.whatsapp.com/send?phone=5548996333473&text=Ol%C3%A1!%20Gostaria%20de%20saber%20mais%20sobre%20o%20cat%C3%A1logo%20Bella%20Moda%20%C3%8Dntima." target="_blank" rel="noopener">WhatsApp: (48) 99633-3473</a>
+      <a href="#" onclick="abrirZap('Olá! Gostaria de falar com a Bella Moda Íntima.');return false">WhatsApp: (48) 99633-3473</a>
       <a href="https://www.instagram.com/bellamodaintima.oficial" target="_blank" rel="noopener">Instagram: @bellamodaintima.oficial</a>
     </div>
   </div>
-  <div class="footer-bottom">
-    <span>© 2026 Bella Moda Íntima. Todos os direitos reservados.</span>
-  </div>
+  <div class="copy">© 2026 Bella Moda Íntima. Todos os direitos reservados.</div>
 </footer>
 
-<!-- Modal do Carrinho -->
-<div class="modal-overlay" id="modalCarrinho">
-  <div class="modal-box">
-    <button class="fechar-x" onclick="fecharCarrinho()">&times;</button>
-    <h3>Seu Pedido</h3>
-    <div id="listaCarrinho"></div>
+<!-- ===== WhatsApp flutuante ===== -->
+<a class="zap" href="#" aria-label="WhatsApp" onclick="abrirZap('Olá! Gostaria de saber mais sobre o catálogo Bella Moda Íntima.');return false"><svg viewBox="0 0 24 24"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.72.45 3.39 1.3 4.86L2 22l5.36-1.4a9.9 9.9 0 0 0 4.68 1.19h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.13-2.9-7C17.18 3.03 14.69 2 12.04 2zm5.87 14.1c-.25.7-1.45 1.34-2 1.42-.51.08-1.16.11-1.87-.12-.43-.14-.98-.32-1.69-.63-2.98-1.29-4.92-4.31-5.07-4.51-.15-.2-1.22-1.62-1.22-3.09s.77-2.2 1.04-2.5c.27-.3.6-.37.8-.37h.57c.18 0 .43-.07.67.51.25.6.85 2.08.92 2.23.08.15.13.33.03.53-.1.2-.15.32-.3.5-.15.17-.31.38-.44.51-.15.15-.31.31-.13.61.18.3.79 1.3 1.71 2.11 1.18 1.05 2.17 1.38 2.48 1.53.31.15.49.13.67-.08.18-.2.75-.87.95-1.17.2-.3.4-.25.67-.15.27.1 1.72.81 2.02.96.3.15.5.22.57.35.08.13.08.72-.17 1.42z"/></svg></a>
 
-    <div class="carrinho-total-row" id="totalRow" style="display:none">
-      <span>Total do pedido</span>
-      <b id="totalCarrinhoValor">R$ 0,00</b>
-    </div>
+<!-- ===== Janela do produto ===== -->
+<div class="fundo" id="fundo" onclick="fecharTudo()"></div>
+<div class="janela" id="janela" role="dialog" aria-modal="true"></div>
 
-    <div id="blocoCliente" style="display:none">
-      <div class="opcao-label" style="margin-top:6px">Seus Dados</div>
-      <div class="form-cliente">
-        <div>
-          <label>Nome completo</label>
-          <input type="text" id="clienteNome" placeholder="Seu nome">
-        </div>
-        <div>
-          <label>CPF / CNPJ</label>
-          <input type="text" id="clienteDoc" placeholder="000.000.000-00 ou 00.000.000/0000-00" maxlength="18" oninput="formatarDocumento(this)">
-        </div>
-        <div>
-          <label>E-mail</label>
-          <input type="email" id="clienteEmail" placeholder="seu@email.com">
-        </div>
-        <div>
-          <label>Forma de pagamento</label>
-          <select id="clientePagamento" onchange="atualizarTotalModal()">
-            <option value="">Selecione...</option>
-            <option value="Cartão de crédito">Cartão de crédito</option>
-            <option value="Pix">Pix</option>
-            <option value="Boleto">Boleto</option>
-          </select>
-        </div>
+<!-- ===== Carrinho ===== -->
+<aside class="gaveta" id="gaveta">
+  <header><h3 id="tituloGaveta">Sacola</h3><button class="fechar" style="position:static" onclick="fecharTudo()" aria-label="Fechar">×</button></header>
+  <nav class="etapas" id="etapas" aria-label="Etapas do pedido">
+    <button data-passo="1" onclick="irPasso(1)"><i>1</i>Sacola</button><span></span>
+    <button data-passo="2" onclick="irPasso(2)"><i>2</i>Entrega</button><span></span>
+    <button data-passo="3" onclick="irPasso(3)"><i>3</i>Pagamento</button>
+  </nav>
+  <div class="corpo" id="corpoGaveta">
+    <section id="passo1"><div id="itensCarrinho"></div><div class="cupom" id="caixaCupom" hidden></div></section>
+
+    <section id="passo2" class="form passo" hidden>
+      <div class="tipo-entrega" id="tipoEntrega" hidden>
+        <label><input type="radio" name="tipoEnt" value="casa" checked onchange="escolherTipoEntrega('casa')"><span><b>Receber em casa</b><small>Correios ou transportadora</small></span></label>
+        <label><input type="radio" name="tipoEnt" value="retirada" onchange="escolherTipoEntrega('retirada')"><span><b>Retirar na loja</b><small>Sem frete</small></span></label>
       </div>
-      <div id="freteInfo" class="frete-info"></div>
-      <button class="modal-btn-final" onclick="finalizarPedido()">
-        <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.72.45 3.39 1.3 4.86L2 22l5.36-1.4a9.9 9.9 0 0 0 4.68 1.19h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.13-2.9-7C17.18 3.03 14.69 2 12.04 2z"/></svg>
-        Enviar Pedido no WhatsApp
-      </button>
-    </div>
-  </div>
-</div>
+      <div class="info-retirada" id="infoRetirada" hidden></div>
+      <div id="blocoCasa" class="form" style="margin:0">
+      <p class="passo-ajuda">Para onde vamos enviar?</p>
+      <div class="linha-cep"><input id="cliCep" type="text" inputmode="numeric" autocomplete="postal-code" placeholder="CEP" maxlength="9" oninput="digitouCep(this)"><button type="button" onclick="calcularFrete(true)">Buscar</button></div>
+      <a class="nao-sei-cep" href="https://buscacepinter.correios.com.br/app/endereco/index.php" target="_blank" rel="noopener">Não sei meu CEP</a>
+      <div id="camposEndereco" hidden class="campos-end">
+        <input id="cliRua" type="text" autocomplete="address-line1" placeholder="Rua / Avenida">
+        <div class="linha-end"><input id="cliNum" type="text" inputmode="numeric" placeholder="Número"><input id="cliComp" type="text" autocomplete="address-line2" placeholder="Complemento"></div>
+        <input id="cliBairro" type="text" placeholder="Bairro">
+        <input id="cliCidade" type="text" placeholder="Cidade / UF">
+      </div>
+      <div class="bloco-tit" id="titFrete" hidden>Forma de entrega</div>
+      <div class="opcoes-frete" id="opcoesFrete"></div>
+      </div>
+    </section>
 
-<!-- Botão flutuante direto para o WhatsApp -->
-<a href="https://api.whatsapp.com/send?phone=5548996333473&text=Ol%C3%A1!%20Gostaria%20de%20saber%20mais%20sobre%20o%20cat%C3%A1logo%20Bella%20Moda%20%C3%8Dntima." target="_blank" class="wa-float" aria-label="Fale conosco no WhatsApp">
-  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.72.45 3.39 1.3 4.86L2 22l5.36-1.4a9.9 9.9 0 0 0 4.68 1.19h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.13-2.9-7C17.18 3.03 14.69 2 12.04 2zm5.87 14.1c-.25.7-1.45 1.34-2 1.42-.51.08-1.16.11-1.87-.12-.43-.14-.98-.32-1.69-.63-2.98-1.29-4.92-4.31-5.07-4.51-.15-.2-1.22-1.62-1.22-3.09s.77-2.2 1.04-2.5c.27-.3.6-.37.8-.37h.57c.18 0 .43-.07.67.51.25.6.85 2.08.92 2.23.08.15.13.33.03.53-.1.2-.15.32-.3.5-.15.17-.31.38-.44.51-.15.15-.31.31-.13.61.18.3.79 1.3 1.71 2.11 1.18 1.05 2.17 1.38 2.48 1.53.31.15.49.13.67-.08.18-.2.75-.87.95-1.17.2-.3.4-.25.67-.15.27.1 1.72.81 2.02.96.3.15.5.22.57.35.08.13.08.72-.17 1.42z"/></svg>
-</a>
+    <section id="passo3" class="form passo" hidden>
+      <div class="resumo-entrega" id="resumoEntrega"></div>
+      <div class="bloco-tit">Seus dados</div>
+      <input id="cliNome" type="text" autocomplete="name" placeholder="Nome completo">
+      <input id="cliDoc" type="text" inputmode="numeric" placeholder="CPF ou CNPJ" maxlength="18" oninput="formatarDocumento(this)">
+      <input id="cliEmail" type="email" autocomplete="email" placeholder="E-mail">
+      <input id="cliTel" type="tel" autocomplete="tel" placeholder="WhatsApp com DDD" maxlength="16" oninput="formatarTelefone(this)">
+      <!-- campo-armadilha: invisível para pessoas, robôs preenchem -->
+      <input id="cliSite" name="site" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+      <div class="bloco-tit">Pagamento</div>
+      <input type="hidden" id="cliPag" value="">
+      <div class="opcoes-frete opcoes-pag" id="opcoesPag"></div>
+      <p class="nota-pag" id="notaPag" hidden></p>
+      <div id="verificacao"></div>
+    </section>
+  </div>
+  <footer id="rodapeCarrinho">
+    <div class="resumo-valores">
+      <div><span>Subtotal</span><span id="subtotalCarrinho">R$ 0,00</span></div>
+      <div id="linhaDesconto" hidden><span id="rotDesconto">Desconto</span><span class="desconto" id="valorDesconto"></span></div>
+      <div><span>Frete</span><span id="valorFrete">—</span></div>
+    </div>
+    <div class="total"><span>Total</span><b id="totalCarrinho">R$ 0,00</b></div>
+    <div class="frete" id="frete"></div>
+    <button class="btn" id="btnPedido" onclick="acaoPrincipal()">Continuar</button>
+    <button class="voltar" id="btnVoltar" onclick="irPasso(PASSO - 1)" hidden>← Voltar</button>
+  </footer>
+</aside>
+
+<div class="toast" id="toast"></div>
+
+<!-- ===== Volta do pagamento online ===== -->
+<div class="retorno-fundo" id="avisoFundo" onclick="fecharAviso()"></div>
+<div class="retorno-pag" id="aviso" role="dialog" aria-modal="true"></div>
 
 <script>
-const WHATSAPP_LOJISTA = "5548996333473"; // com DDI 55
+/* =====================================================================
+   1) CONFIGURAÇÃO DO SITE — é AQUI que você troca fotos, textos e vitrines
+   ===================================================================== */
+// Endereço da API (painel de gestão). Com a API no ar, produtos, preços, estoque, fotos e vitrine
+// vêm do PAINEL e os valores abaixo servem só de plano B (se a internet/API falhar).
+const API_URL = 'https://bella-api.carinhointimosync.workers.dev';
+let WHATSAPP_LOJISTA = "5548996333473";     // com DDI 55
+let PEDIDO_MINIMO_FRETE = 300;              // frete grátis (estados do painel) a partir deste valor
+// LOGO: arquivo em ../Imagens/Logo/logoBella.webp (também acha em ../Imagens/logoBella.webp, ou .png). Sem o arquivo, aparece o nome "Bella" escrito.
 
+
+/* ---------------------------------------------------------------------
+   NOSSOS DESTAQUES — as abas da vitrine
+   Cada aba é uma linha: 'Nome da aba': [ refs dos produtos, na ordem ]
+   - Para trocar um produto: troque a ref (a mesma que aparece "Ref. 2067-2")
+   - Para criar uma aba nova: copie uma linha e mude o nome
+   - Para tirar uma aba: apague a linha (ou deixe a lista vazia [])
+   - Ref repetida ou que não existe no catálogo é ignorada automaticamente
+   --------------------------------------------------------------------- */
+const VITRINE = {
+  'Mais vendidos': ['2067-2', '2295', '408', '2238-2', '7082-1', '0144-L'],
+  'Novidades':     ['4190-2', '2104-2', '4029-L', '2234-L', '2103-1', '1048-2'],
+};
+
+
+/* ---------------------------------------------------------------------
+   COMPRE POR CATEGORIA — uma foto por categoria
+   Para trocar: substitua o arquivo na pasta ../Imagens/categorias/ (mesmo nome)
+   --------------------------------------------------------------------- */
+const FOTOS_CATEGORIAS = {
+  'Conjunto':   '../Imagens/categorias/conjunto.webp',
+  'Calcinha':   '../Imagens/categorias/calcinha.webp',
+  'Sutiã':      '../Imagens/categorias/sutia.webp',
+  'Camisola':   '../Imagens/categorias/camisola.webp',
+  'Short Doll': '../Imagens/categorias/short-doll.webp',
+  'Pijama':     '../Imagens/categorias/pijama.webp',
+};
+
+
+/* ---------------------------------------------------------------------
+   CATEGORIA POR REF — para colocar um produto numa categoria específica
+   (sem isso, a categoria é descoberta pelo nome: "Camisola..." vai para Camisolas)
+   Para pôr outro produto em Pijamas: acrescente  'REF': 'Pijama',
+   --------------------------------------------------------------------- */
+const CATEGORIA_POR_REF = {
+  '2346-L': 'Pijama',   // Short Doll Canelado
+  '2347-L': 'Pijama',   // Short Doll Suedine
+  '2351-L': 'Pijama',   // Camisola Canelado
+  '2352-L': 'Pijama',   // Camisola Suedine
+};
+
+
+/* ---------------------------------------------------------------------
+   BANNER DO TOPO — troca sozinho a cada 6 segundos
+   O PRIMEIRO da lista é o que aparece quando a pessoa entra no site.
+   No título, o que estiver entre <b> e </b> fica em negrito.
+     categoria: 'Conjunto' -> o botão leva para essa categoria
+     zap: 'mensagem'       -> o botão abre o WhatsApp com essa mensagem
+     destaque: true        -> fundo vinho
+   --------------------------------------------------------------------- */
+const BANNERS = [
+  { titulo:'Seja uma <b>revendedora Bella</b>', texto:'Leve conforto e elegância para as suas clientes, com preço de atacado e atendimento direto com a loja.',
+    botao:'Quero revender', zap:'Olá! Quero ser revendedora da Bella Moda Íntima.', destaque:true,
+    fotos:['../Imagens/banners/banner-1-foto-1.webp','../Imagens/banners/banner-1-foto-2.webp'] },
+  { titulo:'Conjuntos que <b>combinam</b>', texto:'Sutiã e calcinha no mesmo tom, em várias cores.',
+    botao:'Ver conjuntos', categoria:'Conjunto',
+    fotos:['../Imagens/banners/banner-2-foto-1.webp','../Imagens/banners/banner-2-foto-2.webp'] },
+  { titulo:'Frete grátis <b>para SC</b>', texto:'Pedido mínimo de R$ 300,00. Monte o carrinho e finalize pelo WhatsApp.',
+    botao:'Comprar agora', categoria:'Todos',
+    fotos:['../Imagens/banners/banner-3-foto-1.webp','../Imagens/banners/banner-3-foto-2.webp'] },
+];
+</script>
+
+<script>
+/* =====================================================================
+   2) PRODUTOS E ESTOQUE — atualizados automaticamente pelo atualizar_estoque.bat
+   ===================================================================== */
 const produtos = [
 
  {ref:"33",nome:"Bermuda Modeladora",preco:99.9,tamanhos:["M","G","GG"],cores:["Base"]},
@@ -388,6 +693,10 @@ const produtos = [
  {ref:"2238-2",nome:"Conjunto Bojo/Renda",preco:139.9,tamanhos:["P","M","G","GG"],cores:["Preto","Desejo","Rubi","Frozen","Cidreira","Branco"]},
  {ref:"267-2",nome:"Conjunto Bojo/Renda Básico",preco:139.9,tamanhos:["P","M","GG"],cores:["Rubi","Preto","Frozen","Desejo"]},
  {ref:"4195-2",nome:"Conjunto sem Bojo Arco/Renda",preco:129.9,tamanhos:["P","M","GG"],cores:["Branco","Rubi","Frozen","Cidreira","Desejo"]},
+ {ref:"2346-L",nome:"Short Doll Canelado",preco:98.9,precoPlus:105.9,tamanhos:["P","M","G","GG","XG"],cores:["Estampa Sortida"]},
+ {ref:"2347-L",nome:"Short Doll Suedine",preco:98.9,precoPlus:105.9,tamanhos:["P","M","G","GG","XG"],cores:["Estampa Sortida"]},
+ {ref:"2351-L",nome:"Camisola Canelado",preco:107.9,precoPlus:114.9,tamanhos:["P","M","G","GG","XG"],cores:["Estampa Sortida"]},
+ {ref:"2352-L",nome:"Camisola Suedine",preco:107.9,precoPlus:114.9,tamanhos:["P","M","G","GG","XG"],cores:["Estampa Sortida"]},
 
  ];
 
@@ -695,822 +1004,920 @@ const estoquePorCorTamanho = {
     "Desejo": { "P": 2, "M": 0, "GG": 0 }
   }
 };
+</script>
 
-function temControleDeEstoqueNumerico(ref){
-  return !!estoquePorCorTamanho[ref];
-}
-
-// Estoque TOTAL cadastrado para a combinação (não desconta o carrinho).
-// Retorna Infinity quando não há controle numérico cadastrado para o produto/cor/tamanho.
-function estoqueTotalCombinacao(ref, cor, tam){
-  const produtoEstoque = estoquePorCorTamanho[ref];
-  if(!produtoEstoque || !cor || !tam) return Infinity;
-  const estoqueCor = produtoEstoque[cor];
-  if(!estoqueCor || estoqueCor[tam] === undefined) return Infinity;
-  return estoqueCor[tam];
-}
-
-// Soma quantas unidades dessa mesma combinação (produto+cor+tamanho) já
-// estão no carrinho. excluirIdx permite ignorar o próprio item ao
-// recalcular o limite de um item que já está no carrinho.
-function qtdNoCarrinho(ref, cor, tam, excluirIdx){
-  return carrinho.reduce((soma, item, idx) => {
-    if(idx === excluirIdx) return soma;
-    if(item.ref === ref && item.cor === cor && item.tamanho === tam) return soma + item.qtd;
-    return soma;
-  }, 0);
-}
-
-// Estoque que ainda pode ser adicionado ao carrinho para essa combinação,
-// já descontando o que já está no carrinho.
-function estoqueRestante(ref, cor, tam, excluirIdx){
-  const total = estoqueTotalCombinacao(ref, cor, tam);
-  if(total === Infinity) return Infinity;
-  return Math.max(0, total - qtdNoCarrinho(ref, cor, tam, excluirIdx));
-}
-
-function tamanhosDisponiveis(produto, cor){
-  // Se este produto tem estoque numérico cadastrado E esta cor específica
-  // está no relatório, a quantidade manda: tamanho some da lista se
-  // a quantidade cadastrada for 0. Se o tamanho nem aparece no relatório
-  // para essa cor (dado não informado), ele continua disponível
-  // (comportamento antigo preservado) em vez de ser escondido por engano.
-  const estoqueProduto = estoquePorCorTamanho[produto.ref];
-  if(estoqueProduto && cor && estoqueProduto[cor]){
-    const estoqueCor = estoqueProduto[cor];
-    return produto.tamanhos.filter(t => estoqueCor[t] === undefined ? true : estoqueCor[t] > 0);
-  }
-  const regras = disponibilidadePorCor[produto.ref];
-  if(!regras || !cor || !regras[cor]) return produto.tamanhos;
-  return regras[cor];
-}
-
-function corTemDisponibilidade(produto, cor){
-  return tamanhosDisponiveis(produto, cor).length > 0;
-}
-
-// ===== Mapa de cores para os swatches =====
-const coresMap = {
-  "Preto":"#1c1c1c",
-  "Branco":"#ffffff",
-  "Brownie":"#5a2626",
-  "Base":"#e7c3ad",
-  "Rubi":"#c91d23",
-  "Frozen":"#a7c7d9",
-  "Pink":"#ff1493",
-  "Romance":"#e9967a",
-  "Cidreira":"#556b2f",
-  "Desejo":"#af125d",
-  "Pantera":"#ff69b4",
-  "Satin":"#c397c3",
-  "Marinho":"#1f2a44",
-  "Chumbo":"#4a4a4a",
+<script>
+/* =====================================================================
+   3) FUNCIONAMENTO DO SITE (não precisa mexer)
+   ===================================================================== */
+const CORES = {
+  "Preto":"#1c1c1c","Branco":"#ffffff","Brownie":"#5a2626","Base":"#e7c3ad","Rubi":"#c91d23",
+  "Frozen":"#a7c7d9","Pink":"#ff1493","Romance":"#e9967a","Cidreira":"#556b2f","Desejo":"#af125d",
+  "Pantera":"#ff69b4","Satin":"#c397c3","Marinho":"#1f2a44","Chumbo":"#4a4a4a",
   "Sortidas":"linear-gradient(45deg,#1c1c1c 25%,#a3132b 25% 50%,#ffffff 50% 75%,#7a2e3a 75%)",
-  "Base/Preto":"linear-gradient(90deg,#e7c3ad 50%,#1c1c1c 50%)",
-  "Rubi/Preto":"linear-gradient(90deg,#a3132b 50%,#1c1c1c 50%)",
-  "Desejo/Preto":"linear-gradient(90deg,#7a2e3a 50%,#1c1c1c 50%)",
-  "Branco/Preto":"linear-gradient(90deg,#ffffff 50%,#1c1c1c 50%)",
-  "Pink/Preto":"linear-gradient(90deg,#ff6fa5 50%,#1c1c1c 50%)"
+  "Estampa Sortida":"conic-gradient(#e9a6b8 0 25%,#9cc3dd 0 50%,#f3d98b 0 75%,#b9a3d6 0)"
 };
-function corBg(nome){ return coresMap[(nome||'').trim()] || "#cccccc"; }
+const corBg = n => CORES[(n||'').trim()] || '#cccccc';
+// Ordem das categorias (quadrados de "Compre por categoria" e abas do catálogo)
+const CATEGORIAS = ['Conjunto','Sutiã','Calcinha','Camisola','Short Doll','Pijama'];
+const SEM_FOTO = 'data:image/svg+xml;utf8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="300" height="400"><rect width="100%" height="100%" fill="#F7E9E8"/><text x="50%" y="50%" fill="#832C3D" font-family="sans-serif" font-size="18" text-anchor="middle">Sem foto</text></svg>');
+const $ = id => document.getElementById(id);
+const brl = v => 'R$ ' + v.toFixed(2).replace('.', ',');
 
-let carrinho = [];
-
-// ===== Preço plus size =====
-function formatarPrecoExibicao(p){
-  if(p.precoPlus){
-    return `R$ ${p.preco.toFixed(2).replace('.',',')} <span style="font-size:12px;opacity:.6">-</span> R$ ${p.precoPlus.toFixed(2).replace('.',',')}`;
-  }
-  return `R$ ${p.preco.toFixed(2).replace('.',',')}`;
+function categoriaProduto(p){
+  if(p.categoria) return p.categoria;
+  if(typeof CATEGORIA_POR_REF !== 'undefined' && CATEGORIA_POR_REF[p.ref]) return CATEGORIA_POR_REF[p.ref];
+  const n = p.nome.toLowerCase();
+  if(n.includes('sutiã') || n.includes('top')) return 'Sutiã';
+  if(n.includes('conjunto')) return 'Conjunto';
+  if(n.includes('calcinha')) return 'Calcinha';
+  if(n.includes('camisola')) return 'Camisola';
+  if(n.includes('short doll')) return 'Short Doll';
+  return 'Outros';
 }
-function ehTamanhoPlus(tam){
-  return ["XG","48","50","52","54"].includes(tam);
-}
-function precoAtualProduto(p, tamanho){
-  if(p.precoPlus && ehTamanhoPlus(tamanho)) return p.precoPlus;
-  return p.preco;
-}
+const ehPlus = t => ['XG','48','50','52','54'].includes(t);
+const precoDe = (p, t) => (p.precoPlus && ehPlus(t)) ? p.precoPlus : p.preco;
+const plural = c => c === 'Short Doll' ? c : (c === 'Sutiã' ? 'Sutiãs' : c + 's');
+const precoTexto = p => p.precoPlus ? `${brl(p.preco)} – ${brl(p.precoPlus)}` : brl(p.preco);
 
-// ===== Cache global de fotos detectadas =====
-const fotosCache = {};
-
-function checarImagem(src){
-  return new Promise(resolve => {
-    const img = new Image();
-    img.onload = () => resolve(true);
-    img.onerror = () => resolve(false);
-    img.src = src;
-  });
+/* ---------- Logo: tenta .webp, depois .png; sem arquivo fica o nome escrito ---------- */
+function trocarLogo(el){
+  if(el.src.endsWith('.webp')) el.src = '../Imagens/logoBella.png';
+  else el.remove();
 }
 
-// ===== Detecção de fotos EM PARALELO (mais rápida) =====
-async function detectarFotos(ref){
-  if(fotosCache[ref]) return fotosCache[ref];
+/* ---------- Fotos ---------- */
+// Caminhos possíveis da foto nº n de um produto (o navegador tenta um por um)
+// Fotos de produto (.webp) — nomes aceitos dentro da pasta Imagens/produtos/<REF>/ :
+//   2067-2(1).webp, 2067-2(2).webp ...   OU   1.webp, 2.webp ...
+const temApi = () => /^https?:\/\//.test(API_URL);
+function caminhosFoto(ref, n){
+  const p = produtos.find(x => x.ref === ref);
+  const doPainel = p && p.fotos && p.fotos[n-1] ? [API_URL + p.fotos[n-1]] : [];
+  return [...doPainel, `../Imagens/produtos/${ref}/${ref}(${n}).webp`, `../Imagens/produtos/${ref}/${n}.webp`,
+          `../Imagens/miniaturas/produtos/${ref}/${n}.webp`, `../Imagens/${ref}(${n}).webp`];
+}
+// Fotos de vitrine (categorias/banners): tenta a versão leve e depois a original
+function caminhosVitrine(src){
+  if(src.startsWith('/img/')) return [API_URL + src];
+  if(src.startsWith('Imagens/')) src = '../' + src;
+  return src.startsWith('../Imagens/') ? ['../Imagens/miniaturas/' + src.slice(11), src] : [src];
+}
+// <img> que vai tentando os caminhos até achar
+function img(lista, alt, extra=''){
+  const lazy = extra.includes('loading=') ? '' : 'loading="lazy"';
+  return `<img src="${lista[0]}" data-alt="${lista.slice(1).join('|')}" alt="${alt}" ${lazy} decoding="async" onerror="proximaFoto(this)" ${extra}>`;
+}
+function proximaFoto(el){
+  const resto = (el.dataset.alt || '').split('|').filter(Boolean);
+  if(resto.length){ el.dataset.alt = resto.slice(1).join('|'); el.src = resto[0]; }
+  else if(el.classList.contains('f2')){ el.remove(); }
+  else { el.onerror = null; el.src = SEM_FOTO; }
+}
+const capa = (ref, alt, extra) => img(caminhosFoto(ref,1), alt, extra);
 
-  const LIMITE = 8; // testa até 8 fotos por ref, em paralelo
-  const testes = [];
-  for(let i = 1; i <= LIMITE; i++){
-    const src = `imagens/${ref}(${i}).webp`;
-    testes.push(checarImagem(src).then(existe => existe ? src : null));
-  }
-
-  const resultados = await Promise.all(testes);
-  let fotos = resultados.filter(Boolean);
-
-  if(fotos.length === 0){
-    const fallback = `imagens/${ref}.webp`;
-    const existeFallback = await checarImagem(fallback);
-    fotos = existeFallback
-      ? [fallback]
-      : ['https://via.placeholder.com/300x375/f2dedd/832c3d?text=Sem+Foto'];
-  }
-
-  fotosCache[ref] = fotos;
-  return fotos;
+// Descobre quantas fotos o produto tem (para a galeria da janela)
+const cacheGaleria = {};
+function testar(src){ return new Promise(r => { const i = new Image(); i.onload = () => r(src); i.onerror = () => r(null); i.src = src; }); }
+async function fotoN(ref, n){
+  for(const c of caminhosFoto(ref, n)){ const ok = await testar(c); if(ok) return ok; }
+  return null;
+}
+async function galeria(ref){
+  if(cacheGaleria[ref]) return cacheGaleria[ref];
+  const p = produtos.find(x => x.ref === ref);
+  if(p && p.fotos && p.fotos.length) return cacheGaleria[ref] = p.fotos.map(f => API_URL + f);
+  const fotos = (await Promise.all([1,2,3,4,5,6,7,8].map(n => fotoN(ref, n)))).filter(Boolean);
+  return cacheGaleria[ref] = fotos.length ? fotos : [SEM_FOTO];
 }
 
-function imgSrc(ref){
-  if(fotosCache[ref] && fotosCache[ref].length > 0) return fotosCache[ref][0];
-  return `imagens/${ref}(1).webp`;
+/* ---------- Estoque ---------- */
+function tamanhosDisponiveis(p, cor){
+  const e = estoquePorCorTamanho[p.ref];
+  if(e && cor && e[cor]) return p.tamanhos.filter(t => e[cor][t] === undefined ? true : e[cor][t] > 0);
+  return p.tamanhos;
+}
+function estoqueTotal(ref, cor, tam){
+  const e = estoquePorCorTamanho[ref];
+  if(!e || !e[cor] || e[cor][tam] === undefined) return Infinity;
+  return e[cor][tam];
+}
+function noCarrinho(ref, cor, tam, ignorar=-1){
+  return carrinho.reduce((s, it, i) => i !== ignorar && it.ref === ref && it.cor === cor && it.tam === tam ? s + it.qtd : s, 0);
+}
+function restante(ref, cor, tam, ignorar=-1){
+  const t = estoqueTotal(ref, cor, tam);
+  return t === Infinity ? Infinity : Math.max(0, t - noCarrinho(ref, cor, tam, ignorar));
 }
 
-function mudarFoto(ref, delta){
-  const fotos = fotosCache[ref];
-  if(!fotos) return;
-  const container = document.getElementById(`media-${ref}`);
-  if(!container) return;
-  const img = container.querySelector('img');
-  let idx = (parseInt(img.dataset.idx) + delta + fotos.length) % fotos.length;
-  img.src = fotos[idx];
-  img.dataset.idx = idx;
-  container.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('active', i===idx));
-}
-
-function categorias() {
-    return [
-        "Todos",
-        "Sutiã",
-        "Conjunto",
-        "Calcinha",
-        "Camisola",
-        "Short Doll"
-    ];
-}
-
-function categoriaProduto(produto) {
-    const nome = produto.nome.toLowerCase();
-
-    if (nome.includes("sutiã") || nome.includes("top"))
-        return "Sutiã";
-
-    if (nome.includes("conjunto"))
-        return "Conjunto";
-
-    if (nome.includes("calcinha"))
-        return "Calcinha";
-
-    if (nome.includes("camisola"))
-        return "Camisola";
-
-    if (nome.includes("short doll"))
-        return "Short Doll";
-
-    return "Outros";
-}
-
-let filtroAtivo = "Todos";
-
-function renderizarFiltros(){
-  const box = document.getElementById('filtros');
-  box.innerHTML = categorias().map(c =>
-    `<button class="cat-pill ${c===filtroAtivo?'active':''}" onclick="filtrar('${c}')">${c}</button>`
-  ).join('');
-}
-function filtrar(c){ filtroAtivo = c; renderizarFiltros(); renderizar(); }
-
-function renderizar(){
-  const termo = document.getElementById('busca').value.toLowerCase();
-  const lista = document.getElementById('lista');
-  const empty = document.getElementById('emptyState');
-  const contagem = document.getElementById('contagem');
-
-  const filtrados = produtos.filter(p =>
-    (filtroAtivo === "Todos" || categoriaProduto(p) === filtroAtivo) &&
-    (
-        p.nome.toLowerCase().includes(termo) ||
-        p.ref.toLowerCase().includes(termo)
-    )
-);
-
-  contagem.innerText = `${filtrados.length} peça${filtrados.length===1?'':'s'}`;
-  empty.classList.toggle('show', filtrados.length===0);
-
-  lista.innerHTML = filtrados.map(p => `
-    <div class="card">
-      <div class="card-media" id="media-${p.ref}">
-        <img src="imagens/${p.ref}(1).webp" alt="${p.nome}" loading="lazy" data-idx="0"
-             onerror="this.onerror=null;this.src='https://via.placeholder.com/300x375/f2dedd/832c3d?text=Sem+Foto'">
-      </div>
-      <div class="card-body">
-        <div class="card-name">${p.nome}</div>
-        <div class="card-meta">Ref: ${p.ref}</div>
-        <div class="card-price-row"><span class="price-new" id="preco-${p.ref}">${formatarPrecoExibicao(p)}</span></div>
-
-        <div class="opcao-label">Cor</div>
-        <div class="cores-opcoes" id="cores-${p.ref}">
-          ${p.cores.map(c=>`
-            <span class="swatch" title="${c}" data-cor="${c}"
-              style="background:${corBg(c)}"
-              onclick="selecionarCor('${p.ref}','${c.replace(/'/g,"\\'")}',this)"></span>
-          `).join('')}
-        </div>
-        <div class="cor-selecionada-nome" id="cor-nome-${p.ref}"></div>
-        <input type="hidden" id="cor-${p.ref}">
-
-        <div class="opcao-label">Tamanho</div>
-        <div class="tamanhos-opcoes" id="tamanhos-${p.ref}">
-          ${p.tamanhos.map(t=>`
-            <span class="tam-pill" data-tam="${t}"
-              onclick="selecionarTamanho('${p.ref}','${t.replace(/'/g,"\\'")}',this)">${t}</span>
-          `).join('')}
-        </div>
-        <div class="disponibilidade-info" id="disponibilidade-${p.ref}"></div>
-        <input type="hidden" id="tam-${p.ref}">
-
-        ${p.frases ? `
-        <div class="opcao-label">Strass</div>
-        <div class="tamanhos-opcoes" id="frases-${p.ref}">
-          ${p.frases.map(f=>`
-            <span class="tam-pill" data-frase="${f}"
-              onclick="selecionarFrase('${p.ref}','${f.replace(/'/g,"\\'")}',this)">${f}</span>
-          `).join('')}
-        </div>
-        <input type="hidden" id="frase-${p.ref}">
-        ` : ''}
-
-        <div class="opcao-label">Quantidade</div>
-        <div class="qtd-card-box">
-          <button type="button" id="qtd-menos-${p.ref}" onclick="alterarQtdCard('${p.ref}', -1)" disabled>−</button>
-          <span id="qtd-view-${p.ref}">1</span>
-          <button type="button" id="qtd-mais-${p.ref}" onclick="alterarQtdCard('${p.ref}', 1)" disabled>+</button>
-        </div>
-        <input type="hidden" id="qtd-${p.ref}" value="1">
-
-        <button class="card-btn" data-ref="${p.ref}" onclick="handleAdd(this)">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-          Adicionar
-        </button>
-      </div>
+/* ---------- Card de produto ---------- */
+function card(p, selo=''){
+  const cores = p.cores.slice(0,6).map(c => `<i style="background:${corBg(c)}" title="${c}"></i>`).join('')
+              + (p.cores.length > 6 ? `<small>+${p.cores.length-6}</small>` : '');
+  return `<div class="card">
+    <div class="foto" onclick="abrirProduto('${p.ref}')">
+      ${selo ? `<span class="selo">${selo}</span>` : ''}
+      ${capa(p.ref, p.nome)}
+      ${img(caminhosFoto(p.ref,2), '', 'class="f2" onload="this.classList.add(\'ok\')"')}
     </div>
-  `).join('');
-
-  filtrados.forEach(async p => {
-    const fotos = await detectarFotos(p.ref);
-    const container = document.getElementById(`media-${p.ref}`);
-    if(!container) return;
-    if(fotos.length > 1){
-      const nav = document.createElement('div');
-      nav.innerHTML = `
-        <button type="button" class="foto-nav prev" onclick="mudarFoto('${p.ref}', -1)">‹</button>
-        <button type="button" class="foto-nav next" onclick="mudarFoto('${p.ref}', 1)">›</button>
-        <div class="foto-dots">
-          ${fotos.map((_, i) => `<span class="dot ${i===0?'active':''}"></span>`).join('')}
-        </div>
-      `;
-      while(nav.firstElementChild) container.appendChild(nav.firstElementChild);
-    }
-    container.querySelector('img').src = fotos[0];
-  });
+    <h3 onclick="abrirProduto('${p.ref}')">${p.nome}</h3>
+    <div class="ref">Ref. ${p.ref}</div>
+    <div class="preco">${precoTexto(p)}</div>
+    <div class="cores">${cores}</div>
+    <button class="comprar" onclick="abrirProduto('${p.ref}')">Comprar</button>
+  </div>`;
 }
 
-function atualizarTamanhos(ref){
-  const p = produtos.find(x=>x.ref===ref);
-  if(!p) return;
-
-  const cor = document.getElementById(`cor-${ref}`).value;
-  const tamanhos = tamanhosDisponiveis(p, cor);
-  const container = document.getElementById(`tamanhos-${ref}`);
-  const input = document.getElementById(`tam-${ref}`);
-  const info = document.getElementById(`disponibilidade-${ref}`);
-  if(!container || !input) return;
-
-  container.querySelectorAll('.tam-pill').forEach(el=>{
-    const disponivel = tamanhos.includes(el.dataset.tam);
-    el.classList.toggle('indisponivel', !disponivel);
-    el.setAttribute('aria-disabled', disponivel ? 'false' : 'true');
-    el.title = disponivel ? `Disponível em ${el.dataset.tam}` : `Indisponível na cor ${cor || ''}`;
-  });
-
-  if(info){
-    if(cor && tamanhos.length === 0){
-      info.innerText = 'Produto indisponível nesta cor.';
-    } else if(cor){
-      info.innerText = `Disponível nesta cor: ${tamanhos.join(' · ')}`;
-    } else {
-      info.innerText = 'Selecione uma cor para ver os tamanhos disponíveis';
-    }
-  }
-
-  if(input.value && !tamanhos.includes(input.value)){
-    // O tamanho selecionado deixou de estar disponível nesta cor:
-    // seleciona automaticamente o primeiro tamanho disponível, se houver.
-    input.value = '';
-    container.querySelectorAll('.tam-pill').forEach(el=>el.classList.remove('selecionada'));
-    if(tamanhos.length > 0){
-      const novoEl = container.querySelector(`.tam-pill[data-tam="${tamanhos[0]}"]`);
-      if(novoEl) selecionarTamanho(ref, tamanhos[0], novoEl);
-    }
-  }
-
-  atualizarLimiteQtdCard(ref);
-}
-
-function selecionarCor(ref, cor, el){
-  document.getElementById(`cor-${ref}`).value = cor;
-  document.getElementById(`cor-nome-${ref}`).innerText = cor;
-  document.querySelectorAll(`#cores-${ref} .swatch`).forEach(s=>s.classList.remove('selecionada'));
-  el.classList.add('selecionada');
-  atualizarTamanhos(ref);
-}
-
-function selecionarTamanho(ref, tam, el){
-  const p = produtos.find(x=>x.ref===ref);
-  const cor = document.getElementById(`cor-${ref}`).value;
-  const disponiveis = tamanhosDisponiveis(p, cor);
-
-  if(!disponiveis.includes(tam)){
-    toast(`⚠️ O tamanho ${tam} não está disponível na cor ${cor}.`);
-    return;
-  }
-
-  document.getElementById(`tam-${ref}`).value = tam;
-  document.querySelectorAll(`#tamanhos-${ref} .tam-pill`).forEach(s=>s.classList.remove('selecionada'));
-  el.classList.add('selecionada');
-
-  const precoEl = document.getElementById(`preco-${ref}`);
-  if(precoEl){
-    const precoFinal = precoAtualProduto(p, tam);
-    precoEl.innerHTML = `R$ ${precoFinal.toFixed(2).replace('.',',')}`;
-  }
-
-  // Nova combinação cor/tamanho pode ter um limite de estoque diferente.
-  const qtdInput = document.getElementById(`qtd-${ref}`);
-  if(qtdInput) qtdInput.value = 1;
-  atualizarLimiteQtdCard(ref);
-}
-
-function selecionarFrase(ref, frase, el){
-  document.getElementById(`frase-${ref}`).value = frase;
-  document.querySelectorAll(`#frases-${ref} .tam-pill`).forEach(s=>s.classList.remove('selecionada'));
-  el.classList.add('selecionada');
-}
-
-// Estoque restante para a cor/tamanho atualmente selecionados no card do produto.
-function limiteQtdCard(ref){
-  const corInput = document.getElementById(`cor-${ref}`);
-  const tamInput = document.getElementById(`tam-${ref}`);
-  if(!corInput || !tamInput || !corInput.value || !tamInput.value) return Infinity;
-  return estoqueRestante(ref, corInput.value, tamInput.value);
-}
-
-// Só permite mexer na quantidade depois que cor E tamanho estiverem
-// escolhidos — antes disso não tem como saber o limite de estoque, então
-// o seletor fica travado em 1 em vez de deixar subir sem controle.
-function selecaoCompletaCard(ref){
-  const corInput = document.getElementById(`cor-${ref}`);
-  const tamInput = document.getElementById(`tam-${ref}`);
-  return !!(corInput && tamInput && corInput.value && tamInput.value);
-}
-
-function atualizarLimiteQtdCard(ref){
-  const input = document.getElementById(`qtd-${ref}`);
-  const view = document.getElementById(`qtd-view-${ref}`);
-  const btnMais = document.getElementById(`qtd-mais-${ref}`);
-  const btnMenos = document.getElementById(`qtd-menos-${ref}`);
-  if(!input || !view) return;
-
-  const completa = selecaoCompletaCard(ref);
-  const limite = completa ? limiteQtdCard(ref) : Infinity;
-  let val = parseInt(input.value) || 1;
-
-  if(!completa){
-    val = 1;
-  } else if(limite !== Infinity){
-    val = Math.min(Math.max(val, limite > 0 ? 1 : 0), Math.max(limite, 0));
-  } else {
-    val = Math.max(val, 1);
-  }
-
-  input.value = val;
-  view.innerText = val;
-  if(btnMenos) btnMenos.disabled = !completa || val <= 1;
-  if(btnMais) btnMais.disabled = !completa || (limite !== Infinity && val >= limite);
-}
-
-function alterarQtdCard(ref, delta){
-  if(!selecaoCompletaCard(ref)){
-    // defesa extra: mesmo que o botão esteja habilitado por algum motivo,
-    // não deixa incrementar sem cor e tamanho escolhidos.
-    atualizarLimiteQtdCard(ref);
-    return;
-  }
-  const input = document.getElementById(`qtd-${ref}`);
-  const limite = limiteQtdCard(ref);
-  let val = Math.max(1, parseInt(input.value) + delta);
-  if(limite !== Infinity) val = Math.min(val, Math.max(limite, 1));
-  input.value = val;
-  document.getElementById(`qtd-view-${ref}`).innerText = val;
-  atualizarLimiteQtdCard(ref);
-}
-
-function handleAdd(btn){
-  adicionar(btn.dataset.ref);
-}
-
-function adicionar(ref){
-  const p = produtos.find(x=>x.ref===ref);
-  const corInput = document.getElementById(`cor-${ref}`);
-  const tamInput = document.getElementById(`tam-${ref}`);
-  const qtdInput = document.getElementById(`qtd-${ref}`);
-  const cor = corInput.value;
-  const tamanho = tamInput.value;
-  const qtd = parseInt(qtdInput.value) || 1;
-
-  let frase = null;
-  if(p.frases){
-    const fraseInput = document.getElementById(`frase-${ref}`);
-    frase = fraseInput.value;
-    if(!frase){
-      toast("⚠️ Escolha a frase!");
-      return;
-    }
-  }
-
-  if(!cor || !tamanho){
-    toast("⚠️ Escolha cor e tamanho!");
-    return;
-  }
-
-  if(!tamanhosDisponiveis(p, cor).includes(tamanho)){
-    toast(`⚠️ O tamanho ${tamanho} não está disponível na cor ${cor}.`);
-    return;
-  }
-
-  // Verifica se o estoque restante (já descontando o que está no carrinho)
-  // comporta a quantidade que o cliente está tentando adicionar agora.
-  const restante = estoqueRestante(ref, cor, tamanho);
-  if(restante !== Infinity && qtd > restante){
-    if(restante <= 0){
-      toast(`⚠️ Estoque esgotado para ${p.nome} (${cor}/${tamanho}).`);
-    } else {
-      toast(`⚠️ Estoque insuficiente. Disponível: ${restante} unidade${restante===1?'':'s'}.`);
-    }
-    return;
-  }
-
-  const precoFinal = precoAtualProduto(p, tamanho);
-
-  const existente = carrinho.find(i => i.ref===ref && i.cor===cor && i.tamanho===tamanho && i.frase===frase);
-  if(existente){
-    existente.qtd += qtd;
-  } else {
-    carrinho.push({...p, preco: precoFinal, cor, tamanho, frase, qtd, produtoRef:p});
-  }
-
-  qtdInput.value = 1;
-  document.getElementById(`qtd-view-${ref}`).innerText = 1;
-  atualizarLimiteQtdCard(ref);
-
-  atualizarTotal();
-  toast(`✅ ${qtd}x ${p.nome} (${cor}/${tamanho}${frase ? '/'+frase : ''}) adicionado!`);
-}
-
-/* ===== Carrinho / Modal ===== */
-
-function abrirCarrinho(){
-  renderizarCarrinhoModal();
-  document.getElementById('modalCarrinho').classList.add('show');
-}
-function fecharCarrinho(){
-  document.getElementById('modalCarrinho').classList.remove('show');
-}
-
-function renderizarCarrinhoModal(){
-  const lista = document.getElementById('listaCarrinho');
-  const totalRow = document.getElementById('totalRow');
-  const blocoCliente = document.getElementById('blocoCliente');
-
-  if(carrinho.length === 0){
-    lista.innerHTML = `<div class="carrinho-vazio-msg">Seu carrinho está vazio.<br>Adicione produtos no catálogo.</div>`;
-    totalRow.style.display = 'none';
-    blocoCliente.style.display = 'none';
-    return;
-  }
-
-  totalRow.style.display = 'flex';
-  blocoCliente.style.display = 'block';
-
-  lista.innerHTML = carrinho.map((item, idx) => {
-    // Estoque restante para esta combinação, considerando a própria
-    // quantidade já reservada por este item (por isso excluirIdx=idx).
-    const restanteMaisEsteItem = estoqueRestante(item.ref, item.cor, item.tamanho, idx);
-    const limiteAtingido = restanteMaisEsteItem !== Infinity && item.qtd >= restanteMaisEsteItem;
-    return `
-    <div class="carrinho-item">
-      <img src="${imgSrc(item.ref)}" alt="${item.nome}" onerror="this.src='https://via.placeholder.com/64x80/f2dedd/832c3d?text=Foto'">
-      <div class="carrinho-item-info">
-        <b>${item.nome}</b>
-        <small>Ref: ${item.ref}${item.frase ? ' · Frase: '+item.frase : ''}</small>
-        <div class="carrinho-item-controles">
-          <select onchange="alterarCor(${idx}, this.value)">
-            ${item.produtoRef.cores.map(c => `<option value="${c}" ${c===item.cor?'selected':''}>${c}</option>`).join('')}
-          </select>
-          <select onchange="alterarTamanho(${idx}, this.value)">
-            ${tamanhosDisponiveis(item.produtoRef, item.cor).map(t => `<option value="${t}" ${t===item.tamanho?'selected':''}>${t}</option>`).join('')}
-          </select>
-          ${item.produtoRef.frases ? `
-          <select onchange="alterarFrase(${idx}, this.value)">
-            ${item.produtoRef.frases.map(f => `<option value="${f}" ${f===item.frase?'selected':''}>${f}</option>`).join('')}
-          </select>
-          ` : ''}
-          <div class="qtd-box">
-            <button onclick="alterarQtd(${idx}, -1)">−</button>
-            <span>${item.qtd}</span>
-            <button onclick="alterarQtd(${idx}, 1)" ${limiteAtingido ? 'disabled' : ''}>+</button>
-          </div>
-          <span class="item-preco">R$ ${(item.preco*item.qtd).toFixed(2).replace('.',',')}</span>
-        </div>
-        ${restanteMaisEsteItem !== Infinity ? `<small style="opacity:.6">Estoque disponível: ${restanteMaisEsteItem}</small>` : ''}
-        <button class="remover-item" onclick="removerItem(${idx})">Remover</button>
+/* ---------- Banner (passa sozinho a cada 6 segundos) ---------- */
+let slide = 0, timerBanner = null;
+function montarBanner(){
+  $('banner').innerHTML = BANNERS.map((s, i) => `
+    <div class="slide${i ? '' : ' on'}${s.destaque ? ' vinho' : ''}">
+      <div class="fotos">${s.fotos.slice(0,2).map(f => img(caminhosVitrine(f), '', i ? '' : 'loading="eager"')).join('')}</div>
+      <div class="texto">
+        <h1>${s.titulo}</h1>
+        <p>${s.texto}</p>
+        ${s.zap
+          ? `<a class="btn" href="#" onclick="abrirZap(BANNERS[${i}].zap);return false">${s.botao}</a>`
+          : `<a class="btn" href="#produtos" onclick="irPara('${s.categoria || 'Todos'}');return false">${s.botao}</a>`}
       </div>
-    </div>
-  `;
+    </div>`).join('')
+    + (BANNERS.length > 1 ? `<button class="seta ant" onclick="irSlide(slide-1)" aria-label="Anterior">‹</button><button class="seta prox" onclick="irSlide(slide+1)" aria-label="Próximo">›</button>`
+    + `<div class="pontos">${BANNERS.map((_, i) => `<i class="${i ? '' : 'on'}" onclick="irSlide(${i})"></i>`).join('')}</div>` : '');
+  reiniciarBanner();
+}
+function irSlide(n){
+  const s = document.querySelectorAll('.slide'), d = document.querySelectorAll('.pontos i');
+  if(!s.length) return;
+  slide = (n + s.length) % s.length;
+  s.forEach((e, i) => e.classList.toggle('on', i === slide));
+  d.forEach((e, i) => e.classList.toggle('on', i === slide));
+  reiniciarBanner();
+}
+// Recomeça a contagem a cada troca (assim, clicar na seta não faz pular dois de uma vez)
+function reiniciarBanner(){ clearInterval(timerBanner); if(BANNERS.length > 1) timerBanner = setInterval(() => irSlide(slide + 1), 6000); }
+
+/* ---------- Categorias ---------- */
+function montarCategorias(){
+  $('categorias').innerHTML = CATEGORIAS.map(c => {
+    const qtd = produtos.filter(p => categoriaProduto(p) === c).length;
+    if(!qtd) return '';
+    const foto = FOTOS_CATEGORIAS[c] ? caminhosVitrine(FOTOS_CATEGORIAS[c]) : caminhosFoto(produtos.find(p => categoriaProduto(p) === c).ref, 1);
+    return `<a class="cat" href="#produtos" onclick="irPara('${c}');return false"><div class="img">${img(foto, c)}</div><b>${plural(c)}</b><small>${qtd} modelo${qtd > 1 ? 's' : ''}</small></a>`;
   }).join('');
-
-  atualizarTotalModal();
 }
 
-// Ajusta a quantidade do item ao estoque restante da combinação (produto/cor/tamanho),
-// excluindo a própria quantidade do item para não se autopenalizar.
-function ajustarQtdAoEstoque(idx){
-  const item = carrinho[idx];
-  const restante = estoqueRestante(item.ref, item.cor, item.tamanho, idx);
-  if(restante !== Infinity && item.qtd > restante){
-    item.qtd = Math.max(0, restante);
-    toast(`⚠️ Quantidade ajustada ao estoque disponível (${item.qtd}).`);
+/* ---------- Categorias passando sozinhas (a cada 3 s; para com o mouse/dedo em cima) ---------- */
+// Em volta infinita: a lista é repetida no fim; ao chegar na cópia, volta para o começo sem a cliente perceber
+let timerCats = null, pausaCats = false, loopCats = false;
+function passoCats(){ const c = $('categorias').querySelector('.cat'); return c ? c.offsetWidth + parseFloat(getComputedStyle($('categorias')).columnGap || 16) : 200; }
+function metadeCats(){ const t = $('categorias'), n = t.children.length / 2; return n * passoCats(); }
+function pularCats(px){ const t = $('categorias'); t.style.scrollSnapType = 'none'; t.style.scrollBehavior = 'auto'; t.scrollLeft = px; t.offsetHeight; t.style.scrollSnapType = ''; t.style.scrollBehavior = ''; }
+function rolarCats(dir){
+  const t = $('categorias');
+  if(!loopCats){ t.scrollBy({ left: dir * passoCats(), behavior: 'smooth' }); return; }
+  if(dir < 0 && t.scrollLeft < passoCats() - 5) pularCats(t.scrollLeft + metadeCats());
+  t.scrollBy({ left: dir * passoCats(), behavior: 'smooth' });
+  clearTimeout(rolarCats._t);
+  rolarCats._t = setTimeout(() => { if(t.scrollLeft >= metadeCats() - 5) pularCats(t.scrollLeft - metadeCats()); }, 700);
+}
+function ajustarLoopCats(){
+  const t = $('categorias');
+  montarCategorias();
+  loopCats = t.scrollWidth > t.clientWidth + 5;
+  if(loopCats) t.insertAdjacentHTML('beforeend', [...t.children].map(c => c.outerHTML.replace('<a ', '<a aria-hidden="true" tabindex="-1" ')).join(''));
+  $('catAnt').hidden = !loopCats; $('catProx').hidden = !loopCats;
+}
+function setasCats(){ clearTimeout(setasCats._t); setasCats._t = setTimeout(ajustarLoopCats, 200); }
+function iniciarCats(){
+  const t = $('categorias');
+  ['mouseenter','touchstart'].forEach(e => t.addEventListener(e, () => pausaCats = true, { passive: true }));
+  ['mouseleave','touchend'].forEach(e => t.addEventListener(e, () => setTimeout(() => pausaCats = false, 1500), { passive: true }));
+  clearInterval(timerCats);
+  timerCats = setInterval(() => { if(!pausaCats && !document.hidden && t.scrollWidth > t.clientWidth + 5) rolarCats(1); }, 3000);
+  window.addEventListener('resize', setasCats);
+  ajustarLoopCats();
+}
+
+/* ---------- Nossos destaques (abas da VITRINE) — passa sozinho, sem repetir ---------- */
+let abaDestaque = null, timerVitrine = null, pausaVitrine = false;
+function listaDaAba(nome){
+  const refs = [...new Set(VITRINE[nome] || [])];
+  refs.filter(r => !produtos.some(p => p.ref === r)).forEach(r => console.warn(`Vitrine "${nome}": a ref ${r} não existe no catálogo`));
+  return refs.map(r => produtos.find(p => p.ref === r)).filter(Boolean);
+}
+function montarDestaques(){
+  const abas = Object.keys(VITRINE).filter(n => listaDaAba(n).length);
+  if(!abas.length){ $('destaques').style.display = 'none'; return; }
+  if(!abas.includes(abaDestaque)) abaDestaque = abas[0];
+  $('abasDestaques').innerHTML = abas.length > 1 ? abas.map(n => `<button class="${n === abaDestaque ? 'on' : ''}" onclick="trocarAbaDestaque('${n.replace(/'/g, "\\'")}')">${n}</button>`).join('') : '';
+  const selo = abaDestaque === 'Mais vendidos' ? 'Mais vendido' : (abaDestaque === 'Novidades' ? 'Novo' : '');
+  $('trilho').innerHTML = listaDaAba(abaDestaque).map(p => card(p, selo)).join('');
+  $('trilho').scrollLeft = 0;
+  atualizarSetas();
+}
+function trocarAbaDestaque(n){ abaDestaque = n; montarDestaques(); }
+function passoVitrine(){ const c = $('trilho').querySelector('.card'); return c ? c.offsetWidth + 20 : 300; }
+function rolarVitrine(dir){
+  const t = $('trilho'), fim = t.scrollWidth - t.clientWidth - 5;
+  if(dir > 0 && t.scrollLeft >= fim) t.scrollTo({ left: 0, behavior: 'smooth' });          // chegou no fim: volta ao começo
+  else if(dir < 0 && t.scrollLeft <= 5) t.scrollTo({ left: t.scrollWidth, behavior: 'smooth' });
+  else t.scrollBy({ left: dir * passoVitrine(), behavior: 'smooth' });
+}
+function atualizarSetas(){
+  const t = $('trilho'), cabe = t.scrollWidth <= t.clientWidth + 5;
+  $('setaAnt').hidden = cabe; $('setaProx').hidden = cabe;
+}
+// Passa sozinho a cada 3,5 segundos (para enquanto o mouse/dedo está em cima)
+function iniciarVitrine(){
+  const t = $('trilho');
+  ['mouseenter','touchstart'].forEach(e => t.addEventListener(e, () => pausaVitrine = true, { passive: true }));
+  ['mouseleave','touchend'].forEach(e => t.addEventListener(e, () => pausaVitrine = false, { passive: true }));
+  clearInterval(timerVitrine);
+  timerVitrine = setInterval(() => {
+    if(pausaVitrine || document.hidden || t.scrollWidth <= t.clientWidth + 5) return;
+    rolarVitrine(1);
+  }, 3500);
+  window.addEventListener('resize', atualizarSetas);
+}
+
+/* ---------- Catálogo ---------- */
+let catAtual = 'Todos', termo = '';
+function montarAbas(){
+  $('abas').innerHTML = ['Todos', ...CATEGORIAS].map(c =>
+    `<button class="${c === catAtual ? 'on' : ''}" onclick="escolherCat('${c}')">${c === 'Todos' ? 'Todos' : plural(c)}</button>`).join('');
+  document.querySelectorAll('.menu a[data-cat]').forEach(a => a.classList.toggle('ativo', a.dataset.cat === catAtual && catAtual !== 'Todos'));
+}
+function renderCatalogo(){
+  const t = termo.toLowerCase().trim();
+  let lista = produtos.filter(p =>
+    (catAtual === 'Todos' || categoriaProduto(p) === catAtual) &&
+    (!t || p.nome.toLowerCase().includes(t) || p.ref.toLowerCase().includes(t)));
+  const o = $('ordem').value;
+  if(o === 'menor') lista.sort((a, b) => a.preco - b.preco);
+  if(o === 'maior') lista.sort((a, b) => b.preco - a.preco);
+  if(o === 'az') lista.sort((a, b) => a.nome.localeCompare(b.nome, 'pt-BR'));
+  $('grade').innerHTML = lista.map(p => card(p)).join('');
+  $('contagem').textContent = `${lista.length} peça${lista.length === 1 ? '' : 's'}`;
+  $('vazio').classList.toggle('on', !lista.length);
+  $('filtroAtivo').classList.toggle('on', !!t);
+  $('filtroTexto').textContent = t ? `Buscando: "${termo}"` : '';
+}
+// Trocar de categoria SEMPRE limpa a busca (assim o catálogo nunca fica "preso")
+function escolherCat(c){ catAtual = c; termo = ''; $('campoBusca').value = ''; montarAbas(); renderCatalogo(); }
+function irPara(c){
+  $('menu').classList.remove('aberto');
+  escolherCat(c);
+  if(c === 'Todos') window.scrollTo({ top: 0, behavior: 'smooth' });
+  else $('produtos').scrollIntoView({ behavior: 'smooth' });
+}
+function buscar(v){ termo = v; catAtual = 'Todos'; montarAbas(); renderCatalogo(); }
+function limparBusca(){ escolherCat('Todos'); fecharBusca(); }
+function abrirBusca(){ $('busca').classList.add('aberta'); $('campoBusca').focus(); }
+function fecharBusca(){ $('busca').classList.remove('aberta'); }
+$('campoBusca').addEventListener('keydown', e => { if(e.key === 'Enter') $('produtos').scrollIntoView({ behavior: 'smooth' }); });
+
+/* ---------- Janela do produto ---------- */
+let sel = null; // { p, cor, tam, qtd, fotos, idx }
+async function abrirProduto(ref){
+  const p = produtos.find(x => x.ref === ref); if(!p) return;
+  const corInicial = p.cores.find(c => tamanhosDisponiveis(p, c).length) || p.cores[0];
+  sel = { p, cor: corInicial, tam: '', frase: '', qtd: 1, fotos: [caminhosFoto(ref,1)[0]], idx: 0 };
+  desenharJanela();
+  $('fundo').classList.add('on'); $('janela').classList.add('on');
+  const fotos = await galeria(ref);
+  if(sel && sel.p.ref === ref){ sel.fotos = fotos; desenharJanela(); }
+}
+function desenharJanela(){
+  const { p, cor, tam, frase, qtd, fotos, idx } = sel;
+  const tams = tamanhosDisponiveis(p, cor);
+  const lim = tam ? restante(p.ref, cor, tam) : Infinity;
+  const preco = tam ? brl(precoDe(p, tam)) : precoTexto(p);
+  $('janela').innerHTML = `
+    <button class="fechar" onclick="fecharTudo()" aria-label="Fechar">×</button>
+    <div class="galeria">
+      <img class="principal" src="${fotos[idx]}" alt="${p.nome}" onerror="this.src=SEM_FOTO">
+      ${fotos.length > 1 ? `<div class="miniaturas">${fotos.map((f, i) => `<img src="${f}" class="${i === idx ? 'on' : ''}" onclick="sel.idx=${i};desenharJanela()" alt="">`).join('')}</div>` : ''}
+    </div>
+    <div class="info">
+      <div class="ref">Ref. ${p.ref} · ${categoriaProduto(p)}</div>
+      <h3>${p.nome}</h3>
+      <div class="preco">${preco}${p.precoPlus ? '<small>Tamanhos plus size (48 ao 54 e XG) têm preço diferenciado</small>' : ''}</div>
+
+      <div class="rotulo">Cor <span>${cor || ''}</span></div>
+      <div class="swatches">${p.cores.map(c => {
+        const tem = tamanhosDisponiveis(p, c).length > 0;
+        return `<button class="sw ${c === cor ? 'on' : ''} ${tem ? '' : 'esgotada'}" style="background:${corBg(c)}" title="${c}${tem ? '' : ' (esgotada)'}" onclick="escolherCor('${c}')"></button>`;
+      }).join('')}</div>
+
+      <div class="rotulo">Tamanho <span>${tams.length ? '' : 'Esgotado nesta cor'}</span></div>
+      <div class="tams">${p.tamanhos.map(t => `<button class="tam ${t === tam ? 'on' : ''}" ${tams.includes(t) ? '' : 'disabled'} onclick="escolherTam('${t}')">${t}</button>`).join('')}</div>
+      ${p.frases ? `<div class="rotulo">Frase do strass <span>${frase || ''}</span></div>
+      <div class="tams">${p.frases.map((f, i) => `<button class="tam ${f === frase ? 'on' : ''}" onclick="sel.frase=sel.p.frases[${i}];desenharJanela()">${f}</button>`).join('')}</div>` : ''}
+      <div class="estoque">${tam && lim !== Infinity ? `${lim} disponíve${lim === 1 ? 'l' : 'is'} em ${cor} / ${tam}` : (tam ? '' : 'Escolha a cor e o tamanho')}</div>
+
+      <div class="add-row">
+        <div class="qtd">
+          <button onclick="mudarQtd(-1)" ${qtd <= 1 ? 'disabled' : ''}>−</button>
+          <span>${qtd}</span>
+          <button onclick="mudarQtd(1)" ${!tam || qtd >= lim ? 'disabled' : ''}>+</button>
+        </div>
+        <button class="btn" onclick="adicionar()">Adicionar ao pedido</button>
+      </div>
+    </div>`;
+}
+function escolherCor(c){
+  sel.cor = c;
+  if(sel.tam && !tamanhosDisponiveis(sel.p, c).includes(sel.tam)) sel.tam = '';
+  sel.qtd = 1; desenharJanela();
+}
+function escolherTam(t){ sel.tam = t; sel.qtd = 1; desenharJanela(); }
+function mudarQtd(d){
+  const lim = sel.tam ? restante(sel.p.ref, sel.cor, sel.tam) : Infinity;
+  sel.qtd = Math.max(1, Math.min(sel.qtd + d, lim)); desenharJanela();
+}
+
+/* ---------- Carrinho ---------- */
+let carrinho = [];
+function adicionar(){
+  const { p, cor, tam, frase, qtd } = sel;
+  if(!cor || !tam){ toast('Escolha a cor e o tamanho'); return; }
+  if(p.frases && !frase){ toast('Escolha a frase do strass'); return; }
+  const r = restante(p.ref, cor, tam);
+  if(r <= 0){ toast(`Sem estoque de ${cor} / ${tam}`); return; }
+  if(qtd > r){ toast(`Só temos ${r} unidade${r === 1 ? '' : 's'} de ${cor} / ${tam}`); return; }
+  const ja = carrinho.find(i => i.ref === p.ref && i.cor === cor && i.tam === tam && i.frase === (frase || ''));
+  if(ja) ja.qtd += qtd; else carrinho.push({ ref: p.ref, nome: p.nome, cor, tam, frase: frase || '', qtd, preco: precoDe(p, tam) });
+  atualizarCarrinho();
+  fecharTudo();
+  toast(`${qtd}x ${p.nome} (${cor} / ${tam}${frase ? ' / ' + frase : ''}) adicionado ao pedido`);
+}
+function atualizarCarrinho(){
+  const total = carrinho.reduce((s, i) => s + i.preco * i.qtd, 0);
+  $('qtdCarrinho').textContent = carrinho.reduce((s, i) => s + i.qtd, 0);
+  $('rodapeCarrinho').style.display = carrinho.length ? '' : 'none';
+  $('etapas').style.display = carrinho.length ? '' : 'none';
+  if(!carrinho.length && PASSO !== 1) irPasso(1, true);
+  salvarCarrinho();
+  // o carrinho mudou: o frete precisa ser recalculado
+  const assinatura = carrinho.map(i => `${i.ref}|${i.tam}|${i.qtd}`).join(',');
+  if(assinatura !== FRETE.assinatura){ FRETE.assinatura = assinatura; FRETE.cotacao = null; FRETE.escolhido = ''; clearTimeout(FRETE._t); if(carrinho.length && soNum($('cliCep').value).length === 8) FRETE._t = setTimeout(() => calcularFrete(), 500);
+    const cod = CUPOM.codigo || CUPOM.pendente;
+    if(cod && carrinho.length){ CUPOM.pendente = ''; clearTimeout(CUPOM._t); CUPOM._t = setTimeout(() => conferirCupom(cod, true), 450); } }
+  mostrarValores();
+  $('itensCarrinho').innerHTML = carrinho.length ? carrinho.map((i, k) => {
+    const r = restante(i.ref, i.cor, i.tam, k), p = produtos.find(x => x.ref === i.ref);
+    return `<div class="item">
+      ${capa(i.ref, i.nome, 'loading="eager"')}
+      <div>
+        <b>${i.nome}</b>
+        <small>Ref. ${i.ref}</small>
+        <div class="opcoes">
+          <select onchange="mudarItem(${k},'cor',this.value)" aria-label="Cor">${p.cores.map(c => `<option ${c === i.cor ? 'selected' : ''} ${tamanhosDisponiveis(p, c).length ? '' : 'disabled'}>${c}</option>`).join('')}</select>
+          <select onchange="mudarItem(${k},'tam',this.value)" aria-label="Tamanho">${tamanhosDisponiveis(p, i.cor).map(t => `<option ${t === i.tam ? 'selected' : ''}>${t}</option>`).join('')}</select>
+          ${p.frases ? `<select onchange="mudarItem(${k},'frase',this.value)" aria-label="Frase">${p.frases.map(f => `<option ${f === i.frase ? 'selected' : ''}>${f}</option>`).join('')}</select>` : ''}
+        </div>
+        <div class="linha">
+          <div class="qtd"><button onclick="qtdItem(${k},-1)">−</button><span>${i.qtd}</span><button onclick="qtdItem(${k},1)" ${i.qtd >= r ? 'disabled' : ''}>+</button></div>
+          <span class="valor">${brl(i.preco * i.qtd)}</span>
+        </div>
+        <button class="rem" onclick="removerItem(${k})">Remover</button>
+      </div>
+    </div>`;
+  }).join('') : `<div class="vazio-car">Seu pedido está vazio.<br>Escolha as peças no catálogo e elas aparecem aqui.</div>`;
+}
+function qtdItem(k, d){
+  const i = carrinho[k], r = restante(i.ref, i.cor, i.tam, k);
+  i.qtd = Math.max(1, Math.min(i.qtd + d, r)); atualizarCarrinho();
+}
+// Trocar cor, tamanho ou frase direto no carrinho
+function mudarItem(k, campo, valor){
+  const i = carrinho[k], p = produtos.find(x => x.ref === i.ref);
+  i[campo] = valor;
+  if(campo === 'cor'){ const t = tamanhosDisponiveis(p, valor); if(!t.includes(i.tam)) i.tam = t[0] || ''; }
+  i.preco = precoDe(p, i.tam);
+  const r = restante(i.ref, i.cor, i.tam, k);
+  if(i.qtd > r){ i.qtd = Math.max(1, r); toast(`Quantidade ajustada ao estoque (${r})`); }
+  atualizarCarrinho();
+}
+function removerItem(k){ carrinho.splice(k, 1); atualizarCarrinho(); }
+function abrirCarrinho(){ prepararVerificacao(); irPasso(1, true); atualizarCarrinho(); $('fundo').classList.add('on'); $('gaveta').classList.add('on'); }
+
+/* ---------- Etapas do pedido: Sacola → Entrega → Pagamento ---------- */
+let PASSO = 1;
+const TITULOS_PASSO = { 1: 'Sacola', 2: 'Entrega', 3: 'Pagamento' };
+function irPasso(n, semConferir){
+  n = Math.max(1, Math.min(3, n));
+  if(!semConferir && n > PASSO){
+    if(n >= 2 && !conferirSacola()) return;
+    if(n >= 3 && PASSO < 3 && !conferirEntrega()) return;
   }
+  PASSO = carrinho.length ? n : 1;
+  [1, 2, 3].forEach(k => $('passo' + k).hidden = k !== PASSO);
+  document.querySelectorAll('#etapas button').forEach(b => {
+    const k = +b.dataset.passo;
+    b.classList.toggle('on', k === PASSO); b.classList.toggle('feito', k < PASSO); b.disabled = k > PASSO;
+  });
+  $('tituloGaveta').textContent = TITULOS_PASSO[PASSO];
+  $('btnVoltar').hidden = PASSO === 1;
+  $('corpoGaveta').scrollTop = 0;
+  if(PASSO === 2 && TIPO_ENTREGA === 'casa'){ const cep = $('cliCep'); if(soNum(cep.value).length === 8){ if(!FRETE.cotacao) calcularFrete(); } else setTimeout(() => cep.focus(), 320); }
+  if(PASSO === 3) mostrarResumoEntrega();
+  ajustarBotaoPedido();
 }
-
-function alterarCor(idx, novaCor){
-  const item = carrinho[idx];
-  const disponiveis = tamanhosDisponiveis(item.produtoRef, novaCor);
-  item.cor = novaCor;
-
-  // Se o tamanho atual não existir na nova cor, usa o primeiro disponível.
-  if(!disponiveis.includes(item.tamanho)){
-    item.tamanho = disponiveis[0] || '';
-    item.preco = item.tamanho ? precoAtualProduto(item.produtoRef, item.tamanho) : item.preco;
+function acaoPrincipal(){ if(PASSO < 3) irPasso(PASSO + 1); else finalizarPedido(); }
+function conferirSacola(){
+  if(!carrinho.length){ toast('Sua sacola está vazia'); return false; }
+  const somas = {};
+  carrinho.forEach(i => { const c = i.ref + '|' + i.cor + '|' + i.tam; somas[c] = (somas[c] || 0) + i.qtd; });
+  for(const i of carrinho){
+    if(!i.tam){ toast(`${i.nome}: escolha o tamanho`); return false; }
+    const t = estoqueTotal(i.ref, i.cor, i.tam);
+    if(somas[i.ref + '|' + i.cor + '|' + i.tam] > t){ toast(`Estoque insuficiente: ${i.nome} ${i.cor}/${i.tam} (disponível: ${t})`); return false; }
   }
+  return true;
+}
+function mostrarResumoEntrega(){
+  const e = dadosEntrega(), op = FRETE.cotacao && FRETE.cotacao.opcoes.find(o => o.id === FRETE.escolhido);
+  if(e.tipo === 'retirada'){ $('resumoEntrega').innerHTML = `<b>Retirada na loja</b>${RETIRADA.endereco || ''}${RETIRADA.horario ? '<br>' + RETIRADA.horario : ''}<br><a onclick="irPasso(2)">Alterar</a>`; return; }
+  $('resumoEntrega').innerHTML = `<b>Entregar em</b>${esc(enderecoTexto(e))}<br>
+    ${op ? `${op.gratis ? 'Frete grátis' : esc([op.empresa, op.nome].filter(Boolean).join(' ')) + ' — ' + brl(op.preco)}${op.prazo ? ` · até ${op.prazo} dias úteis` : ''}` : 'Frete a combinar pelo WhatsApp'}
+    <br><a onclick="irPasso(2)">Alterar</a>`;
+}
+function fecharTudo(){ ['fundo','janela','gaveta'].forEach(id => $(id).classList.remove('on')); }
+document.addEventListener('keydown', e => { if(e.key === 'Escape') fecharTudo(); });
 
-  ajustarQtdAoEstoque(idx);
-  renderizarCarrinhoModal();
-  atualizarTotal();
+/* ---------- Pedido no WhatsApp ---------- */
+const soNum = v => v.replace(/\D/g, '');
+function validarCPF(c){
+  c = soNum(c); if(c.length !== 11 || /^(\d)\1{10}$/.test(c)) return false;
+  for(let t = 9; t < 11; t++){ let s = 0; for(let i = 0; i < t; i++) s += +c[i] * (t + 1 - i); if(((s * 10) % 11) % 10 !== +c[t]) return false; }
+  return true;
 }
-function alterarTamanho(idx, novoTam){
-  carrinho[idx].tamanho = novoTam;
-  carrinho[idx].preco = precoAtualProduto(carrinho[idx].produtoRef, novoTam);
-  ajustarQtdAoEstoque(idx);
-  renderizarCarrinhoModal();
-  atualizarTotal();
+function validarCNPJ(c){
+  c = soNum(c); if(c.length !== 14 || /^(\d)\1{13}$/.test(c)) return false;
+  const calc = n => { let s = 0, pos = n - 7; for(let i = n; i >= 1; i--){ s += +c[n - i] * pos--; if(pos < 2) pos = 9; } const r = s % 11; return r < 2 ? 0 : 11 - r; };
+  return calc(12) === +c[12] && calc(13) === +c[13];
 }
-function alterarFrase(idx, novaFrase){
-  carrinho[idx].frase = novaFrase;
-  atualizarTotal();
+function formatarDocumento(el){
+  let v = soNum(el.value);
+  if(v.length <= 11) v = v.replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+  else v = v.replace(/^(\d{2})(\d)/, '$1.$2').replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3').replace(/\.(\d{3})(\d)/, '.$1/$2').replace(/(\d{4})(\d)/, '$1-$2');
+  el.value = v;
 }
-function alterarQtd(idx, delta){
-  const item = carrinho[idx];
-  let novaQtd = Math.max(1, item.qtd + delta);
+function abrirZap(texto){ window.open(`https://api.whatsapp.com/send?phone=${WHATSAPP_LOJISTA}&text=${encodeURIComponent(texto)}`, '_blank'); }
+function formatarTelefone(el){
+  let v = soNum(el.value).slice(0, 11);
+  v = v.length > 10 ? v.replace(/^(\d{2})(\d{5})(\d{0,4}).*/, '($1) $2-$3') : v.replace(/^(\d{2})(\d{4})(\d{0,4}).*/, '($1) $2-$3');
+  el.value = v.replace(/[-\s(]+$/, '');
+}
+let enviando = false;
+const INICIO_PAGINA = Date.now();
+// "Não sou robô" (Turnstile do Cloudflare) — só aparece se estiver ligado no painel
+let TURNSTILE_SITE_KEY = '', idWidget = null;
+function prepararVerificacao(){
+  if(!TURNSTILE_SITE_KEY || document.getElementById('scriptTurnstile')) return;
+  window.aoCarregarTurnstile = () => { idWidget = turnstile.render('#verificacao', { sitekey: TURNSTILE_SITE_KEY, language: 'pt-br', size: 'flexible' }); };
+  const sc = document.createElement('script'); sc.id = 'scriptTurnstile'; sc.async = true;
+  sc.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=aoCarregarTurnstile';
+  document.head.appendChild(sc);
+}
+const tokenVerificacao = () => (window.turnstile && idWidget !== null) ? turnstile.getResponse(idWidget) || '' : '';
+const reiniciarVerificacao = () => { if(window.turnstile && idWidget !== null) turnstile.reset(idWidget); };
+/* ---------- Sacola e dados salvos no navegador da cliente ---------- */
+const CHAVE_SACOLA = 'bella_sacola', CHAVE_DADOS = 'bella_dados';
+const CAMPOS_SALVOS = ['cliCep', 'cliRua', 'cliNum', 'cliComp', 'cliBairro', 'cliCidade', 'cliNome', 'cliEmail', 'cliTel']; // CPF não fica salvo
+function salvarCarrinho(){
+  try { localStorage.setItem(CHAVE_SACOLA, JSON.stringify({ salvo: Date.now(), itens: carrinho.map(({ ref, cor, tam, frase, qtd }) => ({ ref, cor, tam, frase, qtd })) })); } catch(e){}
+}
+function salvarDados(){
+  try { localStorage.setItem(CHAVE_DADOS, JSON.stringify(Object.fromEntries(CAMPOS_SALVOS.map(id => [id, $(id).value])))); } catch(e){}
+}
+function restaurarCarrinho(){
+  let s = null, d = null;
+  try { s = JSON.parse(localStorage.getItem(CHAVE_SACOLA) || 'null'); d = JSON.parse(localStorage.getItem(CHAVE_DADOS) || 'null'); } catch(e){}
+  if(d) CAMPOS_SALVOS.forEach(id => { if(d[id]) $(id).value = d[id]; });
+  if(d && d.cliRua) { $('camposEndereco').hidden = false; FRETE.cepBuscado = soNum(d.cliCep || ''); }
+  if(!s || !Array.isArray(s.itens) || Date.now() - s.salvo > 30 * 864e5) return;
+  let mudou = false;
+  for(const i of s.itens){
+    const p = produtos.find(x => x.ref === i.ref);
+    if(!p || !p.cores.includes(i.cor) || !tamanhosDisponiveis(p, i.cor).includes(i.tam)){ mudou = true; continue; }
+    const r = restante(i.ref, i.cor, i.tam);
+    if(r <= 0){ mudou = true; continue; }
+    const qtd = Math.min(Math.max(1, Math.floor(i.qtd) || 1), r);
+    if(qtd !== i.qtd) mudou = true;
+    carrinho.push({ ref: p.ref, nome: p.nome, cor: i.cor, tam: i.tam, frase: p.frases && p.frases.includes(i.frase) ? i.frase : (p.frases ? p.frases[0] : ''), qtd, preco: precoDe(p, i.tam) });
+  }
+  if(carrinho.length) toast(mudou ? 'Sua sacola foi recuperada — algumas peças mudaram por causa do estoque' : 'Sua sacola foi recuperada');
+}
+document.addEventListener('input', e => { if(CAMPOS_SALVOS.includes(e.target.id)) salvarDados(); });
 
-  if(delta > 0){
-    // Só pode aumentar se ainda houver estoque restante para esta combinação
-    // (considerando o que já está reservado pelo próprio item).
-    const restante = estoqueRestante(item.ref, item.cor, item.tamanho, idx);
-    if(restante !== Infinity && novaQtd > restante){
-      toast(`⚠️ Estoque disponível: ${restante} unidade${restante===1?'':'s'}.`);
+/* ---------- Cupom de desconto ---------- */
+const CHAVE_CUPOM = 'bella_cupom';
+const CUPOM = { codigo: '', info: null, erro: '', aberto: false, carregando: false, pendente: '' };
+const limparCodigo = v => String(v || '').toUpperCase().replace(/[^A-Z0-9_-]/g, '').slice(0, 30);
+function descontoCupom(){
+  if(!CUPOM.info || !CUPOM.info.desconto) return 0;
+  return Math.min(CUPOM.info.desconto, carrinho.reduce((s, i) => s + i.preco * i.qtd, 0));
+}
+const cupomDoPedido = () => CUPOM.info && !(CUPOM.info.freteGratis && TIPO_ENTREGA === 'retirada') ? CUPOM.codigo : '';
+function desenharCupom(){
+  const caixa = $('caixaCupom');
+  caixa.hidden = !temApi() || !carrinho.length;
+  if(caixa.hidden) return;
+  if(CUPOM.codigo && (CUPOM.info || CUPOM.erro)){
+    const ok = !!CUPOM.info;
+    let aviso = ok ? CUPOM.info.texto : CUPOM.erro;
+    if(ok && CUPOM.info.freteGratis && TIPO_ENTREGA === 'retirada') aviso = 'Cupom de frete grátis — não vale para retirada na loja';
+    caixa.innerHTML = `<div class="aplicado ${ok ? '' : 'invalido'}"><span>${ok ? '🏷' : '⚠'}</span><div><b>${esc(CUPOM.codigo)}</b><small>${esc(aviso)}${ok && CUPOM.info.primeiraCompra ? ' · só na primeira compra' : ''}</small></div><button type="button" onclick="removerCupom()">Remover</button></div>`;
+    return;
+  }
+  if(!CUPOM.aberto){ caixa.innerHTML = `<button type="button" class="abrir-cupom" onclick="CUPOM.aberto=true;desenharCupom();$('inpCupom').focus()">Tem um cupom de desconto?</button>`; return; }
+  if(!$('inpCupom')) caixa.innerHTML = `<div class="linha-cupom"><input id="inpCupom" placeholder="Código do cupom" value="${esc(CUPOM.pendente || '')}" autocomplete="off" autocapitalize="characters" maxlength="30"
+      onkeydown="if(event.key==='Enter'){event.preventDefault();conferirCupom(this.value)}"><button type="button" id="btnCupom" onclick="conferirCupom($('inpCupom').value)">Aplicar</button></div><div class="erro-cupom" id="erroCupom"></div>`;
+}
+async function conferirCupom(valor, silencioso){
+  const codigo = limparCodigo(valor);
+  if(!codigo){ if(!silencioso) toast('Digite o código do cupom'); return; }
+  if(!carrinho.length || CUPOM.carregando) return;
+  CUPOM.carregando = true;
+  const btn = $('btnCupom'); if(btn){ btn.disabled = true; btn.textContent = '...'; }
+  try {
+    const r = await fetch(API_URL + '/api/cupom', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ cupom: codigo, itens: carrinho.map(i => ({ ref: i.ref, tam: i.tam, qtd: i.qtd })) }) });
+    const d = await r.json().catch(() => ({}));
+    if(r.ok){
+      Object.assign(CUPOM, { codigo, info: d.cupom, erro: '' });
+      if(!silencioso) toast(`Cupom ${codigo} aplicado!`);
+    } else if(r.status === 400 && silencioso){
+      Object.assign(CUPOM, { codigo, info: null, erro: d.erro || 'Cupom inválido' });     // carrinho mudou e o cupom deixou de valer
+    } else if(r.status === 400){
+      const e = $('erroCupom'); if(e) e.textContent = d.erro || 'Cupom inválido';
       return;
-    }
+    } else throw new Error();
+    try { localStorage.setItem(CHAVE_CUPOM, codigo); } catch(e){}
+    // o desconto muda o valor para o frete grátis: recalcula
+    if(TIPO_ENTREGA === 'casa' && soNum($('cliCep').value).length === 8 && !silencioso){ FRETE.cotacao = null; calcularFrete(); }
+    mostrarValores();
+  } catch(e){ if(!silencioso) toast('Não conseguimos conferir o cupom agora. Tente de novo.'); }
+  finally { CUPOM.carregando = false; const b = $('btnCupom'); if(b){ b.disabled = false; b.textContent = 'Aplicar'; } }
+}
+function removerCupom(){
+  limparCupom(); CUPOM.aberto = true; $('caixaCupom').innerHTML = '';
+  if(TIPO_ENTREGA === 'casa' && soNum($('cliCep').value).length === 8){ FRETE.cotacao = null; calcularFrete(); }
+  mostrarValores();
+}
+function limparCupom(){
+  Object.assign(CUPOM, { codigo: '', info: null, erro: '', aberto: false });
+  try { localStorage.removeItem(CHAVE_CUPOM); } catch(e){}
+}
+function restaurarCupom(){
+  // cupom guardado no aparelho, ou vindo de um link: site.com/?cupom=BEMVINDA10
+  let c = ''; try { c = new URLSearchParams(location.search).get('cupom') || localStorage.getItem(CHAVE_CUPOM) || ''; } catch(e){}
+  c = limparCodigo(c);
+  if(!c || !temApi()) return;
+  CUPOM.codigo = c;
+  if(carrinho.length) conferirCupom(c, true);
+  else { CUPOM.codigo = ''; CUPOM.pendente = c; CUPOM.aberto = true; }
+}
+
+/* ---------- Frete (Melhor Envio, pela API da loja) ---------- */
+const FRETE = { cotacao: null, escolhido: '', assinatura: '', carregando: false };
+let RETIRADA = { ativa: false }, TIPO_ENTREGA = 'casa';
+function prepararRetirada(){
+  $('tipoEntrega').hidden = !RETIRADA.ativa;
+  if(!RETIRADA.ativa && TIPO_ENTREGA === 'retirada') TIPO_ENTREGA = 'casa';
+  $('infoRetirada').innerHTML = `<b>Retirar em</b>${RETIRADA.endereco || 'Endereço combinado pelo WhatsApp'}${RETIRADA.horario ? `<br><span style="color:#666">${RETIRADA.horario}</span>` : ''}<br><span style="color:#666">Avisamos pelo WhatsApp quando o pedido estiver separado.</span>`;
+  escolherTipoEntrega(TIPO_ENTREGA, true);
+}
+function escolherTipoEntrega(tipo, silencioso){
+  TIPO_ENTREGA = tipo;
+  document.querySelectorAll('input[name=tipoEnt]').forEach(i => i.checked = i.value === tipo);
+  $('blocoCasa').hidden = tipo === 'retirada';
+  $('infoRetirada').hidden = tipo !== 'retirada';
+  if(tipo === 'casa' && !silencioso && soNum($('cliCep').value).length === 8 && !FRETE.cotacao) calcularFrete();
+  montarPagamentos(); mostrarValores();
+}
+let ESTADOS_FRETE_GRATIS = ['SC', 'RS', 'PR'];
+const ORDEM_UF = ['SC', 'PR', 'RS'];
+const nomeEstados = l => (l = [...l].sort((a, b) => ((ORDEM_UF.indexOf(a) + 1) || 99) - ((ORDEM_UF.indexOf(b) + 1) || 99) || a.localeCompare(b))).length > 1 ? l.slice(0, -1).join(', ') + ' e ' + l[l.length - 1] : l.join('');
+function mostrarValores(){
+  const sub = carrinho.reduce((s, i) => s + i.preco * i.qtd, 0);
+  const desc = descontoCupom();
+  $('linhaDesconto').hidden = !desc;
+  if(desc){ $('rotDesconto').textContent = `Cupom ${CUPOM.codigo}`; $('valorDesconto').textContent = '− ' + brl(desc); }
+  desenharCupom();
+  if(TIPO_ENTREGA === 'retirada'){
+    $('subtotalCarrinho').textContent = brl(sub);
+    $('valorFrete').innerHTML = '<span style="color:#2f7d4a;font-weight:600">Retirada na loja</span>';
+    $('totalCarrinho').textContent = brl(sub - desc);
+    $('frete').className = 'frete ok'; $('frete').textContent = '✓ Sem frete: você retira na loja';
+    return;
   }
-
-  item.qtd = novaQtd;
-  renderizarCarrinhoModal();
-  atualizarTotal();
+  const c = FRETE.cotacao, op = c && c.opcoes.find(o => o.id === FRETE.escolhido);
+  $('subtotalCarrinho').textContent = brl(sub);
+  $('valorFrete').innerHTML = op ? (op.preco === 0 ? '<span class="gratis" style="color:#2f7d4a;font-weight:600">Grátis</span>' : brl(op.preco))
+    : c && !c.opcoes.length ? 'a combinar' : FRETE.carregando ? 'calculando…' : '<span style="color:#999">informe o CEP</span>';
+  $('totalCarrinho').textContent = brl(sub - desc + (op ? op.preco : 0));
+  const f = $('frete');
+  if(c && c.gratis && c.opcoes.some(o => o.cupom)){ f.className = 'frete ok'; f.textContent = `✓ Frete grátis com o cupom ${CUPOM.codigo}`; }
+  else if(c && c.gratis){ f.className = 'frete ok'; f.textContent = `✓ Você ganhou frete grátis (${c.uf})`; }
+  else if(!c && CUPOM.info && CUPOM.info.freteGratis){ f.className = 'frete ok'; f.textContent = `✓ Cupom de frete grátis aplicado — informe o CEP`; }
+  else if(c && c.regiaoGratis){ f.className = 'frete falta'; f.textContent = `Faltam ${brl(c.faltaParaGratis)} para ganhar frete grátis`; }
+  else if(c){ f.className = 'frete'; f.textContent = `Frete grátis para ${nomeEstados(ESTADOS_FRETE_GRATIS)} em pedidos a partir de ${brl(PEDIDO_MINIMO_FRETE)}`; }
+  else if(sub - desc >= PEDIDO_MINIMO_FRETE){ f.className = 'frete ok'; f.textContent = `✓ Frete grátis para ${nomeEstados(ESTADOS_FRETE_GRATIS)} — informe o CEP`; }
+  else { f.className = 'frete falta'; f.textContent = `Faltam ${brl(PEDIDO_MINIMO_FRETE - (sub - desc))} para o pedido mínimo e frete grátis (${nomeEstados(ESTADOS_FRETE_GRATIS)})`; }
+  const lista = $('opcoesFrete');
+  $('titFrete').hidden = !c;
+  if(!c){ lista.innerHTML = ''; return; }
+  lista.innerHTML = c.opcoes.length ? c.opcoes.map(o => `<label><input type="radio" name="opFrete" value="${esc(o.id)}" ${o.id === FRETE.escolhido ? 'checked' : ''} onchange="FRETE.escolhido=this.value;mostrarValores()">
+      <span class="nome">${o.gratis ? 'Frete grátis' : esc([o.empresa, o.nome].filter(Boolean).join(' '))}<small>${o.gratis && o.empresa ? esc(o.empresa + ' ' + o.nome) + ' · ' : ''}${o.prazo ? `até ${o.prazo} dia${o.prazo === 1 ? '' : 's'} úteis` : ''}</small></span>
+      <span class="preco ${o.preco === 0 ? 'gratis' : ''}">${o.preco === 0 ? 'Grátis' : brl(o.preco)}</span></label>`).join('')
+    : `<div class="aviso-frete">Não conseguimos calcular o frete agora. Ele será combinado com você pelo WhatsApp.</div>`;
 }
-function removerItem(idx){
-  carrinho.splice(idx, 1);
-  renderizarCarrinhoModal();
-  atualizarTotal();
+function digitouCep(el){
+  let v = soNum(el.value).slice(0, 8);
+  el.value = v.length > 5 ? v.slice(0, 5) + '-' + v.slice(5) : v;
+  if(v.length === 8 && v !== FRETE.cepBuscado) calcularFrete();
 }
-
-// Valor mínimo do pedido que já garante frete grátis (ver cards de condições no topo do site).
-const VALOR_FRETE_GRATIS = 300;
-
-function atualizarTotalModal(){
-  const total = carrinho.reduce((s,i)=>s+i.preco*i.qtd,0);
-  const el = document.getElementById('totalCarrinhoValor');
-  if(el) el.innerText = `R$ ${total.toFixed(2).replace('.',',')}`;
-
-  const freteEl = document.getElementById('freteInfo');
-  if(freteEl){
-    if(carrinho.length === 0){
-      freteEl.innerText = '';
-      freteEl.className = 'frete-info';
-    } else if(total >= VALOR_FRETE_GRATIS){
-      freteEl.innerText = '✅ Frete grátis para Santa Catarina (pedido acima de R$ 300,00)';
-      freteEl.className = 'frete-info gratis';
-    } else {
-      const faltam = VALOR_FRETE_GRATIS - total;
-      freteEl.innerText = `Faltam R$ ${faltam.toFixed(2).replace('.',',')} para o frete grátis`;
-      freteEl.className = 'frete-info pendente';
-    }
-  }
+async function buscarEndereco(cep){
+  if(FRETE.cepBuscado === cep) return; FRETE.cepBuscado = cep;
+  $('camposEndereco').hidden = false;
+  try {
+    const r = await fetch(`https://viacep.com.br/ws/${cep}/json/`).then(r => r.json());
+    if(r.erro){ toast('CEP não encontrado. Confira o número.'); return; }
+    if(r.logradouro) $('cliRua').value = r.logradouro;
+    if(r.bairro) $('cliBairro').value = r.bairro;
+    $('cliCidade').value = `${r.localidade} / ${r.uf}`;
+    salvarDados();
+    (r.logradouro ? $('cliNum') : $('cliRua')).focus();
+  } catch(e){ /* sem internet para o ViaCEP: a cliente digita o endereço */ }
 }
-
-function atualizarTotal(){
-  const total = carrinho.reduce((s,i)=>s+i.preco*i.qtd,0);
-  document.getElementById('cartLabel').innerText = `Fechar Pedido — R$ ${total.toFixed(2).replace('.',',')}`;
-  atualizarTotalModal();
+async function calcularFrete(avisar){
+  const cep = soNum($('cliCep').value);
+  if(cep.length !== 8){ if(avisar) toast('Digite o CEP com 8 números'); return; }
+  buscarEndereco(cep);
+  if(!carrinho.length) return;
+  if(!temApi()){ FRETE.cotacao = { opcoes: [] }; mostrarValores(); return; }
+  FRETE.carregando = true; mostrarValores();
+  try {
+    const r = await fetch(API_URL + '/api/frete', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ cep, cupom: CUPOM.codigo, itens: carrinho.map(i => ({ ref: i.ref, cor: i.cor, tam: i.tam, qtd: i.qtd })) }) });
+    const d = await r.json();
+    if(!r.ok) throw new Error(d.erro);
+    if(CUPOM.codigo){ CUPOM.info = d.cupom || null; CUPOM.erro = d.cupomErro || ''; }
+    const anterior = FRETE.escolhido;
+    FRETE.cotacao = d;
+    FRETE.escolhido = d.opcoes.find(o => o.id === anterior) ? anterior : (d.opcoes[0] ? d.opcoes[0].id : '');
+  } catch(e){ FRETE.cotacao = { opcoes: [] }; if(e.message) toast(e.message); }
+  finally { FRETE.carregando = false; mostrarValores(); montarPagamentos(); }
 }
-
-function toast(msg){
-  const t = document.getElementById('toast');
-  t.innerText = msg;
-  t.classList.add('mostrar');
-  setTimeout(()=>t.classList.remove('mostrar'),2000);
+function dadosEntrega(){
+  if(TIPO_ENTREGA === 'retirada') return { tipo: 'retirada' };
+  return { tipo: 'casa', cep: soNum($('cliCep').value), rua: $('cliRua').value.trim(), numero: $('cliNum').value.trim(), complemento: $('cliComp').value.trim(),
+    bairro: $('cliBairro').value.trim(), cidade: $('cliCidade').value.split('/')[0].trim(), uf: ($('cliCidade').value.split('/')[1] || '').trim(), servico: FRETE.escolhido };
 }
-
-function limparDoc(doc){
-  return doc.replace(/[^\d]/g, '');
+function conferirEntrega(){
+  const e = dadosEntrega();
+  if(e.tipo === 'retirada') return e;
+  if(e.cep.length !== 8){ toast('Informe o CEP de entrega'); $('cliCep').focus(); return null; }
+  if(!e.rua || !e.bairro || !e.cidade){ $('camposEndereco').hidden = false; toast('Preencha o endereço de entrega'); return null; }
+  if(!e.numero){ toast('Informe o número do endereço'); $('cliNum').focus(); return null; }
+  if(FRETE.carregando){ toast('Calculando o frete, só um instante…'); return null; }
+  if(!FRETE.cotacao){ calcularFrete(); toast('Calculando o frete, confira e envie de novo'); return null; }
+  if(FRETE.cotacao.opcoes.length && !FRETE.escolhido){ toast('Escolha a forma de entrega'); return null; }
+  return e;
 }
+const enderecoTexto = e => e.tipo === 'retirada' ? `Retirada na loja${RETIRADA.endereco ? ' — ' + RETIRADA.endereco : ''}` : `${e.rua}, ${e.numero}${e.complemento ? ' - ' + e.complemento : ''} - ${e.bairro} - ${e.cidade}${e.uf ? '/' + e.uf : ''} - CEP ${e.cep.slice(0, 5)}-${e.cep.slice(5)}`;
 
-function validarCPF(cpf){
-  cpf = limparDoc(cpf);
-  if(cpf.length !== 11 || /^(\d)\1{10}$/.test(cpf)) return false;
-
-  let soma = 0;
-  for(let i=0;i<9;i++) soma += parseInt(cpf[i]) * (10-i);
-  let resto = (soma*10) % 11;
-  if(resto === 10) resto = 0;
-  if(resto !== parseInt(cpf[9])) return false;
-
-  soma = 0;
-  for(let i=0;i<10;i++) soma += parseInt(cpf[i]) * (11-i);
-  resto = (soma*10) % 11;
-  if(resto === 10) resto = 0;
-  if(resto !== parseInt(cpf[10])) return false;
-
+/* ---------- Pagamento online (InfinitePay ou Mercado Pago) ---------- */
+let PAGAMENTO_ONLINE = false, PROVEDOR = '', ACEITA_BOLETO = true;
+const NOME_PROVEDOR = { infinitepay: 'InfinitePay', mercadopago: 'Mercado Pago' };
+const NOMES_PAGAMENTO = { online: 'Pagar online (Pix ou cartão)', dinheiro: 'Dinheiro na retirada', whatsapp: 'Combinar pelo WhatsApp' };
+function montarPagamentos(){
+  const ops = [];
+  // Frete não pôde ser calculado agora: sem pagamento online (o valor não estaria completo) — combina pelo WhatsApp
+  const semFrete = TIPO_ENTREGA === 'casa' && FRETE.cotacao && !FRETE.cotacao.opcoes.length;
+  if(PAGAMENTO_ONLINE && !semFrete) ops.push({ v: 'online', t: 'Pagar agora online', s: PROVEDOR === 'mercadopago' && ACEITA_BOLETO ? 'Pix, cartão ou boleto' : 'Pix ou cartão de crédito' });
+  if(TIPO_ENTREGA === 'retirada') ops.push({ v: 'dinheiro', t: 'Dinheiro na retirada', s: 'Você paga quando buscar o pedido' });
+  if(!PAGAMENTO_ONLINE || semFrete) ops.push({ v: 'whatsapp', t: 'Combinar o pagamento pelo WhatsApp', s: 'A loja te passa as formas de pagamento' });
+  const atual = $('cliPag').value;
+  $('cliPag').value = ops.some(o => o.v === atual) ? atual : (ops.length === 1 ? ops[0].v : '');
+  $('opcoesPag').innerHTML = ops.map(o => `<label><input type="radio" name="opPag" value="${o.v}" ${o.v === $('cliPag').value ? 'checked' : ''} onchange="$('cliPag').value=this.value;ajustarBotaoPedido()">
+    <span class="nome">${o.t}<small>${o.s}</small></span></label>`).join('');
+  ajustarBotaoPedido();
+}
+function ajustarBotaoPedido(){
+  const online = PASSO === 3 && $('cliPag').value === 'online';
+  $('btnPedido').textContent = PASSO === 1 ? 'Continuar para a entrega' : PASSO === 2 ? 'Continuar para o pagamento'
+    : online ? 'Ir para o pagamento' : 'Enviar pedido no WhatsApp';
+  $('btnPedido').classList.toggle('online', online);
+  $('btnPedido').classList.toggle('seguir', PASSO < 3);
+  $('notaPag').hidden = !online;
+}
+function prepararPagamentoOnline(){
+  montarPagamentos();
+  $('notaPag').innerHTML = `Você será levada para a página segura da <b>${NOME_PROVEDOR[PROVEDOR] || 'empresa de pagamento'}</b>. Os dados do cartão são digitados lá, não neste site.`;
+  ajustarBotaoPedido();
+}
+const enderecoDeVolta = () => /^https?:/.test(location.protocol) ? location.href.split('#')[0].split('?')[0] : '';
+async function irParaPagamento(dadosPedido){
+  const botao = $('btnPedido');
+  botao.textContent = 'Abrindo o pagamento...'; botao.disabled = true;
+  const r = await fetch(API_URL + '/api/pedidos', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ ...dadosPedido, pagamento: 'online', retorno: enderecoDeVolta() }) }).catch(() => null);
+  if(!r){ toast('Sem conexão com a loja agora. Tente de novo ou escolha combinar pelo WhatsApp.'); return false; }
+  const dados = await r.json().catch(() => ({}));
+  if(!r.ok || !dados.pagamento_url){ toast(dados.erro || 'Não foi possível abrir o pagamento.'); reiniciarVerificacao(); if(r.status === 409) calcularFrete(); if(/cupom/i.test(dados.erro || '')){ CUPOM.info = null; CUPOM.erro = dados.erro; mostrarValores(); } return false; }
+  try { localStorage.setItem('bella_ultimo_pedido', JSON.stringify({ codigo: dados.codigo, t: dados.t })); } catch(e){}
+  limparCupom(); carrinho.length = 0; atualizarCarrinho();
+  if(!linkPagamentoOk(dados.pagamento_url)){ toast('Não foi possível abrir o pagamento.'); return false; }
+  location.href = dados.pagamento_url;             // página segura da empresa de pagamento
   return true;
 }
-
-function validarCNPJ(cnpj){
-  cnpj = limparDoc(cnpj);
-  if(cnpj.length !== 14 || /^(\d)\1{13}$/.test(cnpj)) return false;
-
-  let tamanho = 12;
-  let numeros = cnpj.substring(0, tamanho);
-  let digitos = cnpj.substring(tamanho);
-  let soma = 0;
-  let pos = tamanho - 7;
-
-  for(let i=tamanho; i>=1; i--){
-    soma += numeros.charAt(tamanho-i) * pos--;
-    if(pos < 2) pos = 9;
-  }
-  let resultado = soma % 11 < 2 ? 0 : 11 - (soma % 11);
-  if(resultado !== parseInt(digitos.charAt(0))) return false;
-
-  tamanho = 13;
-  numeros = cnpj.substring(0, tamanho);
-  soma = 0;
-  pos = tamanho - 7;
-  for(let i=tamanho; i>=1; i--){
-    soma += numeros.charAt(tamanho-i) * pos--;
-    if(pos < 2) pos = 9;
-  }
-  resultado = soma % 11 < 2 ? 0 : 11 - (soma % 11);
-  if(resultado !== parseInt(digitos.charAt(1))) return false;
-
-  return true;
+function fecharAviso(){ $('aviso').classList.remove('on'); $('avisoFundo').classList.remove('on'); }
+function mostrarAviso(html){ $('aviso').innerHTML = html; $('aviso').classList.add('on'); $('avisoFundo').classList.add('on'); }
+function linkWhatsLoja(msg){ return `https://api.whatsapp.com/send?phone=${WHATSAPP_LOJISTA}&text=${encodeURIComponent(msg)}`; }
+// Só segue para endereços seguros (https) — localhost só em testes no computador
+const linkPagamentoOk = u => /^https:\/\//.test(u || '') || /^http:\/\/localhost[:/]/.test(u || '');
+async function pagarNovamente(codigo, t){
+  if(!/^BMI-\d{1,8}$/.test(codigo) || !/^[A-Za-z0-9_-]{10,64}$/.test(t)) return;
+  const r = await fetch(`${API_URL}/api/pedidos/${codigo}/pagar`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ t, retorno: enderecoDeVolta() }) }).catch(() => null);
+  const d = r ? await r.json().catch(() => ({})) : {};
+  if(r && r.ok && linkPagamentoOk(d.pagamento_url)){ location.href = d.pagamento_url; return; }
+  toast(d.erro || 'Não foi possível abrir o pagamento agora.');
 }
-
-function validarDocumento(doc){
-  const limpo = limparDoc(doc);
-  if(limpo.length === 11) return validarCPF(limpo);
-  if(limpo.length === 14) return validarCNPJ(limpo);
-  return false;
-}
-
-function formatarDocumento(input){
-  let v = limparDoc(input.value);
-  if(v.length <= 11){
-    v = v.replace(/(\d{3})(\d)/,'$1.$2');
-    v = v.replace(/(\d{3})(\d)/,'$1.$2');
-    v = v.replace(/(\d{3})(\d{1,2})$/,'$1-$2');
+// Quando a cliente volta do Mercado Pago: ?pedido=BMI-0001&t=...  (a situação vem do servidor, não do endereço)
+async function verificarVoltaDoPagamento(){
+  const q = new URLSearchParams(location.search);
+  const codigo = q.get('pedido'), t = q.get('t');
+  if(!codigo || !t || !temApi()) return;
+  history.replaceState(null, '', location.pathname + location.hash);
+  if(!/^BMI-\d{1,8}$/.test(codigo) || !/^[A-Za-z0-9_-]{10,64}$/.test(t)) return;     // link adulterado: ignora
+  const disse = q.get('collection_status') || q.get('status') || (q.get('transaction_nsu') ? 'approved' : '');
+  // InfinitePay devolve estes dados na volta: o servidor confere direto com eles
+  const extra = ['transaction_nsu', 'slug'].filter(k => q.get(k)).map(k => `&${k}=${encodeURIComponent(q.get(k).slice(0, 120))}`).join('');
+  mostrarAviso(`<div class="icone espera">⏳</div><h3>Conferindo seu pagamento…</h3><p>Só um instante.</p>`);
+  let s = null;
+  for(let tentativa = 0; tentativa < 6; tentativa++){      // o aviso do Mercado Pago pode chegar uns segundos depois
+    const r = await fetch(`${API_URL}/api/pedidos/${encodeURIComponent(codigo)}/situacao?t=${encodeURIComponent(t)}${extra}`).catch(() => null);
+    if(r && r.ok) s = await r.json();
+    if(!s || s.pagamento_status === 'aprovado' || disse !== 'approved') break;
+    await new Promise(ok => setTimeout(ok, 2000));
+  }
+  if(!s){ mostrarAviso(`<div class="icone erro">!</div><h3>Não encontramos o pedido</h3><p>Se você pagou, fale com a loja pelo WhatsApp informando o código <b>${esc(codigo)}</b>.</p><div class="acoes"><a class="btn verde" target="_blank" href="${linkWhatsLoja('Olá! Fiz o pedido ' + codigo + ' pelo site.')}">Falar com a loja</a><button class="btn claro" onclick="fecharAviso()">Fechar</button></div>`); return; }
+  const cod = `<div class="cod">Pedido <b>${esc(s.codigo)}</b> · ${brl(s.total)}${s.pagamento_metodo ? ' · ' + esc(s.pagamento_metodo) : ''}</div>`;
+  const whats = (txt) => `<a class="btn verde" target="_blank" href="${linkWhatsLoja(txt)}">Falar com a loja no WhatsApp</a>`;
+  const continuar = `<button class="btn claro" onclick="fecharAviso()">Continuar comprando</button>`;
+  const pagar = `<button class="btn" onclick="pagarNovamente('${esc(codigo)}','${esc(t)}')">Tentar pagar de novo</button>`;
+  if(s.pagamento_status === 'aprovado'){
+    mostrarAviso(`<div class="icone ok">✓</div><h3>Pagamento aprovado!</h3><p>Obrigada, ${esc(s.nome)}! Já recebemos seu pagamento e vamos separar suas peças.</p>${/combinar/i.test(s.frete) ? '<p>O frete será combinado com você pelo WhatsApp.</p>' : ''}${cod}<div class="acoes">${whats(`Olá! Fiz o pedido ${s.codigo} pelo site e o pagamento foi aprovado.`)}${continuar}</div>`);
+  } else if(s.status === 'cancelado'){
+    mostrarAviso(`<div class="icone erro">×</div><h3>Pedido cancelado</h3><p>Este pedido passou do prazo de pagamento. Você pode fazer um novo pedido pelo site.</p>${cod}<div class="acoes">${continuar}</div>`);
+  } else if(s.pagamento_status === 'pendente'){
+    mostrarAviso(`<div class="icone espera">⏳</div><h3>Pagamento em processamento</h3><p>Se você pagou com Pix ou boleto, a confirmação pode levar alguns minutos (boleto: até 3 dias úteis). Assim que cair, a loja confirma seu pedido.</p>${cod}<div class="acoes">${whats(`Olá! Fiz o pedido ${s.codigo} pelo site e o pagamento está em processamento.`)}${continuar}</div>`);
   } else {
-    v = v.replace(/^(\d{2})(\d)/,'$1.$2');
-    v = v.replace(/^(\d{2})\.(\d{3})(\d)/,'$1.$2.$3');
-    v = v.replace(/\.(\d{3})(\d)/,'.$1/$2');
-    v = v.replace(/(\d{4})(\d)/,'$1-$2');
+    mostrarAviso(`<div class="icone erro">!</div><h3>Pagamento não concluído</h3><p>Seu pedido ficou guardado. Você pode tentar pagar de novo com outra forma de pagamento.</p>${cod}<div class="acoes">${pagar}${whats(`Olá! Tive problema para pagar o pedido ${s.codigo}.`)}${continuar}</div>`);
   }
-  input.value = v;
 }
 
-function validarEmail(email){
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-}
+async function finalizarPedido(){
+  if(enviando) return;
+  if(!carrinho.length){ toast('Seu pedido está vazio'); return; }
+  const somas = {};
+  carrinho.forEach(i => { const c = i.ref + '|' + i.cor + '|' + i.tam; somas[c] = (somas[c] || 0) + i.qtd; });
+  for(const i of carrinho){
+    const t = estoqueTotal(i.ref, i.cor, i.tam);
+    if(!i.tam){ toast(`${i.nome}: escolha o tamanho`); return; }
+    if(somas[i.ref + '|' + i.cor + '|' + i.tam] > t){ toast(`Estoque insuficiente: ${i.nome} ${i.cor}/${i.tam} (disponível: ${t})`); return; }
+  }
+  const nome = $('cliNome').value.trim(), doc = $('cliDoc').value.trim(), email = $('cliEmail').value.trim(), tel = $('cliTel').value.trim(), pag = $('cliPag').value;
+  if(nome.length < 3){ toast('Digite seu nome completo'); return; }
+  const d = soNum(doc);
+  if(!(d.length === 11 ? validarCPF(d) : d.length === 14 ? validarCNPJ(d) : false)){ toast('CPF ou CNPJ inválido'); return; }
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ toast('E-mail inválido'); return; }
+  if(soNum(tel).length < 10){ toast('Informe seu WhatsApp com DDD'); return; }
+  if(!pag){ toast('Escolha a forma de pagamento'); return; }
+  const entrega = conferirEntrega(); if(!entrega) return;
 
-// Revalida o estoque de TODAS as combinações do carrinho antes de enviar o
-// pedido, somando quantidades quando a mesma combinação aparece mais de uma vez.
-function validarEstoqueCarrinhoFinal(){
-  const grupos = {};
-  carrinho.forEach(item=>{
-    const chave = `${item.ref}||${item.cor}||${item.tamanho}`;
-    if(!grupos[chave]) grupos[chave] = { ref:item.ref, nome:item.nome, cor:item.cor, tamanho:item.tamanho, qtd:0 };
-    grupos[chave].qtd += item.qtd;
-  });
+  if(pag === 'online'){
+    if(!temApi() || !PAGAMENTO_ONLINE){ toast('O pagamento online está indisponível agora. Escolha outra forma.'); return; }
+    enviando = true;
+    let ok = false;
+    try {
+      ok = await irParaPagamento({ cliente: { nome, doc, email, telefone: tel }, entrega, cupom: cupomDoPedido(),
+        site: $('cliSite').value, tempo: Date.now() - INICIO_PAGINA, turnstile: tokenVerificacao(),
+        itens: carrinho.map(i => ({ ref: i.ref, cor: i.cor, tam: i.tam, frase: i.frase, qtd: i.qtd })) });
+    } finally { if(!ok){ enviando = false; ajustarBotaoPedido(); $('btnPedido').disabled = false; } }   // ok: a página está indo para o Mercado Pago
+    return;
+  }
 
-  for(const chave in grupos){
-    const g = grupos[chave];
-    const total = estoqueTotalCombinacao(g.ref, g.cor, g.tamanho);
-    if(total !== Infinity && g.qtd > total){
-      return { ok:false, ...g, disponivel: total };
+  // Abre a aba do WhatsApp já agora (senão o navegador bloqueia por ser "pop-up")
+  const janela = window.open('', '_blank');
+  enviando = true;
+  const botao = $('btnPedido'); const textoBotao = botao.textContent;
+  botao.textContent = 'Enviando pedido...'; botao.disabled = true;
+
+  let itens = carrinho.map(i => ({ ...i })), total = carrinho.reduce((s, i) => s + i.preco * i.qtd, 0), codigo = '';
+  const opFrete = entrega.tipo !== 'retirada' && FRETE.cotacao && FRETE.cotacao.opcoes.find(o => o.id === FRETE.escolhido);
+  let frete = entrega.tipo === 'retirada' ? 'Retirada na loja' : opFrete ? `${opFrete.gratis ? 'Frete grátis — ' : ''}${[opFrete.empresa, opFrete.nome].filter(Boolean).join(' ')}${opFrete.preco ? ' — ' + brl(opFrete.preco) : ''}` : 'A combinar';
+  if(opFrete) total += opFrete.preco;
+  let desconto = descontoCupom(), cupomUsado = cupomDoPedido();
+  total -= desconto;
+  try {
+    if(temApi()){
+      // Registra o pedido no painel (o servidor confere preço e estoque)
+      const r = await fetch(API_URL + '/api/pedidos', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ cliente: { nome, doc, email, telefone: tel }, pagamento: pag, entrega, cupom: cupomDoPedido(),
+          site: $('cliSite').value, tempo: Date.now() - INICIO_PAGINA, turnstile: tokenVerificacao(),
+          itens: carrinho.map(i => ({ ref: i.ref, cor: i.cor, tam: i.tam, frase: i.frase, qtd: i.qtd })) }) })
+        .catch(() => null); // sem internet/API fora do ar: segue só pelo WhatsApp
+      if(r){
+        const dados = await r.json().catch(() => ({}));
+        if(!r.ok){ if(janela) janela.close(); toast(dados.erro || 'Não foi possível registrar o pedido.'); reiniciarVerificacao(); if(r.status === 409) calcularFrete(); if(/cupom/i.test(dados.erro || '')){ CUPOM.info = null; CUPOM.erro = dados.erro; mostrarValores(); } return; }
+        codigo = dados.codigo; total = dados.total; desconto = dados.desconto || 0; cupomUsado = dados.cupom || '';
+        frete = dados.frete;
+        itens = dados.itens.map(i => ({ ...i, tam: i.tam }));
+        // desconta da tela o que acabou de ser vendido
+        dados.itens.forEach(i => { const e = estoquePorCorTamanho[i.ref]; if(e && e[i.cor] && e[i.cor][i.tam] !== undefined) e[i.cor][i.tam] = Math.max(0, e[i.cor][i.tam] - i.qtd); });
+      }
     }
+    let msg = `*Novo Pedido - Bella Moda Íntima* 🛒\n${codigo ? `*Pedido:* ${codigo}\n` : ''}\n*Cliente:* ${nome}\n*CPF/CNPJ:* ${doc}\n*E-mail:* ${email}\n*WhatsApp:* ${tel}\n*Pagamento:* ${NOMES_PAGAMENTO[pag] || pag}\n*Entrega:* ${enderecoTexto(entrega)}\n*Frete:* ${frete}\n\n━━━━━━━━━━━━━━━━\n`;
+    itens.forEach(i => { msg += `${i.qtd}x ${i.nome} (Ref ${i.ref})\n   Cor: ${i.cor} | Tam: ${i.tam}${i.frase ? ' | Frase: ' + i.frase : ''}\n   ${brl(i.preco * i.qtd)}\n\n`; });
+    if(cupomUsado) msg += `*Cupom:* ${cupomUsado}${desconto ? ` (− ${brl(desconto)})` : ' (frete grátis)'}\n`;
+    msg += `━━━━━━━━━━━━━━━━\n*Total: ${brl(total)}*`;
+    const url = `https://api.whatsapp.com/send?phone=${WHATSAPP_LOJISTA}&text=${encodeURIComponent(msg)}`;
+    if(janela) janela.location.href = url; else window.location.href = url;
+    reiniciarVerificacao();
+    if(codigo){ limparCupom(); carrinho.length = 0; FRETE.cotacao = null; irPasso(1, true); atualizarCarrinho(); fecharTudo(); renderCatalogo(); toast(`Pedido ${codigo} registrado! Finalize a conversa no WhatsApp.`); }
+  } finally {
+    enviando = false; botao.textContent = textoBotao; botao.disabled = false;
   }
-  return { ok:true };
 }
 
-function finalizarPedido(){
-  if(carrinho.length===0){ toast("❌ Carrinho vazio!"); return; }
+function toast(m){ const t = $('toast'); t.textContent = m; t.classList.add('on'); clearTimeout(toast._t); toast._t = setTimeout(() => t.classList.remove('on'), 2600); }
 
-  const validacao = validarEstoqueCarrinhoFinal();
-  if(!validacao.ok){
-    toast(`⚠️ Estoque insuficiente: ${validacao.nome} / ${validacao.cor} / ${validacao.tamanho} — Solicitado: ${validacao.qtd}, Disponível: ${validacao.disponivel}`);
-    return;
-  }
-
-  const nome = document.getElementById('clienteNome').value.trim();
-  const doc = document.getElementById('clienteDoc').value.trim();
-  const email = document.getElementById('clienteEmail').value.trim();
-  const pagamento = document.getElementById('clientePagamento').value;
-
-  if(!nome || !doc || !email){
-    toast("⚠️ Preencha nome, CPF/CNPJ e e-mail!");
-    return;
-  }
-
-  if(nome.length < 3){
-    toast("⚠️ Digite um nome válido!");
-    return;
-  }
-
-  if(!validarDocumento(doc)){
-    toast("⚠️ CPF/CNPJ inválido!");
-    return;
-  }
-
-  if(!validarEmail(email)){
-    toast("⚠️ E-mail inválido!");
-    return;
-  }
-
-  if(!pagamento){
-    toast("⚠️ Selecione a forma de pagamento!");
-    return;
-  }
-
-  let total = 0;
-  carrinho.forEach(i=>{ total += i.preco*i.qtd; });
-  const freteGratis = total >= VALOR_FRETE_GRATIS;
-  const freteTexto = freteGratis
-    ? 'Frete grátis para Santa Catarina (pedido acima de R$ 300,00)'
-    : `Frete a combinar (faltaram R$ ${(VALOR_FRETE_GRATIS-total).toFixed(2).replace('.',',')} para o frete grátis)`;
-
-  let texto = `*Novo Pedido - Bella Moda Íntima* 🛒\n\n`;
-  texto += `*Cliente:* ${nome}\n*CPF/CNPJ:* ${doc}\n*E-mail:* ${email}\n`;
-  texto += `*Forma de pagamento:* ${pagamento}\n*Frete:* ${freteTexto}\n\n`;
-  texto += `━━━━━━━━━━━━━━━━\n`;
-
-  carrinho.forEach(i=>{
-    texto += `${i.qtd}x ${i.nome} (Ref ${i.ref})\n   Cor: ${i.cor} | Tam: ${i.tamanho}${i.frase ? ' | Frase: '+i.frase : ''}\n   R$ ${(i.preco*i.qtd).toFixed(2)}\n\n`;
-  });
-
-  texto += `━━━━━━━━━━━━━━━━\n*Total: R$ ${total.toFixed(2)}*`;
-
-  window.open(`https://api.whatsapp.com/send?phone=${WHATSAPP_LOJISTA}&text=${encodeURIComponent(texto)}`, '_blank');
+/* ---------- Segurança: textos vindos de fora nunca viram código na página ---------- */
+const esc = v => String(v ?? '').replace(/[&<>"'`]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;', '`': '&#96;' }[c]));
+// Limpa tudo que vem da API (nomes, cores, banners...): tira os caracteres que poderiam virar código
+// (só o negrito <b>…</b> dos banners é mantido)
+const limparTexto = t => t.replace(/<b>/gi, '\uE000').replace(/<\/b>/gi, '\uE001').replace(/[<>`"\\]/g, '').replace(/'/g, '’')
+  .replace(/\uE000/g, '<b>').replace(/\uE001/g, '</b>');
+function limparDados(v){
+  if(typeof v === 'string') return limparTexto(v);
+  if(Array.isArray(v)) return v.map(limparDados);
+  if(v && typeof v === 'object') return Object.fromEntries(Object.entries(v).map(([k, x]) => [limparTexto(k), limparDados(x)]));
+  return v;
 }
 
+/* ---------- Dados do painel (API) ---------- */
+function trocarConteudo(alvo, novo){            // troca o conteúdo mantendo o mesmo objeto/lista
+  if(Array.isArray(alvo)){ alvo.length = 0; alvo.push(...novo); return; }
+  Object.keys(alvo).forEach(k => delete alvo[k]); Object.assign(alvo, novo);
+}
+async function carregarDoPainel(){
+  if(!temApi()) return false;
+  const ctrl = new AbortController(); const limite = setTimeout(() => ctrl.abort(), 5000);
+  try {
+    const r = await fetch(API_URL + '/api/catalogo', { signal: ctrl.signal });
+    if(!r.ok) throw new Error('API ' + r.status);
+    const d = limparDados(await r.json());
+    trocarConteudo(produtos, d.produtos);
+    trocarConteudo(estoquePorCorTamanho, d.estoque);
+    const c = d.config || {};
+    if(c.vitrine) trocarConteudo(VITRINE, c.vitrine);
+    if(c.banners) trocarConteudo(BANNERS, c.banners);
+    if(c.fotos_categorias) trocarConteudo(FOTOS_CATEGORIAS, c.fotos_categorias);
+    if(c.categorias) trocarConteudo(CATEGORIAS, c.categorias);
+    if(c.loja){ if(c.loja.whatsapp) WHATSAPP_LOJISTA = String(c.loja.whatsapp).replace(/\D/g, ''); if(c.loja.pedido_minimo_frete) PEDIDO_MINIMO_FRETE = c.loja.pedido_minimo_frete;
+                TURNSTILE_SITE_KEY = c.loja.turnstile_site_key || ''; PAGAMENTO_ONLINE = !!c.loja.pagamento_online; PROVEDOR = c.loja.provedor_pagamento || ''; ACEITA_BOLETO = c.loja.aceita_boleto !== false; }
+    if(c.frete && Array.isArray(c.frete.estados_gratis)) ESTADOS_FRETE_GRATIS = c.frete.estados_gratis;
+    if(c.loja && c.loja.retirada) RETIRADA = c.loja.retirada;
+    return true;
+  } catch(e){ console.warn('Usando os dados guardados no site (API indisponível):', e.message); return false; }
+  finally { clearTimeout(limite); }
+}
 
-renderizarFiltros();
-renderizar();
+/* ---------- Início ---------- */
+(async () => {
+  await carregarDoPainel();
+  montarBanner();
+  montarCategorias();
+  iniciarCats();
+  montarDestaques();
+  iniciarVitrine();
+  montarAbas();
+  renderCatalogo();
+  document.querySelectorAll('.txt-estados').forEach(e => e.textContent = nomeEstados(ESTADOS_FRETE_GRATIS));
+  document.querySelectorAll('.txt-minimo').forEach(e => e.textContent = brl(PEDIDO_MINIMO_FRETE));
+  restaurarCarrinho();
+  restaurarCupom();
+  atualizarCarrinho();
+  prepararPagamentoOnline();
+  prepararRetirada();
+  verificarVoltaDoPagamento();
+})();
 </script>
 </body>
 </html>
