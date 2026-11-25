@@ -1190,6 +1190,17 @@ function montarBanner(){
     + `<div class="pontos">${BANNERS.map((_, i) => `<i class="${i ? '' : 'on'}" onclick="irSlide(${i})"></i>`).join('')}</div>` : '');
   reiniciarBanner();
 }
+// Passar o banner com o dedo (celular)
+(function(){
+  let x0 = null, y0 = 0;
+  const b = document.getElementById('banner');
+  b.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; }, { passive: true });
+  b.addEventListener('touchend', e => {
+    if(x0 === null) return;
+    const dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0; x0 = null;
+    if(Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) irSlide(slide + (dx < 0 ? 1 : -1));
+  }, { passive: true });
+})();
 function irSlide(n){
   const s = document.querySelectorAll('.slide'), d = document.querySelectorAll('.pontos i');
   if(!s.length) return;
@@ -1328,7 +1339,7 @@ async function abrirProduto(ref){
   const corInicial = p.cores.find(c => tamanhosDisponiveis(p, c).length) || p.cores[0];
   sel = { p, cor: corInicial, tam: '', frase: '', qtd: 1, fotos: [caminhosFoto(ref,1)[0]], idx: 0 };
   desenharJanela();
-  $('fundo').classList.add('on'); $('janela').classList.add('on');
+  $('fundo').classList.add('on'); $('janela').classList.add('on'); marcarCamada();
   const fotos = await galeria(ref);
   if(sel && sel.p.ref === ref){ sel.fotos = fotos; desenharJanela(); }
 }
@@ -1445,7 +1456,7 @@ function mudarItem(k, campo, valor){
   atualizarCarrinho();
 }
 function removerItem(k){ carrinho.splice(k, 1); atualizarCarrinho(); }
-function abrirCarrinho(){ prepararVerificacao(); irPasso(1, true); atualizarCarrinho(); $('fundo').classList.add('on'); $('gaveta').classList.add('on'); }
+function abrirCarrinho(){ prepararVerificacao(); irPasso(1, true); atualizarCarrinho(); ['janela','conta'].forEach(id => $(id).classList.remove('on')); $('fundo').classList.add('on'); $('gaveta').classList.add('on'); marcarCamada(); }
 
 /* ---------- Etapas do pedido: Sacola → Entrega → Pagamento ---------- */
 let PASSO = 1;
@@ -1488,7 +1499,20 @@ function mostrarResumoEntrega(){
     ${op ? `${op.gratis ? 'Frete grátis' : esc([op.empresa, op.nome].filter(Boolean).join(' ')) + ' — ' + brl(op.preco)}${op.prazo ? ` · até ${op.prazo} dias úteis` : ''}` : 'Frete a combinar pelo WhatsApp'}
     <br><a onclick="irPasso(2)">Alterar</a>`;
 }
-function fecharTudo(){ ['fundo','janela','gaveta','conta'].forEach(id => $(id) && $(id).classList.remove('on')); }
+/* Botão "voltar" do celular/navegador: fecha a janela aberta (produto, sacola, Meus pedidos) em vez de sair do site.
+   Na sacola, volta uma etapa (Pagamento → Entrega → Sacola) antes de fechar. */
+let camadaAberta = false;
+function marcarCamada(){ if(!camadaAberta){ camadaAberta = true; history.pushState({ bella: 'camada' }, ''); } }
+function fecharCamadas(){ ['fundo','janela','gaveta','conta'].forEach(id => $(id) && $(id).classList.remove('on')); }
+function fecharTudo(){
+  fecharCamadas();
+  if(camadaAberta){ camadaAberta = false; if(history.state && history.state.bella === 'camada') history.back(); }
+}
+window.addEventListener('popstate', () => {
+  if(!camadaAberta) return;
+  if($('gaveta').classList.contains('on') && PASSO > 1){ irPasso(PASSO - 1, true); history.pushState({ bella: 'camada' }, ''); return; }
+  camadaAberta = false; fecharCamadas();
+});
 
 /* ---------- Meus pedidos: a cliente entra com um código que chega no e-mail (sem senha) ---------- */
 const CHAVE_CONTA = 'bella_cliente';
@@ -1496,11 +1520,11 @@ let AREA_CLIENTE = false;   // só aparece quando o envio de e-mails está ligad
 const CONTA = { email: '', etapa: 'email' };
 const contaSalva = () => { try { const c = JSON.parse(localStorage.getItem(CHAVE_CONTA) || 'null'); return c && c.expira > Date.now() ? c : null; } catch(e){ return null; } };
 function abrirConta(){
-  fecharTudo(); $('fundo').classList.add('on'); $('conta').classList.add('on');
+  fecharCamadas(); $('fundo').classList.add('on'); $('conta').classList.add('on'); marcarCamada();
   if(!temApi()){ $('contaCorpo').innerHTML = '<p class="intro">Indisponível no momento. Fale com a loja pelo WhatsApp.</p>'; return; }
   contaSalva() ? carregarMeusPedidos() : telaEmail();
 }
-function fecharConta(){ $('conta').classList.remove('on'); $('fundo').classList.remove('on'); }
+function fecharConta(){ fecharTudo(); }
 function telaEmail(msg){
   CONTA.etapa = 'email';
   $('contaCorpo').innerHTML = `<p class="intro">Acompanhe seus pedidos, o pagamento e o código de rastreio. Digite o <b>e-mail que você usou na compra</b> e enviamos um código para entrar — sem senha.</p>
