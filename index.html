@@ -334,6 +334,7 @@ footer{background:#fff;padding:56px 0 0;border-top:1px solid var(--linha)}
 .ped-c .acoes-c{display:flex;gap:8px;padding:0 14px 14px;flex-wrap:wrap}
 .ped-c .acoes-c a,.ped-c .acoes-c button{flex:1;text-align:center;padding:10px;font:inherit;font-size:12px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;border:1px solid var(--texto);background:#fff;color:var(--texto);cursor:pointer;text-decoration:none;min-width:130px}
 .ped-c .acoes-c .prim{background:var(--texto);color:#fff}
+.nota-priv{font-size:11.5px;color:#888;margin-top:10px;line-height:1.5}.nota-priv a{color:#888}
 .retorno-fundo{position:fixed;inset:0;background:rgba(20,16,17,.45);z-index:120;display:none}
 .retorno-pag{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);width:min(440px,92vw);background:#fff;z-index:121;padding:34px 30px 28px;text-align:center;display:none}
 .retorno-fundo.on,.retorno-pag.on{display:block}
@@ -527,6 +528,7 @@ body:has(.gaveta.on) .toast{bottom:auto;top:18px}
       <p>Pedido mínimo R$ 300,00</p>
       <p>Frete grátis para <span class="txt-estados">SC, PR e RS</span></p>
       <p>Cartão, Pix ou boleto</p>
+      <a href="privacidade.html">Política de Privacidade</a>
     </div>
     <div>
       <h4>Atendimento</h4>
@@ -590,6 +592,7 @@ body:has(.gaveta.on) .toast{bottom:auto;top:18px}
       <input type="hidden" id="cliPag" value="">
       <div class="opcoes-frete opcoes-pag" id="opcoesPag"></div>
       <p class="nota-pag" id="notaPag" hidden></p>
+      <p class="nota-priv">Seus dados são usados só para processar e entregar o pedido. Veja a <a href="privacidade.html" target="_blank" rel="noopener">Política de Privacidade</a>.</p>
       <div id="verificacao"></div>
     </section>
   </div>
