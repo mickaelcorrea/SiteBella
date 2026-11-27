@@ -397,6 +397,26 @@ body:has(.gaveta.on) .toast{bottom:auto;top:18px}
   .janela.on{transform:none}
   .info{padding:24px 20px 30px}
 }
+/* Atacado */
+.faixa-atacado{display:none;background:#1f2a44;color:#fff;font-size:12.5px;text-align:center;padding:9px 12px;line-height:1.5}
+body.atacado .faixa-atacado{display:block}
+.faixa-atacado a{color:#fff;text-decoration:underline;margin-left:10px;cursor:pointer}
+.selo-atacado{display:inline-block;background:#1f2a44;color:#fff;font-size:10px;font-weight:700;letter-spacing:.8px;padding:2px 6px;margin-left:6px;vertical-align:middle}
+.consulta{font-size:13px;color:#777;font-weight:500}
+.form-rev{display:grid;gap:10px;margin-top:14px;text-align:left}
+.form-rev label{font-size:12px;color:#555;display:block;margin-bottom:4px}
+.form-rev input,.form-rev select{width:100%;font:inherit;font-size:14px;padding:10px 11px;border:1px solid var(--linha);background:#fff}
+.form-rev .l2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.form-rev .l3{display:grid;grid-template-columns:2fr 1fr 1fr;gap:10px}
+.form-rev .tipo{display:flex;gap:8px}.form-rev .tipo label{flex:1;display:flex;gap:8px;align-items:center;border:1px solid var(--linha);padding:10px;cursor:pointer;font-size:13.5px;color:#222;margin:0}
+.form-rev .tipo label.on{border-color:var(--destaque);background:var(--rosa)}
+.form-rev .aceite{display:flex;gap:8px;align-items:flex-start;font-size:12.5px;color:#555}
+.form-rev .aceite input{width:auto;margin-top:3px}
+.form-rev .tipo input{width:auto;padding:0}
+body.atacado .aviso .wrap > span{visibility:hidden}
+.condicoes{background:var(--fundo-claro);padding:12px 14px;font-size:13px;line-height:1.6;color:#444}
+.erro-rev{color:#b3261e;font-size:13px;min-height:18px}
+@media(max-width:600px){.form-rev .l2,.form-rev .l3{grid-template-columns:1fr}}
 /* Promoção / leve mais */
 .card .selo-promo{position:absolute;top:10px;right:10px;background:#1f8a4c;color:#fff;font-size:10.5px;font-weight:700;padding:4px 7px;z-index:1}
 .preco s,.item s{color:#999;font-weight:400;font-size:.85em;margin-right:6px}
@@ -451,11 +471,13 @@ body:has(.gaveta.on) .toast{bottom:auto;top:18px}
 <!-- ===== Barra de avisos ===== -->
 <div class="aviso">
   <div class="wrap">
-    <a class="lado" href="#" onclick="irPara('Todos');irSlide(0);return false">Seja uma revendedora</a>
+    <a class="lado" href="#" id="linkRevenda" onclick="abrirRevenda();return false">Seja uma revendedora</a>
     <span>Pedido mínimo <b class="txt-minimo">R$ 300,00</b> · Frete grátis para <b class="txt-estados">SC, PR e RS</b></span>
     <a class="lado" href="#" onclick="abrirZap('Olá! Gostaria de falar com a Bella Moda Íntima.');return false">Fale conosco</a>
   </div>
 </div>
+
+<div class="faixa-atacado" id="faixaAtacado"></div>
 
 <!-- ===== Cabeçalho ===== -->
 <header class="topo">
@@ -1122,7 +1144,7 @@ const corBg = n => { n = (n || '').trim(); if(CORES[n]) return fundoCor(CORES[n]
 const CATEGORIAS = ['Conjunto','Sutiã','Calcinha','Camisola','Short Doll','Pijama'];
 const SEM_FOTO = 'data:image/svg+xml;utf8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="300" height="400"><rect width="100%" height="100%" fill="#F7E9E8"/><text x="50%" y="50%" fill="#832C3D" font-family="sans-serif" font-size="18" text-anchor="middle">Sem foto</text></svg>');
 const $ = id => document.getElementById(id);
-const brl = v => 'R$ ' + v.toFixed(2).replace('.', ',');
+const brl = v => 'R$ ' + Number(v || 0).toFixed(2).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 
 function categoriaProduto(p){
   if(p.categoria) return p.categoria;
@@ -1136,9 +1158,15 @@ function categoriaProduto(p){
   return 'Outros';
 }
 const ehPlus = t => ['XG','48','50','52','54'].includes(t);
-const precoDe = (p, t) => (p.precoPlus && ehPlus(t)) ? p.precoPlus : p.preco;
+/* ---------- Atacado: revendedora aprovada vê o preço da tabela atacado ---------- */
+let ATACADO = null;     // { status, precos: { ref: { preco, precoPlus } }, minimo, frete_gratis_acima, razao_social, ... }
+const noAtacado = () => !!(ATACADO && ATACADO.status === 'aprovado' && ATACADO.precos);
+const refCanonSite = r => String(r || '').trim().toUpperCase().replace('/PLUS', '').replace(/^0+(?=\d)/, '');
+const tabelaAtacado = p => noAtacado() ? ATACADO.precos[refCanonSite(p.ref)] || null : null;
+const precoDe = (p, t) => { if(noAtacado()){ const x = tabelaAtacado(p); return x ? (ehPlus(t) && x.precoPlus ? x.precoPlus : x.preco) : null; }
+  return (p.precoPlus && ehPlus(t)) ? p.precoPlus : p.preco; };
 /* ---------- Promoções e "leve mais, pague menos" (a mesma conta da API; a da API é a que vale) ---------- */
-let PROMOCOES = [], KITS = [], HOJE = new Date(Date.now() - 3 * 36e5).toISOString().slice(0, 10), AVALIACOES = {}, POPUP = {};
+let CONFIG_ATACADO = null, PROMOCOES = [], KITS = [], HOJE = new Date(Date.now() - 3 * 36e5).toISOString().slice(0, 10), AVALIACOES = {}, POPUP = {};
 const reaisTxt = v => 'R$ ' + Number(v).toFixed(2).replace('.', ',');
 const valeHoje = (x, hoje) => x && x.ativo !== false && (!x.inicio || hoje >= x.inicio) && (!x.fim || hoje <= x.fim);
 const valePara = (x, i) => { const refs = x.refs || [], cats = x.categorias || []; return (!refs.length && !cats.length) || refs.includes(i.ref) || cats.includes(i.categoria); };
@@ -1172,16 +1200,19 @@ function calcularPrecos(itens, promos, kits, hoje){
 }
 // promoção de um produto (para o card e a janela)
 function promoDe(p){
+  if(noAtacado()) return null;                 // atacado não tem promoção
   let melhor = null;
   for(const pr of PROMOCOES) if(valeHoje(pr, HOJE) && valePara(pr, { ref: p.ref, categoria: categoriaProduto(p) }) && +pr.valor > 0 && +pr.valor < 100 && (!melhor || +pr.valor > +melhor.valor)) melhor = pr;
   return melhor;
 }
 const comPromo = (v, pr) => pr ? Math.round(v * (100 - pr.valor)) / 100 : v;
-const kitsDe = p => p && !promoDe(p) ? KITS.filter(k => valeHoje(k, HOJE) && Math.floor(+k.qtd) >= 2 && +k.valor > 0 && valePara(k, { ref: p.ref, categoria: categoriaProduto(p) })) : [];
-const precosCarrinho = () => calcularPrecos(carrinho.map(i => { const p = produtos.find(x => x.ref === i.ref); return { ...i, categoria: p ? categoriaProduto(p) : '' }; }), PROMOCOES, KITS, HOJE);
+const kitsDe = p => p && !noAtacado() && !promoDe(p) ? KITS.filter(k => valeHoje(k, HOJE) && Math.floor(+k.qtd) >= 2 && +k.valor > 0 && valePara(k, { ref: p.ref, categoria: categoriaProduto(p) })) : [];
+const precosCarrinho = () => calcularPrecos(carrinho.map(i => { const p = produtos.find(x => x.ref === i.ref); return { ...i, preco: i.preco || 0, categoria: p ? categoriaProduto(p) : '' }; }), noAtacado() ? [] : PROMOCOES, noAtacado() ? [] : KITS, HOJE);
 const estrelas = n => { const c = Math.round(n); return `<span class="estrelas" aria-label="${n} de 5 estrelas">${'★'.repeat(c)}<span class="vazia">${'★'.repeat(5 - c)}</span></span>`; };
 const plural = c => c === 'Short Doll' ? c : (c === 'Sutiã' ? 'Sutiãs' : c + 's');
-const precoTexto = p => { const pr = promoDe(p), t = v => brl(comPromo(v, pr));
+const precoTexto = p => {
+  if(noAtacado()){ const x = tabelaAtacado(p); return x ? (x.precoPlus ? `${brl(x.preco)} – ${brl(x.precoPlus)}` : brl(x.preco)) : '<span class="consulta">Atacado: sob consulta</span>'; }
+  const pr = promoDe(p), t = v => brl(comPromo(v, pr));
   const novo = p.precoPlus ? `${t(p.preco)} – ${t(p.precoPlus)}` : t(p.preco);
   return pr ? `<s>${p.precoPlus ? `${brl(p.preco)} – ${brl(p.precoPlus)}` : brl(p.preco)}</s>${novo}` : novo; };
 
@@ -1284,7 +1315,9 @@ function montarBanner(){
       <div class="texto">
         <h1>${s.titulo}</h1>
         <p>${s.texto}</p>
-        ${s.zap
+        ${/revend/i.test((s.botao || '') + ' ' + (s.zap || ''))
+          ? `<a class="btn" href="#" onclick="abrirRevenda();return false">${s.botao}</a>`
+          : s.zap
           ? `<a class="btn" href="#" onclick="abrirZap(BANNERS[${i}].zap);return false">${s.botao}</a>`
           : `<a class="btn" href="#produtos" onclick="irPara('${s.categoria || 'Todos'}');return false">${s.botao}</a>`}
       </div>
@@ -1452,7 +1485,8 @@ function desenharJanela(){
   const tams = tamanhosDisponiveis(p, cor);
   const lim = tam ? restante(p.ref, cor, tam) : Infinity;
   const pr = promoDe(p);
-  const preco = tam ? (pr ? `<s>${brl(precoDe(p, tam))}</s>${brl(comPromo(precoDe(p, tam), pr))}` : brl(precoDe(p, tam))) : precoTexto(p);
+  const semAtacado = noAtacado() && !tabelaAtacado(p);
+  const preco = semAtacado ? precoTexto(p) : tam ? (pr ? `<s>${brl(precoDe(p, tam))}</s>${brl(comPromo(precoDe(p, tam), pr))}` : brl(precoDe(p, tam))) : precoTexto(p);
   const av = AVALIACOES[p.ref], kits = kitsDe(p);
   $('janela').innerHTML = `
     <button class="fechar" onclick="fecharTudo()" aria-label="Fechar">×</button>
@@ -1461,7 +1495,7 @@ function desenharJanela(){
       ${fotos.length > 1 ? `<div class="miniaturas">${fotos.map((f, i) => `<img src="${f}" class="${i === idx ? 'on' : ''}" onclick="sel.idx=${i};desenharJanela()" alt="">`).join('')}</div>` : ''}
     </div>
     <div class="info">
-      <div class="ref">Ref. ${p.ref} · ${categoriaProduto(p)}</div>
+      <div class="ref">Ref. ${p.ref} · ${categoriaProduto(p)}${noAtacado() ? '<span class="selo-atacado">ATACADO</span>' : ''}</div>
       <h3>${p.nome}</h3>
       ${av ? `<div class="aval-resumo" onclick="document.querySelector('.avaliacoes').scrollIntoView({behavior:'smooth'})">${estrelas(av.media)} ${String(av.media).replace('.', ',')} · ${av.n} ${av.n === 1 ? 'avaliação' : 'avaliações'}</div>` : ''}
       <div class="preco">${preco}${pr ? `<small>${esc(pr.nome || 'Promoção')}${pr.fim ? ` · até ${pr.fim.split('-').reverse().slice(0, 2).join('/')}` : ''}</small>` : ''}${p.precoPlus ? '<small>Tamanhos plus size (48 ao 54 e XG) têm preço diferenciado</small>' : ''}</div>
@@ -1485,7 +1519,7 @@ function desenharJanela(){
           <span>${qtd}</span>
           <button onclick="mudarQtd(1)" ${!tam || qtd >= lim ? 'disabled' : ''}>+</button>
         </div>
-        <button class="btn" onclick="adicionar()">Adicionar ao pedido</button>
+        ${semAtacado ? `<a class="btn" href="${linkWhatsLoja('Olá! Sou revendedora e quero o preço de atacado da Ref. ' + p.ref + ' — ' + p.nome)}" target="_blank" rel="noopener">Consultar no WhatsApp</a>` : `<button class="btn" onclick="adicionar()">Adicionar ao pedido</button>`}
       </div>
       ${blocoAviseMe(p)}
       ${av ? `<div class="avaliacoes"><h4>Avaliações (${av.n})</h4>${av.lista.map(a => `<div class="avaliacao">${estrelas(a.nota)}
@@ -1540,6 +1574,7 @@ let carrinho = [];
 function adicionar(){
   const { p, cor, tam, frase, qtd } = sel;
   if(!cor || !tam){ toast('Escolha a cor e o tamanho'); return; }
+  if(precoDe(p, tam) === null){ toast('Esta peça ainda não tem preço de atacado. Consulte a loja.'); return; }
   if(p.frases && !frase){ toast('Escolha a frase do strass'); return; }
   const r = restante(p.ref, cor, tam);
   if(r <= 0){ toast(`Sem estoque de ${cor} / ${tam}`); return; }
@@ -1628,6 +1663,11 @@ function irPasso(n, semConferir){
 function acaoPrincipal(){ if(PASSO < 3) irPasso(PASSO + 1); else finalizarPedido(); }
 function conferirSacola(){
   if(!carrinho.length){ toast('Sua sacola está vazia'); return false; }
+  if(noAtacado()){
+    if(carrinho.some(i => i.preco === null)){ toast('Tem peça sem preço de atacado na sacola. Tire ou consulte a loja.'); return false; }
+    const sub = carrinho.reduce((s, i) => s + i.preco * i.qtd, 0);
+    if(sub < ATACADO.minimo){ toast(`O pedido mínimo do atacado é ${brl(ATACADO.minimo)} (faltam ${brl(ATACADO.minimo - sub)})`); return false; }
+  }
   const somas = {};
   carrinho.forEach(i => { const c = i.ref + '|' + i.cor + '|' + i.tam; somas[c] = (somas[c] || 0) + i.qtd; });
   for(const i of carrinho){
@@ -1700,9 +1740,10 @@ async function entrarConta(e){
   const d = r ? await r.json().catch(() => ({})) : {};
   if(!r || !r.ok || !d.token){ $('btnConta').disabled = false; $('msgConta').className = 'msg-c erro'; $('msgConta').textContent = d.erro || 'Não foi possível entrar agora.'; return; }
   try { localStorage.setItem(CHAVE_CONTA, JSON.stringify({ token: d.token, expira: d.expira, email: d.email })); } catch(err){}
+  await carregarAtacado();
   carregarMeusPedidos();
 }
-function sairConta(){ try { localStorage.removeItem(CHAVE_CONTA); } catch(e){} CONTA.email = ''; telaEmail(); }
+function sairConta(){ try { localStorage.removeItem(CHAVE_CONTA); } catch(e){} CONTA.email = ''; if(ATACADO){ ATACADO = null; aplicarModoAtacado(); } telaEmail(); }
 const SIT_CLIENTE = {
   aguardando: ['Aguardando pagamento', 'alerta'], novo: ['Pedido recebido', ''], confirmado: ['Confirmado', ''], pago: ['Pagamento aprovado', 'ok'],
   separando: ['Separando', 'ok'], enviado: ['Enviado', 'ok'], retirar: ['Pronto para retirar', 'ok'], entregue: ['Entregue', 'fim'], cancelado: ['Cancelado', 'cancel'],
@@ -1722,6 +1763,7 @@ async function carregarMeusPedidos(){
   const passos = p => p.retirada ? ['Recebido', 'Pago', 'Separando', 'Retirar'] : ['Recebido', 'Pago', 'Separando', 'Enviado', 'Entregue'];
   const nivel = p => ({ novo: 1, confirmado: 1, pago: 2, separando: 3, enviado: 4, entregue: 5 }[p.status] || 0);
   $('contaCorpo').innerHTML = `<div class="topo-c"><span>Conectada como <b>${esc(c.email)}</b></span><button class="link-c" style="width:auto;margin:0" onclick="sairConta()">Sair</button></div>`
+    + (ATACADO ? `<div class="condicoes" style="margin-bottom:14px">${noAtacado() ? `<b>Revendedora — atacado liberado ✓</b><br>${esc(ATACADO.razao_social || ATACADO.nome)} · pedido mínimo ${brl(ATACADO.minimo)}` : ATACADO.status === 'pendente' ? `<b>Cadastro de revendedora em análise</b><br>A loja vai falar com você pelo WhatsApp para liberar o atacado.` : `<b>Cadastro de revendedora: ${esc(ATACADO.status)}</b><br>Fale com a loja pelo WhatsApp.`}</div>` : '')
     + (d.pedidos.length ? d.pedidos.map(p => {
       const [txt, cls] = SIT_CLIENTE[situacaoCliente(p)];
       const ps = passos(p), nv = nivel(p);
@@ -1822,14 +1864,14 @@ const CHAVE_CUPOM = 'bella_cupom';
 const CUPOM = { codigo: '', info: null, erro: '', aberto: false, carregando: false, pendente: '' };
 const limparCodigo = v => String(v || '').toUpperCase().replace(/[^A-Z0-9_-]/g, '').slice(0, 30);
 function descontoCupom(){
-  if(!CUPOM.info || !CUPOM.info.desconto) return 0;
+  if(noAtacado() || !CUPOM.info || !CUPOM.info.desconto) return 0;
   const c = precosCarrinho();
   return Math.min(CUPOM.info.desconto, c.subtotal - c.descontoKit);
 }
-const cupomDoPedido = () => CUPOM.info && !(CUPOM.info.freteGratis && TIPO_ENTREGA === 'retirada') ? CUPOM.codigo : '';
+const cupomDoPedido = () => !noAtacado() && CUPOM.info && !(CUPOM.info.freteGratis && TIPO_ENTREGA === 'retirada') ? CUPOM.codigo : '';
 function desenharCupom(){
   const caixa = $('caixaCupom');
-  caixa.hidden = !temApi() || !carrinho.length;
+  caixa.hidden = !temApi() || !carrinho.length || noAtacado();
   if(caixa.hidden) return;
   if(CUPOM.codigo && (CUPOM.info || CUPOM.erro)){
     const ok = !!CUPOM.info;
@@ -1929,8 +1971,10 @@ function mostrarValores(){
     : c && !c.opcoes.length ? 'a combinar' : FRETE.carregando ? 'calculando…' : '<span style="color:#999">informe o CEP</span>';
   $('totalCarrinho').textContent = brl(sub - desc + (op ? op.preco : 0));
   const f = $('frete');
-  if(c && c.gratis && c.opcoes.some(o => o.cupom)){ f.className = 'frete ok'; f.textContent = `✓ Frete grátis com o cupom ${CUPOM.codigo}`; }
-  else if(c && c.gratis){ f.className = 'frete ok'; f.textContent = `✓ Você ganhou frete grátis (${c.uf})`; }
+  if(noAtacado() && sub < ATACADO.minimo){ f.className = 'frete falta'; f.textContent = `Faltam ${brl(ATACADO.minimo - sub)} para o pedido mínimo do atacado (${brl(ATACADO.minimo)})`; }
+  else if(noAtacado() && !c){ f.className = sub >= ATACADO.frete_gratis_acima ? 'frete ok' : 'frete'; f.textContent = sub >= ATACADO.frete_gratis_acima ? '✓ Frete grátis no atacado — informe o CEP' : `Frete grátis no atacado acima de ${brl(ATACADO.frete_gratis_acima)} (faltam ${brl(ATACADO.frete_gratis_acima - sub)})`; }
+  else if(c && c.gratis && c.opcoes.some(o => o.cupom)){ f.className = 'frete ok'; f.textContent = `✓ Frete grátis com o cupom ${CUPOM.codigo}`; }
+  else if(c && c.gratis){ f.className = 'frete ok'; f.textContent = noAtacado() ? '✓ Frete grátis no atacado' : `✓ Você ganhou frete grátis (${c.uf})`; }
   else if(!c && CUPOM.info && CUPOM.info.freteGratis){ f.className = 'frete ok'; f.textContent = `✓ Cupom de frete grátis aplicado — informe o CEP`; }
   else if(c && c.regiaoGratis){ f.className = 'frete falta'; f.textContent = `Faltam ${brl(c.faltaParaGratis)} para ganhar frete grátis`; }
   else if(c){ f.className = 'frete'; f.textContent = `Frete grátis para ${nomeEstados(ESTADOS_FRETE_GRATIS)} em pedidos a partir de ${brl(PEDIDO_MINIMO_FRETE)}`; }
@@ -1970,8 +2014,8 @@ async function calcularFrete(avisar){
   if(!temApi()){ FRETE.cotacao = { opcoes: [] }; mostrarValores(); return; }
   FRETE.carregando = true; mostrarValores();
   try {
-    const r = await fetch(API_URL + '/api/frete', { method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ cep, cupom: CUPOM.codigo, itens: carrinho.map(i => ({ ref: i.ref, cor: i.cor, tam: i.tam, qtd: i.qtd })) }) });
+    const r = await fetch(API_URL + '/api/frete', { method: 'POST', headers: cabecalhoAtacado(),
+      body: JSON.stringify({ cep, cupom: noAtacado() ? '' : CUPOM.codigo, atacado: noAtacado(), itens: carrinho.map(i => ({ ref: i.ref, cor: i.cor, tam: i.tam, qtd: i.qtd })) }) });
     const d = await r.json();
     if(!r.ok) throw new Error(d.erro);
     if(CUPOM.codigo){ CUPOM.info = d.cupom || null; CUPOM.erro = d.cupomErro || ''; }
@@ -2033,8 +2077,8 @@ const enderecoDeVolta = () => /^https?:/.test(location.protocol) ? location.href
 async function irParaPagamento(dadosPedido){
   const botao = $('btnPedido');
   botao.textContent = 'Abrindo o pagamento...'; botao.disabled = true;
-  const r = await fetch(API_URL + '/api/pedidos', { method: 'POST', headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ ...dadosPedido, pagamento: 'online', retorno: enderecoDeVolta() }) }).catch(() => null);
+  const r = await fetch(API_URL + '/api/pedidos', { method: 'POST', headers: cabecalhoAtacado(),
+    body: JSON.stringify({ ...dadosPedido, atacado: noAtacado(), pagamento: 'online', retorno: enderecoDeVolta() }) }).catch(() => null);
   if(!r){ toast('Sem conexão com a loja agora. Tente de novo ou escolha combinar pelo WhatsApp.'); return false; }
   const dados = await r.json().catch(() => ({}));
   if(!r.ok || !dados.pagamento_url){ toast(dados.erro || 'Não foi possível abrir o pagamento.'); reiniciarVerificacao(); if(r.status === 409) calcularFrete(); if(/cupom/i.test(dados.erro || '')){ CUPOM.info = null; CUPOM.erro = dados.erro; mostrarValores(); } return false; }
@@ -2137,8 +2181,8 @@ async function finalizarPedido(){
   try {
     if(temApi()){
       // Registra o pedido no painel (o servidor confere preço e estoque)
-      const r = await fetch(API_URL + '/api/pedidos', { method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ cliente: { nome, doc, email, telefone: tel }, pagamento: pag, entrega, cupom: cupomDoPedido(),
+      const r = await fetch(API_URL + '/api/pedidos', { method: 'POST', headers: cabecalhoAtacado(),
+        body: JSON.stringify({ cliente: { nome, doc, email, telefone: tel }, pagamento: pag, entrega, cupom: cupomDoPedido(), atacado: noAtacado(),
           site: $('cliSite').value, tempo: Date.now() - INICIO_PAGINA, turnstile: tokenVerificacao(),
           itens: carrinho.map(i => ({ ref: i.ref, cor: i.cor, tam: i.tam, frase: i.frase, qtd: i.qtd })) }) })
         .catch(() => null); // sem internet/API fora do ar: segue só pelo WhatsApp
@@ -2152,7 +2196,7 @@ async function finalizarPedido(){
         dados.itens.forEach(i => { const e = estoquePorCorTamanho[i.ref]; if(e && e[i.cor] && e[i.cor][i.tam] !== undefined) e[i.cor][i.tam] = Math.max(0, e[i.cor][i.tam] - i.qtd); });
       }
     }
-    let msg = `*Novo Pedido - Bella Moda Íntima* 🛒\n${codigo ? `*Pedido:* ${codigo}\n` : ''}\n*Cliente:* ${nome}\n*CPF/CNPJ:* ${doc}\n*E-mail:* ${email}\n*WhatsApp:* ${tel}\n*Pagamento:* ${NOMES_PAGAMENTO[pag] || pag}\n*Entrega:* ${enderecoTexto(entrega)}\n*Frete:* ${frete}\n\n━━━━━━━━━━━━━━━━\n`;
+    let msg = `*Novo Pedido${noAtacado() ? ' de ATACADO' : ''} - Bella Moda Íntima* 🛒\n${noAtacado() && ATACADO.razao_social ? `*Revendedora:* ${ATACADO.razao_social}\n` : ''}${codigo ? `*Pedido:* ${codigo}\n` : ''}\n*Cliente:* ${nome}\n*CPF/CNPJ:* ${doc}\n*E-mail:* ${email}\n*WhatsApp:* ${tel}\n*Pagamento:* ${NOMES_PAGAMENTO[pag] || pag}\n*Entrega:* ${enderecoTexto(entrega)}\n*Frete:* ${frete}\n\n━━━━━━━━━━━━━━━━\n`;
     itens.forEach(i => { msg += `${i.qtd}x ${i.nome} (Ref ${i.ref})\n   Cor: ${i.cor} | Tam: ${i.tam}${i.frase ? ' | Frase: ' + i.frase : ''}\n   ${brl(i.preco * i.qtd)}${i.precoDe ? ' (promoção)' : ''}\n\n`; });
     if(descPromo) msg += `*${promoTxt || 'Leve mais, pague menos'}:* − ${brl(descPromo)}\n`;
     if(cupomUsado) msg += `*Cupom:* ${cupomUsado}${desconto ? ` (− ${brl(desconto)})` : ' (frete grátis)'}\n`;
@@ -2166,10 +2210,111 @@ async function finalizarPedido(){
   }
 }
 
+/* ---------- Atacado: cadastro, login e modo atacado ---------- */
+const cabecalhoAtacado = () => { const h = { 'Content-Type': 'application/json' }, c = contaSalva(); if(noAtacado() && c) h.Authorization = 'Bearer ' + c.token; return h; };
+async function carregarAtacado(){
+  const c = contaSalva(); if(!c || !temApi()){ if(ATACADO){ ATACADO = null; aplicarModoAtacado(); } return; }
+  try {
+    const r = await fetch(API_URL + '/api/revenda/eu', { headers: { Authorization: 'Bearer ' + c.token } });
+    const d = await r.json().catch(() => ({}));
+    ATACADO = r.ok && d.revendedora ? limparDados(d) : null;
+  } catch(e){}
+  aplicarModoAtacado();
+}
+// Troca os preços do site inteiro (vitrine, janela e sacola) entre varejo e atacado
+function aplicarModoAtacado(){
+  const at = noAtacado();
+  document.body.classList.toggle('atacado', at);
+  $('faixaAtacado').innerHTML = at ? `🛍️ Você está no <b>ATACADO</b> — ${esc(ATACADO.razao_social || ATACADO.nome)} · pedido mínimo ${brl(ATACADO.minimo)}${ATACADO.frete_gratis_acima ? ` · frete grátis acima de ${brl(ATACADO.frete_gratis_acima)}` : ''}<a onclick="sairConta();toast('Você saiu do atacado')">Sair</a>` : '';
+  $('linkRevenda').textContent = at ? 'Atacado ativo ✓' : ATACADO && ATACADO.status === 'pendente' ? 'Revenda em análise' : 'Seja uma revendedora';
+  let tirou = 0;
+  for(const i of carrinho){ const p = produtos.find(x => x.ref === i.ref); if(p) i.preco = precoDe(p, i.tam); }
+  if(at){ const antes = carrinho.length; carrinho = carrinho.filter(i => i.preco !== null); tirou = antes - carrinho.length; }
+  if(at && ATACADO.doc){   // preenche os dados do pedido com o cadastro
+    const pre = (id, v) => { if($(id) && !$(id).value && v) $(id).value = v; };
+    pre('cliNome', ATACADO.razao_social || ''); pre('cliDoc', ATACADO.doc); pre('cliEmail', ATACADO.email); pre('cliTel', ATACADO.telefone); pre('cliCep', ATACADO.cep ? ATACADO.cep.slice(0, 5) + '-' + ATACADO.cep.slice(5) : '');
+  }
+  FRETE.cotacao = null; FRETE.assinatura = '';
+  try { montarDestaques(); renderCatalogo(); } catch(e){}
+  atualizarCarrinho();
+  if($('janela').classList.contains('on') && sel && sel.p) desenharJanela();
+  if(tirou) toast(`${tirou} peça${tirou === 1 ? '' : 's'} sem preço de atacado saíram da sacola`);
+}
+let REV = { tipo: 'cnpj', etapa: 'form', email: '' };
+function abrirRevenda(){
+  fecharCamadas();
+  if(!temApi()){ abrirZap('Olá! Quero ser revendedora da Bella Moda Íntima.'); return; }
+  if(noAtacado()){ mostrarAviso(`<div class="icone ok">✓</div><h3>Seu atacado está liberado</h3><p>Os preços do site já são os de revenda. Pedido mínimo ${brl(ATACADO.minimo)}.</p><button class="btn" onclick="fecharAviso()">Continuar comprando</button>`); return; }
+  if(ATACADO && ATACADO.status === 'pendente'){ mostrarAviso(`<div class="icone espera">⏳</div><h3>Cadastro em análise</h3><p>A loja vai falar com você pelo WhatsApp para liberar o atacado.</p><a class="btn" href="${linkWhatsLoja('Olá! Fiz meu cadastro de revendedora no site e quero liberar o atacado.')}" target="_blank" rel="noopener">Falar com a loja</a>`); return; }
+  REV.etapa = 'form'; desenharRevenda(); $('aviso').classList.add('largo');
+}
+function desenharRevenda(msg){
+  const at = Object.assign({ minimo: 1500, frete_gratis_acima: 2000 }, CONFIG_ATACADO || {});
+  if(REV.etapa === 'codigo'){
+    mostrarAviso(`<h3 style="text-align:center">Confirme seu e-mail</h3><p style="text-align:center;color:#666;font-size:13.5px">${esc(msg || '')}<br>Digite o código de 6 números que enviamos para <b>${esc(REV.email)}</b>.</p>
+      <form class="form-rev" onsubmit="event.preventDefault();confirmarRevenda(this)"><input name="codigo" inputmode="numeric" maxlength="6" autocomplete="one-time-code" required placeholder="000000" style="text-align:center;font-size:22px;letter-spacing:8px">
+      <div class="erro-rev" id="erroRev"></div><button class="btn" type="submit">Entrar</button></form>`);
+    $('aviso').classList.add('largo'); return;
+  }
+  mostrarAviso(`<h3 style="text-align:center">Seja uma revendedora Bella 💕</h3>
+    <div class="condicoes" style="margin-top:12px">Compre com <b>preço de atacado</b> para revender. Pedido mínimo de <b>${brl(at.minimo)}</b> em peças${+at.frete_gratis_acima ? `, com <b>frete grátis acima de ${brl(at.frete_gratis_acima)}</b>` : ''}.<br>
+      <b>CNPJ ativo:</b> liberado na hora. <b>CPF:</b> a loja confere e libera pelo WhatsApp.${at.texto ? '<br>' + esc(at.texto) : ''}</div>
+    <form class="form-rev" onsubmit="event.preventDefault();enviarRevenda(this)">
+      <div class="tipo">${[['cnpj', 'Tenho CNPJ'], ['cpf', 'Sou pessoa física (CPF)']].map(([k, t]) => `<label class="${REV.tipo === k ? 'on' : ''}"><input type="radio" name="tipo" value="${k}" ${REV.tipo === k ? 'checked' : ''} onchange="REV.tipo=this.value;guardarRevenda(this.form);desenharRevenda()">${t}</label>`).join('')}</div>
+      <div><label>${REV.tipo === 'cnpj' ? 'CNPJ' : 'CPF'}</label><input name="doc" required inputmode="numeric" oninput="formatarDocumento(this)" value="${esc(REV.dados?.doc || '')}"></div>
+      <div class="l2"><div><label>Nome da responsável</label><input name="nome" required autocomplete="name" value="${esc(REV.dados?.nome || '')}"></div>
+        <div><label>WhatsApp com DDD</label><input name="telefone" required inputmode="tel" oninput="formatarTelefone(this)" value="${esc(REV.dados?.telefone || '')}"></div></div>
+      <div><label>E-mail (é o seu login, sem senha)</label><input name="email" type="email" required autocomplete="email" value="${esc(REV.dados?.email || '')}"></div>
+      <div class="l3"><div><label>CEP</label><input name="cep" required inputmode="numeric" maxlength="9" onblur="cepRevenda(this)" value="${esc(REV.dados?.cep || '')}"></div>
+        <div><label>Cidade</label><input name="cidade" value="${esc(REV.dados?.cidade || '')}"></div><div><label>UF</label><input name="uf" maxlength="2" value="${esc(REV.dados?.uf || '')}"></div></div>
+      <div class="l2"><div><label>Rua</label><input name="rua" value="${esc(REV.dados?.rua || '')}"></div><div class="l2" style="gap:10px"><div><label>Número</label><input name="numero" value="${esc(REV.dados?.numero || '')}"></div><div><label>Bairro</label><input name="bairro" value="${esc(REV.dados?.bairro || '')}"></div></div></div>
+      <div class="l2"><div><label>Como você vende?</label><select name="como_vende">${['Loja física', 'Loja online / Instagram', 'Porta a porta / catálogo', 'Ainda vou começar'].map(o => `<option ${REV.dados?.como_vende === o ? 'selected' : ''}>${o}</option>`).join('')}</select></div>
+        <div><label>Instagram ou site (opcional)</label><input name="instagram" value="${esc(REV.dados?.instagram || '')}" placeholder="@sualoja"></div></div>
+      <input type="text" name="site" tabindex="-1" autocomplete="off" style="display:none">
+      <label class="aceite"><input type="checkbox" name="aceite" required> Li as condições do atacado (pedido mínimo e frete) e quero me cadastrar.</label>
+      <div class="erro-rev" id="erroRev">${esc(msg || '')}</div>
+      <button class="btn" type="submit">Fazer meu cadastro</button>
+      <button type="button" class="link-c" style="background:none;border:0;color:var(--destaque);text-decoration:underline;cursor:pointer;font-size:13px" onclick="fecharAviso();abrirConta()">Já sou revendedora — entrar</button>
+    </form>`);
+  $('aviso').classList.add('largo');
+}
+function guardarRevenda(f){ REV.dados = Object.fromEntries(new FormData(f)); }
+async function cepRevenda(el){
+  const cep = soNum(el.value); if(cep.length !== 8) return;
+  el.value = cep.slice(0, 5) + '-' + cep.slice(5);
+  try { const d = await fetch(`https://viacep.com.br/ws/${cep}/json/`).then(r => r.json()); if(d.erro) return;
+    const f = el.form, set = (n, v) => { if(f[n] && !f[n].value) f[n].value = v || ''; };
+    set('cidade', d.localidade); set('uf', d.uf); set('rua', d.logradouro); set('bairro', d.bairro); } catch(e){}
+}
+async function enviarRevenda(f){
+  guardarRevenda(f);
+  const d = REV.dados, b = f.querySelector('button[type=submit]');
+  const doc = soNum(d.doc);
+  if(REV.tipo === 'cnpj' ? !validarCNPJ(doc) : !validarCPF(doc)){ $('erroRev').textContent = REV.tipo === 'cnpj' ? 'CNPJ inválido' : 'CPF inválido'; return; }
+  b.disabled = true; b.textContent = REV.tipo === 'cnpj' ? 'Consultando o CNPJ na Receita…' : 'Enviando…';
+  try {
+    const r = await fetch(API_URL + '/api/revenda/cadastro', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...d, aceite: !!d.aceite }) });
+    const j = await r.json().catch(() => ({}));
+    if(!r.ok) throw new Error(j.erro || 'Não deu certo. Tente de novo.');
+    REV.email = d.email.trim(); REV.etapa = 'codigo'; REV.status = j.status; desenharRevenda(j.mensagem);
+  } catch(e){ $('erroRev').textContent = e.message; b.disabled = false; b.textContent = 'Fazer meu cadastro'; }
+}
+async function confirmarRevenda(f){
+  const b = f.querySelector('button'); b.disabled = true;
+  const r = await fetch(API_URL + '/api/cliente/entrar', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: REV.email, codigo: f.codigo.value }) }).catch(() => null);
+  const d = r ? await r.json().catch(() => ({})) : {};
+  if(!r || !r.ok || !d.token){ $('erroRev').textContent = d.erro || 'Não foi possível entrar agora.'; b.disabled = false; return; }
+  try { localStorage.setItem(CHAVE_CONTA, JSON.stringify({ token: d.token, expira: d.expira, email: d.email })); } catch(e){}
+  await carregarAtacado();
+  $('aviso').classList.remove('largo');
+  if(noAtacado()) mostrarAviso(`<div class="icone ok">✓</div><h3>Atacado liberado! 🎉</h3><p>Os preços do site agora são os de revenda. Pedido mínimo ${brl(ATACADO.minimo)}${ATACADO.frete_gratis_acima ? `, frete grátis acima de ${brl(ATACADO.frete_gratis_acima)}` : ''}.</p><button class="btn" onclick="fecharAviso()">Ver os preços</button>`);
+  else mostrarAviso(`<div class="icone espera">⏳</div><h3>Cadastro recebido!</h3><p>Seu e-mail está confirmado. A loja vai conferir seus dados e falar com você pelo WhatsApp para liberar o atacado.</p><a class="btn" href="${linkWhatsLoja('Olá! Fiz meu cadastro de revendedora no site (' + REV.email + ') e quero liberar o atacado.')}" target="_blank" rel="noopener">Falar com a loja agora</a>`);
+}
+
 /* ---------- Pop-up de boas-vindas (cupom da 1ª compra) ---------- */
 const CHAVE_POPUP = 'bella_popup';
 function prepararPopup(){
-  if(!temApi() || !POPUP.ativo || !POPUP.cupom) return;
+  if(!temApi() || !POPUP.ativo || !POPUP.cupom || ATACADO) return;
   if(/[?&](pedido|avaliar)=/.test(location.search)) return;
   let v = null; try { v = JSON.parse(localStorage.getItem(CHAVE_POPUP) || 'null'); } catch(e){}
   if(v && (v.nunca || v.assinou || (v.fechou && Date.now() - v.fechou < 3 * 864e5))) return;     // fechou: volta a aparecer depois de 3 dias
@@ -2307,7 +2452,8 @@ async function carregarDoPainel(){
     if(c.categorias) trocarConteudo(CATEGORIAS, c.categorias);
     PROMOCOES = Array.isArray(c.promocoes) ? c.promocoes : []; KITS = Array.isArray(c.kits) ? c.kits : [];
     if(/^\d{4}-\d{2}-\d{2}$/.test(c.hoje || '')) HOJE = c.hoje;
-    POPUP = c.popup || {}; AVALIACOES = d.avaliacoes || {};
+    POPUP = c.popup || {}; AVALIACOES = d.avaliacoes || {}; CONFIG_ATACADO = c.atacado || null;
+    if(CONFIG_ATACADO && CONFIG_ATACADO.ativo === false) $('linkRevenda').onclick = () => { abrirZap('Olá! Quero ser revendedora da Bella Moda Íntima.'); return false; };
     if(c.cores && typeof c.cores === 'object')                  // cores das bolinhas escolhidas no painel (só #rrggbb)
       Object.entries(c.cores).forEach(([nome, hex]) => { if(/^#[0-9a-f]{6}(,#[0-9a-f]{6}){0,5}$/i.test(hex)) CORES[nome] = hex; });
     if(c.loja){ if(c.loja.whatsapp) WHATSAPP_LOJISTA = String(c.loja.whatsapp).replace(/\D/g, ''); if(c.loja.pedido_minimo_frete) PEDIDO_MINIMO_FRETE = c.loja.pedido_minimo_frete;
@@ -2341,6 +2487,8 @@ async function carregarDoPainel(){
   verificarVoltaDoPagamento();
   verificarAvaliar();
   abrirProdutoDoLink();
+  await carregarAtacado();
+  if(/[?&]atacado\b/.test(location.search)){ history.replaceState(null, '', location.pathname + location.hash); if(!ATACADO) abrirConta(); }
   prepararPopup();
   if(AREA_CLIENTE && /[?&]meus-pedidos\b/.test(location.search)){ history.replaceState(null, '', location.pathname + location.hash); abrirConta(); }
 })();
