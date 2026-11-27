@@ -1515,7 +1515,8 @@ function desenharJanela(){
       }).join('')}</div>
 
       <div class="rotulo">Tamanho <span>${tams.length ? '' : 'Esgotado nesta cor'}</span></div>
-      <div class="tams">${p.tamanhos.map(t => `<button class="tam ${t === tam ? 'on' : ''}" ${tams.includes(t) ? '' : 'disabled'} onclick="escolherTam('${t}')">${t}</button>`).join('')}</div>
+      <div class="tams">${p.tamanhos.map(t => { const naSacola = tams.includes(t) && restante(p.ref, cor, t) <= 0;   // todas as peças desse tamanho já estão na sacola
+        return `<button class="tam ${t === tam ? 'on' : ''} ${naSacola ? 'cheio' : ''}" ${tams.includes(t) && !naSacola ? '' : 'disabled'} ${naSacola ? 'title="Todas as peças disponíveis deste tamanho já estão na sua sacola"' : ''} onclick="escolherTam('${t}')">${t}</button>`; }).join('')}</div>
       ${p.frases ? `<div class="rotulo">Frase do strass <span>${frase || ''}</span></div>
       <div class="tams">${p.frases.map((f, i) => `<button class="tam ${f === frase ? 'on' : ''}" onclick="sel.frase=sel.p.frases[${i}];desenharJanela()">${f}</button>`).join('')}</div>` : ''}
       <div class="estoque">${tam && lim !== Infinity ? `${lim} disponíve${lim === 1 ? 'l' : 'is'} em ${cor} / ${tam}` : (tam ? '' : sel.adicionado ? 'Escolha outra cor ou tamanho para adicionar mais' : 'Escolha a cor e o tamanho')}</div>
@@ -1572,7 +1573,7 @@ function escolherCor(c){
   if(sel.tam && !tamanhosDisponiveis(sel.p, c).includes(sel.tam)) sel.tam = '';
   sel.qtd = 1; desenharJanela();
 }
-function escolherTam(t){ sel.tam = t; sel.qtd = 1; desenharJanela(); }
+function escolherTam(t){ if(restante(sel.p.ref, sel.cor, t) <= 0){ toast('Todas as peças disponíveis deste tamanho já estão na sua sacola'); return; } sel.tam = t; sel.qtd = 1; desenharJanela(); }
 function mudarQtd(d){
   const lim = sel.tam ? restante(sel.p.ref, sel.cor, sel.tam) : Infinity;
   sel.qtd = Math.max(1, Math.min(sel.qtd + d, lim)); desenharJanela();
