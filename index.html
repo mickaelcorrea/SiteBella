@@ -397,6 +397,53 @@ body:has(.gaveta.on) .toast{bottom:auto;top:18px}
   .janela.on{transform:none}
   .info{padding:24px 20px 30px}
 }
+/* Promoção / leve mais */
+.card .selo-promo{position:absolute;top:10px;right:10px;background:#1f8a4c;color:#fff;font-size:10.5px;font-weight:700;padding:4px 7px;z-index:1}
+.preco s,.item s{color:#999;font-weight:400;font-size:.85em;margin-right:6px}
+.kit-info{margin:10px 0 0;padding:9px 12px;background:#eef7f1;color:#1f6b3d;font-size:12.5px;line-height:1.45}
+.item .tag-kit{display:inline-block;font-size:10.5px;background:#eef7f1;color:#1f6b3d;padding:2px 6px;margin-top:4px}
+#linhaKit .desconto{color:#1f8a4c}
+/* Estrelas e avaliações */
+.estrelas{color:#e0a100;letter-spacing:1px;font-size:13px;white-space:nowrap}
+.estrelas .vazia{color:#ddd}
+.card .aval{font-size:11.5px;color:#999;margin-top:-6px;margin-bottom:8px}
+.info .aval-resumo{display:inline-flex;gap:6px;align-items:center;font-size:12.5px;color:#777;cursor:pointer;margin:2px 0 6px}
+.avaliacoes{margin-top:26px;border-top:1px solid var(--linha);padding-top:18px}
+.avaliacoes h4{font-size:13px;letter-spacing:1px;text-transform:uppercase;margin-bottom:12px}
+.avaliacao{padding:12px 0;border-bottom:1px solid var(--linha);font-size:13px;line-height:1.5}
+.avaliacao .quem{display:flex;justify-content:space-between;color:#999;font-size:11.5px;margin:3px 0}
+.avaliacao img{width:74px;height:74px;object-fit:cover;margin-top:8px;cursor:zoom-in}
+/* Avise-me */
+.avise{margin-top:10px;font-size:12.5px}
+.avise > button{color:var(--destaque);text-decoration:underline;font-size:12.5px}
+.avise form{display:grid;gap:8px;margin-top:10px;padding:12px;background:var(--fundo-claro)}
+.avise select,.avise input{font:inherit;font-size:13px;padding:9px 10px;border:1px solid var(--linha);background:#fff;width:100%}
+.avise .linha2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+/* Pop-up de boas-vindas */
+.popup-fundo{position:fixed;inset:0;background:rgba(20,16,17,.55);z-index:130;display:none}
+.popup{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);width:min(520px,92vw);max-height:92vh;overflow:auto;background:#fff;z-index:131;display:none;text-align:center}
+.popup-fundo.on,.popup.on{display:block}
+.popup .topo-img{height:150px;background:var(--destaque) center/cover no-repeat;display:grid;place-items:center;color:#fff;font-weight:600;letter-spacing:1px;text-shadow:0 1px 6px rgba(0,0,0,.35);font-size:17px;text-transform:uppercase}
+.popup .fechar-pop{position:absolute;top:8px;right:8px;width:32px;height:32px;background:#fff;font-size:20px;line-height:1;color:#555;z-index:2}
+.popup .corpo-pop{padding:24px 30px 20px}
+.popup h3{font-size:18px;line-height:1.35;margin-bottom:8px}
+.popup p{font-size:13.5px;color:#666;line-height:1.5}
+.popup form{display:grid;gap:12px;margin:18px 0 6px}
+.popup input[type=email]{font:inherit;padding:13px 14px;border:1px solid var(--linha);font-size:14px}
+.popup .privado{background:var(--fundo-claro);font-size:12px;color:#888;padding:12px}
+.popup .nao-mostrar{display:flex;align-items:center;gap:8px;justify-content:flex-start;font-size:12px;color:#555;padding:12px 16px;cursor:pointer}
+.popup .cupom-pop{display:inline-block;font-size:24px;font-weight:700;letter-spacing:3px;color:var(--destaque);border:2px dashed var(--destaque);padding:10px 20px;margin:14px 0 8px;background:var(--rosa)}
+/* Avaliar pedido */
+.avaliar-item{display:grid;grid-template-columns:56px 1fr;gap:12px;text-align:left;padding:14px 0;border-bottom:1px solid var(--linha)}
+.avaliar-item img{width:56px;height:72px;object-fit:cover;background:var(--fundo-claro)}
+.avaliar-item .nota{display:flex;gap:2px;margin:6px 0}
+.avaliar-item .nota button{font-size:24px;color:#ddd;line-height:1}
+.avaliar-item .nota button.on{color:#e0a100}
+.avaliar-item textarea{width:100%;font:inherit;font-size:13px;padding:8px;border:1px solid var(--linha);min-height:60px;resize:vertical}
+.avaliar-item .acoes-av{display:flex;gap:10px;align-items:center;margin-top:8px;flex-wrap:wrap;font-size:12px}
+.avaliar-item .acoes-av label{color:var(--destaque);text-decoration:underline;cursor:pointer}
+.avaliar-item .feito{color:#1f8a4c;font-size:13px;font-weight:600}
+#aviso.largo{width:min(560px,94vw);max-height:90vh;overflow:auto;text-align:left}
 </style>
 </head>
 <body>
@@ -598,6 +645,7 @@ body:has(.gaveta.on) .toast{bottom:auto;top:18px}
   <footer id="rodapeCarrinho">
     <div class="resumo-valores">
       <div><span>Subtotal</span><span id="subtotalCarrinho">R$ 0,00</span></div>
+      <div id="linhaKit" hidden><span id="rotKit">Leve mais, pague menos</span><span class="desconto" id="valorKit"></span></div>
       <div id="linhaDesconto" hidden><span id="rotDesconto">Desconto</span><span class="desconto" id="valorDesconto"></span></div>
       <div><span>Frete</span><span id="valorFrete">—</span></div>
     </div>
@@ -617,6 +665,8 @@ body:has(.gaveta.on) .toast{bottom:auto;top:18px}
   <div class="corpo" id="contaCorpo"></div>
 </aside>
 
+<div class="popup-fundo" id="popupFundo" onclick="fecharPopup()"></div>
+<div class="popup" id="popup" role="dialog" aria-modal="true" aria-label="Boas-vindas"></div>
 <div class="retorno-fundo" id="avisoFundo" onclick="fecharAviso()"></div>
 <div class="retorno-pag" id="aviso" role="dialog" aria-modal="true"></div>
 
@@ -1087,8 +1137,53 @@ function categoriaProduto(p){
 }
 const ehPlus = t => ['XG','48','50','52','54'].includes(t);
 const precoDe = (p, t) => (p.precoPlus && ehPlus(t)) ? p.precoPlus : p.preco;
+/* ---------- Promoções e "leve mais, pague menos" (a mesma conta da API; a da API é a que vale) ---------- */
+let PROMOCOES = [], KITS = [], HOJE = new Date(Date.now() - 3 * 36e5).toISOString().slice(0, 10), AVALIACOES = {}, POPUP = {};
+const reaisTxt = v => 'R$ ' + Number(v).toFixed(2).replace('.', ',');
+const valeHoje = (x, hoje) => x && x.ativo !== false && (!x.inicio || hoje >= x.inicio) && (!x.fim || hoje <= x.fim);
+const valePara = (x, i) => { const refs = x.refs || [], cats = x.categorias || []; return (!refs.length && !cats.length) || refs.includes(i.ref) || cats.includes(i.categoria); };
+const textoKit = k => k.nome || (k.tipo === 'percentual' ? `${k.qtd} peças ou mais: ${+k.valor}% off` : `Leve ${k.qtd} por ${reaisTxt(k.valor)}`);
+function calcularPrecos(itens, promos, kits, hoje){
+  const out = itens.map(i => ({ ...i, precoDe: null, promo: '', qtdKit: 0 }));
+  for(const i of out){
+    let melhor = null;
+    for(const pr of Array.isArray(promos) ? promos : [])
+      if(valeHoje(pr, hoje) && valePara(pr, i) && +pr.valor > 0 && +pr.valor < 100 && (!melhor || +pr.valor > +melhor.valor)) melhor = pr;
+    if(melhor){ i.precoDe = i.preco; i.preco = Math.round(i.preco * (100 - melhor.valor)) / 100; i.promo = melhor.nome || `${+melhor.valor}% off`; }
+  }
+  let descontoKit = 0; const usados = [];
+  for(const k of Array.isArray(kits) ? kits : []){
+    const qtd = Math.floor(+k.qtd);
+    if(!valeHoje(k, hoje) || !(qtd >= 2) || !(+k.valor > 0)) continue;
+    const unidades = [];
+    out.forEach((i, idx) => { if(!i.precoDe && valePara(k, i)) for(let n = i.qtdKit; n < i.qtd; n++) unidades.push({ idx, preco: i.preco }); });
+    if(unidades.length < qtd) continue;
+    unidades.sort((a, b) => a.preco - b.preco);
+    let d = 0; const usadas = [];
+    if(k.tipo === 'percentual'){ usadas.push(...unidades); d = unidades.reduce((s, u) => s + u.preco, 0) * Math.min(100, +k.valor) / 100; }
+    else for(let g = 0; g + qtd <= unidades.length; g += qtd){
+      const grupo = unidades.slice(g, g + qtd), soma = grupo.reduce((s, u) => s + u.preco, 0);
+      if(soma > +k.valor){ d += soma - k.valor; usadas.push(...grupo); }
+    }
+    d = Math.round(d * 100) / 100;
+    if(d > 0){ usadas.forEach(u => out[u.idx].qtdKit++); descontoKit += d; usados.push({ nome: textoKit(k), desconto: d }); }
+  }
+  return { itens: out, subtotal: Math.round(out.reduce((s, i) => s + i.preco * i.qtd, 0) * 100) / 100, descontoKit: Math.round(descontoKit * 100) / 100, kits: usados };
+}
+// promoção de um produto (para o card e a janela)
+function promoDe(p){
+  let melhor = null;
+  for(const pr of PROMOCOES) if(valeHoje(pr, HOJE) && valePara(pr, { ref: p.ref, categoria: categoriaProduto(p) }) && +pr.valor > 0 && +pr.valor < 100 && (!melhor || +pr.valor > +melhor.valor)) melhor = pr;
+  return melhor;
+}
+const comPromo = (v, pr) => pr ? Math.round(v * (100 - pr.valor)) / 100 : v;
+const kitsDe = p => p && !promoDe(p) ? KITS.filter(k => valeHoje(k, HOJE) && Math.floor(+k.qtd) >= 2 && +k.valor > 0 && valePara(k, { ref: p.ref, categoria: categoriaProduto(p) })) : [];
+const precosCarrinho = () => calcularPrecos(carrinho.map(i => { const p = produtos.find(x => x.ref === i.ref); return { ...i, categoria: p ? categoriaProduto(p) : '' }; }), PROMOCOES, KITS, HOJE);
+const estrelas = n => { const c = Math.round(n); return `<span class="estrelas" aria-label="${n} de 5 estrelas">${'★'.repeat(c)}<span class="vazia">${'★'.repeat(5 - c)}</span></span>`; };
 const plural = c => c === 'Short Doll' ? c : (c === 'Sutiã' ? 'Sutiãs' : c + 's');
-const precoTexto = p => p.precoPlus ? `${brl(p.preco)} – ${brl(p.precoPlus)}` : brl(p.preco);
+const precoTexto = p => { const pr = promoDe(p), t = v => brl(comPromo(v, pr));
+  const novo = p.precoPlus ? `${t(p.preco)} – ${t(p.precoPlus)}` : t(p.preco);
+  return pr ? `<s>${p.precoPlus ? `${brl(p.preco)} – ${brl(p.precoPlus)}` : brl(p.preco)}</s>${novo}` : novo; };
 
 /* ---------- Logo: tenta .webp, depois .png; sem arquivo fica o nome escrito ---------- */
 function trocarLogo(el){
@@ -1167,12 +1262,14 @@ function card(p, selo=''){
   return `<div class="card">
     <div class="foto" onclick="abrirProduto('${p.ref}')">
       ${selo ? `<span class="selo">${selo}</span>` : ''}
+      ${promoDe(p) ? `<span class="selo-promo">-${+promoDe(p).valor}%</span>` : ''}
       ${capa(p.ref, p.nome)}
       ${img(caminhosFoto(p.ref,2), '', 'class="f2" onload="this.classList.add(\'ok\')"')}
     </div>
     <h3 onclick="abrirProduto('${p.ref}')">${p.nome}</h3>
     <div class="ref">Ref. ${p.ref}</div>
     <div class="preco">${precoTexto(p)}</div>
+    ${AVALIACOES[p.ref] ? `<div class="aval">${estrelas(AVALIACOES[p.ref].media)} (${AVALIACOES[p.ref].n})</div>` : ''}
     <div class="cores">${cores}</div>
     <button class="comprar" onclick="abrirProduto('${p.ref}')">Comprar</button>
   </div>`;
@@ -1341,6 +1438,7 @@ $('campoBusca').addEventListener('keydown', e => { if(e.key === 'Enter') $('prod
 /* ---------- Janela do produto ---------- */
 let sel = null; // { p, cor, tam, qtd, fotos, idx }
 async function abrirProduto(ref){
+  AVISE.aberto = false;
   const p = produtos.find(x => x.ref === ref); if(!p) return;
   const corInicial = p.cores.find(c => tamanhosDisponiveis(p, c).length) || p.cores[0];
   sel = { p, cor: corInicial, tam: '', frase: '', qtd: 1, fotos: [caminhosFoto(ref,1)[0]], idx: 0 };
@@ -1353,7 +1451,9 @@ function desenharJanela(){
   const { p, cor, tam, frase, qtd, fotos, idx } = sel;
   const tams = tamanhosDisponiveis(p, cor);
   const lim = tam ? restante(p.ref, cor, tam) : Infinity;
-  const preco = tam ? brl(precoDe(p, tam)) : precoTexto(p);
+  const pr = promoDe(p);
+  const preco = tam ? (pr ? `<s>${brl(precoDe(p, tam))}</s>${brl(comPromo(precoDe(p, tam), pr))}` : brl(precoDe(p, tam))) : precoTexto(p);
+  const av = AVALIACOES[p.ref], kits = kitsDe(p);
   $('janela').innerHTML = `
     <button class="fechar" onclick="fecharTudo()" aria-label="Fechar">×</button>
     <div class="galeria">
@@ -1363,7 +1463,9 @@ function desenharJanela(){
     <div class="info">
       <div class="ref">Ref. ${p.ref} · ${categoriaProduto(p)}</div>
       <h3>${p.nome}</h3>
-      <div class="preco">${preco}${p.precoPlus ? '<small>Tamanhos plus size (48 ao 54 e XG) têm preço diferenciado</small>' : ''}</div>
+      ${av ? `<div class="aval-resumo" onclick="document.querySelector('.avaliacoes').scrollIntoView({behavior:'smooth'})">${estrelas(av.media)} ${String(av.media).replace('.', ',')} · ${av.n} ${av.n === 1 ? 'avaliação' : 'avaliações'}</div>` : ''}
+      <div class="preco">${preco}${pr ? `<small>${esc(pr.nome || 'Promoção')}${pr.fim ? ` · até ${pr.fim.split('-').reverse().slice(0, 2).join('/')}` : ''}</small>` : ''}${p.precoPlus ? '<small>Tamanhos plus size (48 ao 54 e XG) têm preço diferenciado</small>' : ''}</div>
+      ${kits.map(k => `<div class="kit-info">🛍️ <b>${esc(textoKit(k))}</b>${(k.categorias || []).length ? ` — vale misturando ${esc(k.categorias.map(plural).join(', ').toLowerCase())}` : ''}. O desconto aparece sozinho no carrinho.</div>`).join('')}
 
       <div class="rotulo">Cor <span>${cor || ''}</span></div>
       <div class="swatches">${p.cores.map(c => {
@@ -1385,7 +1487,42 @@ function desenharJanela(){
         </div>
         <button class="btn" onclick="adicionar()">Adicionar ao pedido</button>
       </div>
+      ${blocoAviseMe(p)}
+      ${av ? `<div class="avaliacoes"><h4>Avaliações (${av.n})</h4>${av.lista.map(a => `<div class="avaliacao">${estrelas(a.nota)}
+        <div class="quem"><span>${esc(a.nome)}</span><span>${esc(String(a.data).split('-').reverse().join('/'))}</span></div>${a.texto ? `<div>${esc(a.texto)}</div>` : ''}
+        ${a.foto ? `<img src="${esc(fotoApi(a.foto))}" alt="Foto da cliente" loading="lazy" onclick="window.open(this.src,'_blank')">` : ''}</div>`).join('')}</div>` : ''}
     </div>`;
+}
+const fotoApi = u => /^\/img\//.test(u) ? API_URL + u : u;
+/* ---------- Avise-me quando chegar (cor/tamanho esgotado) ---------- */
+let AVISE = { aberto: false, cor: '', tam: '' };
+function esgotadosDe(p){
+  const cores = (p.todas && p.todas.cores) || p.cores, tams = (p.todas && p.todas.tamanhos) || p.tamanhos, l = [];
+  for(const c of cores){ const disp = p.cores.includes(c) ? tamanhosDisponiveis(p, c) : []; for(const t of tams) if(!disp.includes(t)) l.push({ c, t }); }
+  return l;
+}
+function blocoAviseMe(p){
+  if(!temApi()) return '';
+  const l = esgotadosDe(p); if(!l.length) return '';
+  if(!AVISE.aberto) return `<div class="avise"><button type="button" onclick="AVISE.aberto=true;AVISE.cor=sel.cor&&esgotadosDe(sel.p).some(x=>x.c===sel.cor)?sel.cor:esgotadosDe(sel.p)[0].c;AVISE.tam='';desenharJanela()">Não achou sua cor ou tamanho? Avise-me quando chegar</button></div>`;
+  const cores = [...new Set(l.map(x => x.c))], tams = l.filter(x => x.c === AVISE.cor).map(x => x.t);
+  return `<div class="avise"><form onsubmit="event.preventDefault();enviarAviseMe(this)">
+    <b style="font-size:13px">Avise-me quando chegar</b>
+    <div class="linha2"><select name="cor" onchange="AVISE.cor=this.value;AVISE.tam='';desenharJanela()">${cores.map(c => `<option ${c === AVISE.cor ? 'selected' : ''}>${esc(c)}</option>`).join('')}</select>
+      <select name="tam" onchange="AVISE.tam=this.value">${tams.map(t => `<option ${t === AVISE.tam ? 'selected' : ''}>${esc(t)}</option>`).join('')}</select></div>
+    <input type="email" name="email" required placeholder="Seu e-mail" value="${esc((contaSalva() || {}).email || '')}" autocomplete="email">
+    <input type="text" name="site" tabindex="-1" autocomplete="off" style="display:none">
+    <button class="btn" type="submit">Me avise</button></form></div>`;
+}
+async function enviarAviseMe(f){
+  const b = f.querySelector('button'); b.disabled = true; b.textContent = 'Enviando…';
+  try {
+    const r = await fetch(API_URL + '/api/avise-me', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: f.email.value.trim(), ref: sel.p.ref, cor: f.cor.value, tam: f.tam.value, site: f.site.value }) });
+    const d = await r.json().catch(() => ({}));
+    if(!r.ok) throw new Error(d.erro || 'Não deu certo. Tente de novo.');
+    AVISE.aberto = false; desenharJanela(); toast(`Pronto! Avisamos por e-mail quando ${f.cor.value} / ${f.tam.value} chegar.`);
+  } catch(e){ toast(e.message); b.disabled = false; b.textContent = 'Me avise'; }
 }
 function escolherCor(c){
   sel.cor = c;
@@ -1426,8 +1563,9 @@ function atualizarCarrinho(){
     const cod = CUPOM.codigo || CUPOM.pendente;
     if(cod && carrinho.length){ CUPOM.pendente = ''; clearTimeout(CUPOM._t); CUPOM._t = setTimeout(() => conferirCupom(cod, true), 450); } }
   mostrarValores();
+  const calc = precosCarrinho();
   $('itensCarrinho').innerHTML = carrinho.length ? carrinho.map((i, k) => {
-    const r = restante(i.ref, i.cor, i.tam, k), p = produtos.find(x => x.ref === i.ref);
+    const r = restante(i.ref, i.cor, i.tam, k), p = produtos.find(x => x.ref === i.ref), c = calc.itens[k];
     return `<div class="item">
       ${capa(i.ref, i.nome, 'loading="eager"')}
       <div>
@@ -1440,8 +1578,9 @@ function atualizarCarrinho(){
         </div>
         <div class="linha">
           <div class="qtd"><button onclick="qtdItem(${k},-1)">−</button><span>${i.qtd}</span><button onclick="qtdItem(${k},1)" ${i.qtd >= r ? 'disabled' : ''}>+</button></div>
-          <span class="valor">${brl(i.preco * i.qtd)}</span>
+          <span class="valor">${c.precoDe ? `<s>${brl(c.precoDe * i.qtd)}</s>` : ''}${brl(c.preco * i.qtd)}</span>
         </div>
+        ${c.qtdKit ? `<span class="tag-kit">🛍️ no leve mais</span>` : ''}
         <button class="rem" onclick="removerItem(${k})">Remover</button>
       </div>
     </div>`;
@@ -1684,7 +1823,8 @@ const CUPOM = { codigo: '', info: null, erro: '', aberto: false, carregando: fal
 const limparCodigo = v => String(v || '').toUpperCase().replace(/[^A-Z0-9_-]/g, '').slice(0, 30);
 function descontoCupom(){
   if(!CUPOM.info || !CUPOM.info.desconto) return 0;
-  return Math.min(CUPOM.info.desconto, carrinho.reduce((s, i) => s + i.preco * i.qtd, 0));
+  const c = precosCarrinho();
+  return Math.min(CUPOM.info.desconto, c.subtotal - c.descontoKit);
 }
 const cupomDoPedido = () => CUPOM.info && !(CUPOM.info.freteGratis && TIPO_ENTREGA === 'retirada') ? CUPOM.codigo : '';
 function desenharCupom(){
@@ -1768,20 +1908,23 @@ let ESTADOS_FRETE_GRATIS = ['SC', 'RS', 'PR'];
 const ORDEM_UF = ['SC', 'PR', 'RS'];
 const nomeEstados = l => (l = [...l].sort((a, b) => ((ORDEM_UF.indexOf(a) + 1) || 99) - ((ORDEM_UF.indexOf(b) + 1) || 99) || a.localeCompare(b))).length > 1 ? l.slice(0, -1).join(', ') + ' e ' + l[l.length - 1] : l.join('');
 function mostrarValores(){
-  const sub = carrinho.reduce((s, i) => s + i.preco * i.qtd, 0);
+  const calcV = precosCarrinho(), kit = calcV.descontoKit;
+  const sub = calcV.subtotal - kit;      // já com promoção e leve mais
+  $('linhaKit').hidden = !kit;
+  if(kit){ $('rotKit').textContent = calcV.kits.map(k => k.nome).join(' + '); $('valorKit').textContent = '− ' + brl(kit); }
   const desc = descontoCupom();
   $('linhaDesconto').hidden = !desc;
   if(desc){ $('rotDesconto').textContent = `Cupom ${CUPOM.codigo}`; $('valorDesconto').textContent = '− ' + brl(desc); }
   desenharCupom();
   if(TIPO_ENTREGA === 'retirada'){
-    $('subtotalCarrinho').textContent = brl(sub);
+    $('subtotalCarrinho').textContent = brl(calcV.subtotal);
     $('valorFrete').innerHTML = '<span style="color:#2f7d4a;font-weight:600">Retirada na loja</span>';
     $('totalCarrinho').textContent = brl(sub - desc);
     $('frete').className = 'frete ok'; $('frete').textContent = '✓ Sem frete: você retira na loja';
     return;
   }
   const c = FRETE.cotacao, op = c && c.opcoes.find(o => o.id === FRETE.escolhido);
-  $('subtotalCarrinho').textContent = brl(sub);
+  $('subtotalCarrinho').textContent = brl(calcV.subtotal);
   $('valorFrete').innerHTML = op ? (op.preco === 0 ? '<span class="gratis" style="color:#2f7d4a;font-weight:600">Grátis</span>' : brl(op.preco))
     : c && !c.opcoes.length ? 'a combinar' : FRETE.carregando ? 'calculando…' : '<span style="color:#999">informe o CEP</span>';
   $('totalCarrinho').textContent = brl(sub - desc + (op ? op.preco : 0));
@@ -1984,7 +2127,8 @@ async function finalizarPedido(){
   const botao = $('btnPedido'); const textoBotao = botao.textContent;
   botao.textContent = 'Enviando pedido...'; botao.disabled = true;
 
-  let itens = carrinho.map(i => ({ ...i })), total = carrinho.reduce((s, i) => s + i.preco * i.qtd, 0), codigo = '';
+  const calcW = precosCarrinho();
+  let itens = calcW.itens.map(i => ({ ...i })), total = calcW.subtotal - calcW.descontoKit, codigo = '', descPromo = calcW.descontoKit, promoTxt = calcW.kits.map(k => k.nome).join(' + ');
   const opFrete = entrega.tipo !== 'retirada' && FRETE.cotacao && FRETE.cotacao.opcoes.find(o => o.id === FRETE.escolhido);
   let frete = entrega.tipo === 'retirada' ? 'Retirada na loja' : opFrete ? `${opFrete.gratis ? 'Frete grátis — ' : ''}${[opFrete.empresa, opFrete.nome].filter(Boolean).join(' ')}${opFrete.preco ? ' — ' + brl(opFrete.preco) : ''}` : 'A combinar';
   if(opFrete) total += opFrete.preco;
@@ -2001,7 +2145,7 @@ async function finalizarPedido(){
       if(r){
         const dados = await r.json().catch(() => ({}));
         if(!r.ok){ if(janela) janela.close(); toast(dados.erro || 'Não foi possível registrar o pedido.'); reiniciarVerificacao(); if(r.status === 409) calcularFrete(); if(/cupom/i.test(dados.erro || '')){ CUPOM.info = null; CUPOM.erro = dados.erro; mostrarValores(); } return; }
-        codigo = dados.codigo; total = dados.total; desconto = dados.desconto || 0; cupomUsado = dados.cupom || '';
+        codigo = dados.codigo; total = dados.total; desconto = dados.desconto || 0; cupomUsado = dados.cupom || ''; descPromo = dados.desconto_promo || 0; promoTxt = dados.promo || '';
         frete = dados.frete;
         itens = dados.itens.map(i => ({ ...i, tam: i.tam }));
         // desconta da tela o que acabou de ser vendido
@@ -2009,7 +2153,8 @@ async function finalizarPedido(){
       }
     }
     let msg = `*Novo Pedido - Bella Moda Íntima* 🛒\n${codigo ? `*Pedido:* ${codigo}\n` : ''}\n*Cliente:* ${nome}\n*CPF/CNPJ:* ${doc}\n*E-mail:* ${email}\n*WhatsApp:* ${tel}\n*Pagamento:* ${NOMES_PAGAMENTO[pag] || pag}\n*Entrega:* ${enderecoTexto(entrega)}\n*Frete:* ${frete}\n\n━━━━━━━━━━━━━━━━\n`;
-    itens.forEach(i => { msg += `${i.qtd}x ${i.nome} (Ref ${i.ref})\n   Cor: ${i.cor} | Tam: ${i.tam}${i.frase ? ' | Frase: ' + i.frase : ''}\n   ${brl(i.preco * i.qtd)}\n\n`; });
+    itens.forEach(i => { msg += `${i.qtd}x ${i.nome} (Ref ${i.ref})\n   Cor: ${i.cor} | Tam: ${i.tam}${i.frase ? ' | Frase: ' + i.frase : ''}\n   ${brl(i.preco * i.qtd)}${i.precoDe ? ' (promoção)' : ''}\n\n`; });
+    if(descPromo) msg += `*${promoTxt || 'Leve mais, pague menos'}:* − ${brl(descPromo)}\n`;
     if(cupomUsado) msg += `*Cupom:* ${cupomUsado}${desconto ? ` (− ${brl(desconto)})` : ' (frete grátis)'}\n`;
     msg += `━━━━━━━━━━━━━━━━\n*Total: ${brl(total)}*`;
     const url = `https://api.whatsapp.com/send?phone=${WHATSAPP_LOJISTA}&text=${encodeURIComponent(msg)}`;
@@ -2019,6 +2164,111 @@ async function finalizarPedido(){
   } finally {
     enviando = false; botao.textContent = textoBotao; botao.disabled = false;
   }
+}
+
+/* ---------- Pop-up de boas-vindas (cupom da 1ª compra) ---------- */
+const CHAVE_POPUP = 'bella_popup';
+function prepararPopup(){
+  if(!temApi() || !POPUP.ativo || !POPUP.cupom) return;
+  if(/[?&](pedido|avaliar)=/.test(location.search)) return;
+  let v = null; try { v = JSON.parse(localStorage.getItem(CHAVE_POPUP) || 'null'); } catch(e){}
+  if(v && (v.nunca || v.assinou || (v.fechou && Date.now() - v.fechou < 3 * 864e5))) return;     // fechou: volta a aparecer depois de 3 dias
+  setTimeout(() => { if(!document.querySelector('.gaveta.on,#janela.on,#aviso.on')) abrirPopup(); }, Math.max(1, +POPUP.atraso || 6) * 1000);
+}
+function abrirPopup(){
+  const img = POPUP.imagem ? `style="background-image:url('${esc(fotoApi(POPUP.imagem))}')"` : '';
+  $('popup').innerHTML = `<button class="fechar-pop" onclick="fecharPopup()" aria-label="Fechar">×</button>
+    <div class="topo-img" ${img}>${esc(POPUP.faixa || 'Seja bem-vinda')}</div>
+    <div class="corpo-pop" id="corpoPop">
+      <h3>${esc(POPUP.titulo || `Assine e ganhe desconto na sua primeira compra`)}</h3>
+      <p>${esc(POPUP.texto || 'Assine e não perca as novidades e as nossas promoções.')}</p>
+      <form onsubmit="event.preventDefault();assinarPopup(this)">
+        <input type="email" name="email" required placeholder="Seu melhor e-mail" autocomplete="email">
+        <input type="text" name="site" tabindex="-1" autocomplete="off" style="display:none">
+        <button class="btn" type="submit">${esc(POPUP.botao || 'Quero meu cupom')}</button>
+      </form>
+    </div>
+    <div class="privado">Suas informações nunca serão compartilhadas com terceiros.</div>
+    <label class="nao-mostrar"><input type="checkbox" id="popNunca"> Não mostrar este pop-up novamente</label>`;
+  $('popup').classList.add('on'); $('popupFundo').classList.add('on');
+}
+function fecharPopup(){
+  const nunca = $('popNunca') && $('popNunca').checked;
+  try { const v = JSON.parse(localStorage.getItem(CHAVE_POPUP) || '{}') || {}; localStorage.setItem(CHAVE_POPUP, JSON.stringify({ ...v, fechou: Date.now(), ...(nunca ? { nunca: true } : {}) })); } catch(e){}
+  $('popup').classList.remove('on'); $('popupFundo').classList.remove('on');
+}
+async function assinarPopup(f){
+  const b = f.querySelector('button'); b.disabled = true; b.textContent = 'Enviando…';
+  try {
+    const r = await fetch(API_URL + '/api/assinar', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: f.email.value.trim(), site: f.site.value }) });
+    const d = await r.json().catch(() => ({}));
+    if(!r.ok) throw new Error(d.erro || 'Não deu certo. Tente de novo.');
+    try { localStorage.setItem(CHAVE_POPUP, JSON.stringify({ assinou: Date.now() })); localStorage.setItem(CHAVE_CUPOM, d.cupom); } catch(e){}
+    CUPOM.pendente = d.cupom; CUPOM.aberto = true; if(carrinho.length) conferirCupom(d.cupom, true);
+    $('corpoPop').innerHTML = `<h3>Prontinho! 💕</h3><p>Seu cupom de primeira compra é:</p><div class="cupom-pop">${esc(d.cupom)}</div>
+      <p>Ele já fica guardado e entra sozinho no carrinho. Também mandamos para o seu e-mail.</p>
+      <div style="display:flex;gap:10px;justify-content:center;margin-top:16px"><button class="btn" onclick="fecharPopup()">Começar a comprar</button></div>`;
+  } catch(e){ toast(e.message); b.disabled = false; b.textContent = POPUP.botao || 'Quero meu cupom'; }
+}
+
+/* ---------- Avaliar o pedido (link do e-mail: ?avaliar=BMI-0001&t=...) ---------- */
+let AVALIAR = null;
+async function verificarAvaliar(){
+  const q = new URLSearchParams(location.search), codigo = q.get('avaliar'), t = q.get('t');
+  if(!codigo || !t || !temApi()) return;
+  history.replaceState(null, '', location.pathname + location.hash);
+  if(!/^BMI-\d{1,8}$/.test(codigo) || !/^[A-Za-z0-9_-]{10,64}$/.test(t)) return;
+  const r = await fetch(`${API_URL}/api/avaliar/${codigo}?t=${encodeURIComponent(t)}`).catch(() => null);
+  const d = r ? await r.json().catch(() => ({})) : {};
+  if(!r || !r.ok){ mostrarAviso(`<div class="icone erro">!</div><h3>Não deu para abrir a avaliação</h3><p>${esc(d.erro || 'Tente de novo mais tarde.')}</p><button class="btn" onclick="fecharAviso()">Fechar</button>`); return; }
+  AVALIAR = { codigo, t, nome: d.nome, itens: d.itens.map(i => ({ ...i, nota: 0, texto: '', foto: null, feito: d.ja.includes(i.ref) })) };
+  desenharAvaliar(); $('aviso').classList.add('largo');
+}
+function desenharAvaliar(){
+  const A = AVALIAR;
+  mostrarAviso(`<h3 style="text-align:center">${esc(A.nome)}, o que você achou? 💕</h3><p style="text-align:center;color:#777;font-size:13px">Pedido ${esc(A.codigo)} · sua avaliação aparece no site depois que a loja confere.</p>
+    ${A.itens.map((i, k) => `<div class="avaliar-item"><img src="${esc(i.foto ? fotoApi(i.foto) : caminhosFoto(i.ref, 1)[0])}" alt="" onerror="this.src=SEM_FOTO">
+      <div><b style="font-size:13.5px">${esc(i.nome)}</b>
+      ${i.feito ? `<div class="feito">✓ Avaliação enviada. Obrigada!</div>` : `
+        <div class="nota">${[1, 2, 3, 4, 5].map(n => `<button type="button" class="${n <= i.nota ? 'on' : ''}" onclick="AVALIAR.itens[${k}].nota=${n};desenharAvaliar()" aria-label="${n} estrela${n > 1 ? 's' : ''}">★</button>`).join('')}</div>
+        <textarea placeholder="Conte o que achou: tecido, tamanho, conforto… (opcional)" maxlength="800" oninput="AVALIAR.itens[${k}].texto=this.value">${esc(i.texto)}</textarea>
+        <div class="acoes-av"><label>📷 ${i.foto ? 'Trocar foto' : 'Adicionar foto (opcional)'}<input type="file" accept="image/*" hidden onchange="fotoAvaliacao(${k},this.files[0])"></label>
+          ${i.foto ? `<img src="${i.foto}" alt="" style="width:40px;height:40px;object-fit:cover">` : ''}
+          <span style="flex:1"></span><button class="btn" type="button" style="padding:9px 18px" onclick="enviarAvaliacao(${k},this)">Enviar</button></div>`}</div></div>`).join('')}
+    <div style="text-align:center;margin-top:16px"><button class="btn" style="background:#fff;color:var(--texto)" onclick="fecharAviso();$('aviso').classList.remove('largo')">Fechar</button></div>`);
+}
+// Diminui a foto no próprio celular (até 1280 px, jpg) antes de mandar
+function fotoAvaliacao(k, arq){
+  if(!arq) return;
+  if(!/^image\//.test(arq.type)){ toast('Escolha uma foto'); return; }
+  const img = new Image(), url = URL.createObjectURL(arq);
+  img.onload = () => {
+    const esc_ = Math.min(1, 1280 / Math.max(img.width, img.height)), c = document.createElement('canvas');
+    c.width = Math.round(img.width * esc_); c.height = Math.round(img.height * esc_);
+    c.getContext('2d').drawImage(img, 0, 0, c.width, c.height); URL.revokeObjectURL(url);
+    AVALIAR.itens[k].foto = c.toDataURL('image/jpeg', 0.82); desenharAvaliar();
+  };
+  img.onerror = () => toast('Não consegui abrir essa foto. Tente outra.');
+  img.src = url;
+}
+async function enviarAvaliacao(k, b){
+  const i = AVALIAR.itens[k];
+  if(!i.nota){ toast('Escolha de 1 a 5 estrelas'); return; }
+  b.disabled = true; b.textContent = 'Enviando…';
+  try {
+    const r = await fetch(`${API_URL}/api/avaliar/${AVALIAR.codigo}`, { method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ t: AVALIAR.t, ref: i.ref, nota: i.nota, texto: i.texto, foto: i.foto || undefined }) });
+    const d = await r.json().catch(() => ({}));
+    if(!r.ok && r.status !== 409) throw new Error(d.erro || 'Não deu certo. Tente de novo.');
+    i.feito = true; desenharAvaliar();
+  } catch(e){ toast(e.message); b.disabled = false; b.textContent = 'Enviar'; }
+}
+// Link direto para um produto: site.com/?produto=2069 (usado no e-mail do "avise-me")
+function abrirProdutoDoLink(){
+  const ref = new URLSearchParams(location.search).get('produto');
+  if(!ref) return;
+  history.replaceState(null, '', location.pathname + location.hash);
+  if(produtos.some(p => p.ref === ref)) abrirProduto(ref);
 }
 
 function toast(m){ const t = $('toast'); t.textContent = m; t.classList.add('on'); clearTimeout(toast._t); toast._t = setTimeout(() => t.classList.remove('on'), 2600); }
@@ -2055,6 +2305,9 @@ async function carregarDoPainel(){
     if(c.banners) trocarConteudo(BANNERS, c.banners);
     if(c.fotos_categorias) trocarConteudo(FOTOS_CATEGORIAS, c.fotos_categorias);
     if(c.categorias) trocarConteudo(CATEGORIAS, c.categorias);
+    PROMOCOES = Array.isArray(c.promocoes) ? c.promocoes : []; KITS = Array.isArray(c.kits) ? c.kits : [];
+    if(/^\d{4}-\d{2}-\d{2}$/.test(c.hoje || '')) HOJE = c.hoje;
+    POPUP = c.popup || {}; AVALIACOES = d.avaliacoes || {};
     if(c.cores && typeof c.cores === 'object')                  // cores das bolinhas escolhidas no painel (só #rrggbb)
       Object.entries(c.cores).forEach(([nome, hex]) => { if(/^#[0-9a-f]{6}(,#[0-9a-f]{6}){0,5}$/i.test(hex)) CORES[nome] = hex; });
     if(c.loja){ if(c.loja.whatsapp) WHATSAPP_LOJISTA = String(c.loja.whatsapp).replace(/\D/g, ''); if(c.loja.pedido_minimo_frete) PEDIDO_MINIMO_FRETE = c.loja.pedido_minimo_frete;
@@ -2086,6 +2339,9 @@ async function carregarDoPainel(){
   prepararPagamentoOnline();
   prepararRetirada();
   verificarVoltaDoPagamento();
+  verificarAvaliar();
+  abrirProdutoDoLink();
+  prepararPopup();
   if(AREA_CLIENTE && /[?&]meus-pedidos\b/.test(location.search)){ history.replaceState(null, '', location.pathname + location.hash); abrirConta(); }
 })();
 </script>
