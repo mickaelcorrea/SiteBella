@@ -2271,7 +2271,7 @@ function desenharRevenda(msg){
       <div class="l2"><div><label>Como você vende?</label><select name="como_vende">${['Loja física', 'Loja online / Instagram', 'Porta a porta / catálogo', 'Ainda vou começar'].map(o => `<option ${REV.dados?.como_vende === o ? 'selected' : ''}>${o}</option>`).join('')}</select></div>
         <div><label>Instagram ou site (opcional)</label><input name="instagram" value="${esc(REV.dados?.instagram || '')}" placeholder="@sualoja"></div></div>
       <input type="text" name="site" tabindex="-1" autocomplete="off" style="display:none">
-      <label class="aceite"><input type="checkbox" name="aceite" required> Li as condições acima (pedido mínimo de ${brl(at.minimo)} em peças${+at.frete_gratis_acima ? ` e frete grátis só acima de ${brl(at.frete_gratis_acima)}` : ''}) e quero me cadastrar.</label>
+      <label class="aceite"><input type="checkbox" name="aceite" required> Li as condições do atacado (pedido mínimo e frete) e quero me cadastrar.</label>
       <div class="erro-rev" id="erroRev">${esc(msg || '')}</div>
       <button class="btn" type="submit">Fazer meu cadastro</button>
       <button type="button" class="link-c" style="background:none;border:0;color:var(--destaque);text-decoration:underline;cursor:pointer;font-size:13px" onclick="fecharAviso();abrirConta()">Já sou revendedora — entrar</button>
