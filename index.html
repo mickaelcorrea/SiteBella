@@ -397,6 +397,9 @@ body:has(.gaveta.on) .toast{bottom:auto;top:18px}
   .janela.on{transform:none}
   .info{padding:24px 20px 30px}
 }
+.add-ok{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-top:12px;padding:10px 12px;background:#eef7f1;color:#1f6b3d;font-size:13px}
+.add-ok button{font-size:12px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;border:1px solid #1f6b3d;padding:7px 12px;color:#1f6b3d}
+.add-ok button:hover{background:#1f6b3d;color:#fff}
 /* Atacado */
 .faixa-atacado{display:none;background:#1f2a44;color:#fff;font-size:12.5px;text-align:center;padding:9px 12px;line-height:1.5}
 body.atacado .faixa-atacado{display:block}
@@ -1515,7 +1518,7 @@ function desenharJanela(){
       <div class="tams">${p.tamanhos.map(t => `<button class="tam ${t === tam ? 'on' : ''}" ${tams.includes(t) ? '' : 'disabled'} onclick="escolherTam('${t}')">${t}</button>`).join('')}</div>
       ${p.frases ? `<div class="rotulo">Frase do strass <span>${frase || ''}</span></div>
       <div class="tams">${p.frases.map((f, i) => `<button class="tam ${f === frase ? 'on' : ''}" onclick="sel.frase=sel.p.frases[${i}];desenharJanela()">${f}</button>`).join('')}</div>` : ''}
-      <div class="estoque">${tam && lim !== Infinity ? `${lim} disponíve${lim === 1 ? 'l' : 'is'} em ${cor} / ${tam}` : (tam ? '' : 'Escolha a cor e o tamanho')}</div>
+      <div class="estoque">${tam && lim !== Infinity ? `${lim} disponíve${lim === 1 ? 'l' : 'is'} em ${cor} / ${tam}` : (tam ? '' : sel.adicionado ? 'Escolha outra cor ou tamanho para adicionar mais' : 'Escolha a cor e o tamanho')}</div>
 
       <div class="add-row">
         <div class="qtd">
@@ -1525,6 +1528,8 @@ function desenharJanela(){
         </div>
         ${semAtacado ? `<a class="btn" href="${linkWhatsLoja('Olá! Sou revendedora e quero o preço de atacado da Ref. ' + p.ref + ' — ' + p.nome)}" target="_blank" rel="noopener">Consultar no WhatsApp</a>` : `<button class="btn" onclick="adicionar()">Adicionar ao pedido</button>`}
       </div>
+      ${sel.adicionado ? `<div class="add-ok">✓ ${esc(sel.adicionado)} na sacola${(() => { const n = carrinho.filter(i => i.ref === p.ref).reduce((t, i) => t + i.qtd, 0); return n ? ` · ${n} peça${n === 1 ? '' : 's'} desta referência` : ''; })()}
+        <button type="button" onclick="verSacolaDaJanela()">Ver sacola (${carrinho.reduce((t, i) => t + i.qtd, 0)})</button></div>` : ''}
       ${blocoAviseMe(p)}
       ${av ? `<div class="avaliacoes"><h4>Avaliações (${av.n})</h4>${av.lista.map(a => `<div class="avaliacao">${estrelas(a.nota)}
         <div class="quem"><span>${esc(a.nome)}</span><span>${esc(String(a.data).split('-').reverse().join('/'))}</span></div>${a.texto ? `<div>${esc(a.texto)}</div>` : ''}
@@ -1586,9 +1591,13 @@ function adicionar(){
   const ja = carrinho.find(i => i.ref === p.ref && i.cor === cor && i.tam === tam && i.frase === (frase || ''));
   if(ja) ja.qtd += qtd; else carrinho.push({ ref: p.ref, nome: p.nome, cor, tam, frase: frase || '', qtd, preco: precoDe(p, tam) });
   atualizarCarrinho();
-  fecharTudo();
+  // continua na página da peça para escolher outra cor/tamanho (a cor fica; tamanho e quantidade voltam ao começo)
+  sel.adicionado = `${qtd}x ${cor} / ${tam}${frase ? ' / ' + frase : ''}`;
+  sel.tam = ''; sel.qtd = 1;
+  desenharJanela();
   toast(`${qtd}x ${p.nome} (${cor} / ${tam}${frase ? ' / ' + frase : ''}) adicionado ao pedido`);
 }
+function verSacolaDaJanela(){ abrirCarrinho(); }   // troca a janela pela sacola sem mexer no "voltar" do celular
 function atualizarCarrinho(){
   const total = carrinho.reduce((s, i) => s + i.preco * i.qtd, 0);
   $('qtdCarrinho').textContent = carrinho.reduce((s, i) => s + i.qtd, 0);
