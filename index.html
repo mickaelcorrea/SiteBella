@@ -413,7 +413,10 @@ body.atacado .faixa-atacado{display:block}
 .form-rev .aceite{display:flex;gap:8px;align-items:flex-start;font-size:12.5px;color:#555}
 .form-rev .aceite input{width:auto;margin-top:3px}
 .form-rev .tipo input{width:auto;padding:0}
-body.atacado .aviso .wrap > span{visibility:hidden}
+.so-atacado{display:none!important}
+body.atacado .so-varejo{display:none!important}
+body.atacado span.so-atacado{display:inline!important}
+body.atacado div.so-atacado,body.atacado p.so-atacado{display:block!important}
 .condicoes{background:var(--fundo-claro);padding:12px 14px;font-size:13px;line-height:1.6;color:#444}
 .erro-rev{color:#b3261e;font-size:13px;min-height:18px}
 @media(max-width:600px){.form-rev .l2,.form-rev .l3{grid-template-columns:1fr}}
@@ -472,7 +475,7 @@ body.atacado .aviso .wrap > span{visibility:hidden}
 <div class="aviso">
   <div class="wrap">
     <a class="lado" href="#" id="linkRevenda" onclick="abrirRevenda();return false">Seja uma revendedora</a>
-    <span>Pedido mínimo <b class="txt-minimo">R$ 300,00</b> · Frete grátis para <b class="txt-estados">SC, PR e RS</b></span>
+    <span><span class="so-varejo">Pedido mínimo <b class="txt-minimo">R$ 300,00</b> · Frete grátis para <b class="txt-estados">SC, PR e RS</b></span><span class="so-atacado">Atacado: pedido mínimo <b class="txt-at-minimo">R$ 1.500,00</b> · Frete grátis acima de <b class="txt-at-frete">R$ 2.000,00</b></span></span>
     <a class="lado" href="#" onclick="abrirZap('Olá! Gostaria de falar com a Bella Moda Íntima.');return false">Fale conosco</a>
   </div>
 </div>
@@ -568,8 +571,8 @@ body.atacado .aviso .wrap > span{visibility:hidden}
 <!-- ===== Vantagens ===== -->
 <section class="vantagens">
   <div class="wrap">
-    <div class="vant"><svg viewBox="0 0 24 24"><path d="M2 7h12v9H2zM14 10h4.5l3 3v3H14z"/><circle cx="6" cy="17.5" r="1.7"/><circle cx="17.5" cy="17.5" r="1.7"/></svg><div><b>Frete grátis <span class="txt-estados">SC, PR e RS</span></b><span>Pedidos a partir de <span class="txt-minimo">R$ 300,00</span></span></div></div>
-    <div class="vant"><svg viewBox="0 0 24 24"><path d="M3 9l1.5-5h15L21 9M3 9h18v11H3zM9 13h6"/></svg><div><b>Atacado</b><span>Condições especiais para revenda</span></div></div>
+    <div class="vant"><svg viewBox="0 0 24 24"><path d="M2 7h12v9H2zM14 10h4.5l3 3v3H14z"/><circle cx="6" cy="17.5" r="1.7"/><circle cx="17.5" cy="17.5" r="1.7"/></svg><div class="so-varejo"><b>Frete grátis <span class="txt-estados">SC, PR e RS</span></b><span>Pedidos a partir de <span class="txt-minimo">R$ 300,00</span></span></div><div class="so-atacado"><b>Frete grátis</b><span>Pedidos de atacado acima de <span class="txt-at-frete">R$ 2.000,00</span></span></div></div>
+    <div class="vant"><svg viewBox="0 0 24 24"><path d="M3 9l1.5-5h15L21 9M3 9h18v11H3zM9 13h6"/></svg><div class="so-varejo"><b>Atacado</b><span>Condições especiais para revenda</span></div><div class="so-atacado"><b>Pedido mínimo</b><span><span class="txt-at-minimo">R$ 1.500,00</span> em peças no atacado</span></div></div>
     <div class="vant"><svg viewBox="0 0 24 24"><rect x="2.5" y="5.5" width="19" height="13" rx="2"/><path d="M2.5 10h19M6.5 15h4"/></svg><div><b>Pagamento</b><span>Pix, cartão de crédito ou boleto</span></div></div>
     <div class="vant"><svg viewBox="0 0 24 24"><path d="M12 2.5a9.5 9.5 0 0 0-8.2 14.3L2.5 21.5l4.8-1.2A9.5 9.5 0 1 0 12 2.5z"/><path d="M8.5 10.5h7M8.5 13.5h4.5"/></svg><div><b>Atendimento</b><span>Pedido finalizado pelo WhatsApp</span></div></div>
   </div>
@@ -594,7 +597,8 @@ body.atacado .aviso .wrap > span{visibility:hidden}
     </div>
     <div>
       <h4>Informações</h4>
-      <p>Frete grátis para <span class="txt-estados">SC, PR e RS</span> a partir de <span class="txt-minimo">R$ 300,00</span></p>
+      <p class="so-varejo">Frete grátis para <span class="txt-estados">SC, PR e RS</span> a partir de <span class="txt-minimo">R$ 300,00</span></p>
+      <p class="so-atacado">Atacado: pedido mínimo de <span class="txt-at-minimo">R$ 1.500,00</span> · frete grátis acima de <span class="txt-at-frete">R$ 2.000,00</span></p>
       <p>Pix ou cartão em até 12x</p>
       <a href="privacidade.html">Política de Privacidade</a>
     </div>
@@ -2225,6 +2229,7 @@ async function carregarAtacado(){
 function aplicarModoAtacado(){
   const at = noAtacado();
   document.body.classList.toggle('atacado', at);
+  if(at){ document.querySelectorAll('.txt-at-minimo').forEach(e => e.textContent = brl(ATACADO.minimo)); document.querySelectorAll('.txt-at-frete').forEach(e => e.textContent = brl(ATACADO.frete_gratis_acima)); }
   $('faixaAtacado').innerHTML = at ? `🛍️ Você está no <b>ATACADO</b> — ${esc(ATACADO.razao_social || ATACADO.nome)} · pedido mínimo ${brl(ATACADO.minimo)}${ATACADO.frete_gratis_acima ? ` · frete grátis acima de ${brl(ATACADO.frete_gratis_acima)}` : ''}<a onclick="sairConta();toast('Você saiu do atacado')">Sair</a>` : '';
   $('linkRevenda').textContent = at ? 'Atacado ativo ✓' : ATACADO && ATACADO.status === 'pendente' ? 'Revenda em análise' : 'Seja uma revendedora';
   let tirou = 0;
