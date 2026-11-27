@@ -232,6 +232,9 @@ footer{background:#fff;padding:56px 0 0;border-top:1px solid var(--linha)}
 .item .qtd{height:32px}.item .qtd button{width:30px;font-size:14px}.item .qtd span{min-width:26px;font-size:12.5px}
 .item .rem{font-size:11.5px;color:#999;text-decoration:underline;margin-top:8px}
 .item .valor{font-weight:600;color:var(--destaque)}
+.limpar-car{display:flex;justify-content:flex-end;margin:-4px 0 6px}
+.limpar-car button{font-size:12px;color:#999;text-decoration:underline;padding:4px 0}
+.limpar-car button.confirmar{color:var(--destaque);font-weight:600}
 .vazio-car{text-align:center;color:var(--cinza);padding:60px 10px;line-height:1.6}
 /* Cupom de desconto (na sacola) */
 .cupom{margin:14px 0 4px;border-top:1px dashed var(--linha);padding-top:12px}
@@ -631,7 +634,7 @@ body.atacado div.so-atacado,body.atacado p.so-atacado{display:block!important}
     <button data-passo="3" onclick="irPasso(3)"><i>3</i>Pagamento</button>
   </nav>
   <div class="corpo" id="corpoGaveta">
-    <section id="passo1"><div id="itensCarrinho"></div><div class="cupom" id="caixaCupom" hidden></div></section>
+    <section id="passo1"><div class="limpar-car" id="limparCar" hidden><button type="button" onclick="limparCarrinho(this)">Esvaziar pedido</button></div><div id="itensCarrinho"></div><div class="cupom" id="caixaCupom" hidden></div></section>
 
     <section id="passo2" class="form passo" hidden>
       <div class="tipo-entrega" id="tipoEntrega" hidden>
@@ -1612,6 +1615,7 @@ function atualizarCarrinho(){
     const cod = CUPOM.codigo || CUPOM.pendente;
     if(cod && carrinho.length){ CUPOM.pendente = ''; clearTimeout(CUPOM._t); CUPOM._t = setTimeout(() => conferirCupom(cod, true), 450); } }
   mostrarValores();
+  const lc = $('limparCar'); lc.hidden = carrinho.length < 2; const bl = lc.querySelector('button'); bl.classList.remove('confirmar'); bl.textContent = 'Esvaziar pedido'; clearTimeout(bl._t);
   const calc = precosCarrinho();
   $('itensCarrinho').innerHTML = carrinho.length ? carrinho.map((i, k) => {
     const r = restante(i.ref, i.cor, i.tam, k), p = produtos.find(x => x.ref === i.ref), c = calc.itens[k];
@@ -1650,6 +1654,15 @@ function mudarItem(k, campo, valor){
   atualizarCarrinho();
 }
 function removerItem(k){ carrinho.splice(k, 1); atualizarCarrinho(); }
+// Esvaziar o pedido todo: pede um segundo toque para confirmar (evita apagar sem querer)
+function limparCarrinho(bt){
+  if(!bt.classList.contains('confirmar')){
+    bt.classList.add('confirmar'); bt.textContent = 'Toque de novo para esvaziar';
+    clearTimeout(bt._t); bt._t = setTimeout(() => { bt.classList.remove('confirmar'); bt.textContent = 'Esvaziar pedido'; }, 4000);
+    return;
+  }
+  carrinho.length = 0; atualizarCarrinho(); toast('Pedido esvaziado');
+}
 function abrirCarrinho(){ prepararVerificacao(); irPasso(1, true); atualizarCarrinho(); ['janela','conta'].forEach(id => $(id).classList.remove('on')); $('fundo').classList.add('on'); $('gaveta').classList.add('on'); marcarCamada(); }
 
 /* ---------- Etapas do pedido: Sacola → Entrega → Pagamento ---------- */
