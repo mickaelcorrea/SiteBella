@@ -264,6 +264,8 @@ footer{background:#fff;padding:56px 0 0;border-top:1px solid var(--linha)}
 .passo-ajuda{font-size:13.5px;color:#555;margin-bottom:2px}
 .nao-sei-cep{font-size:11.5px;color:#888;text-decoration:underline;justify-self:start;margin-top:-2px}
 .campos-end{display:grid;gap:8px}
+.travado{background:#f5f3f2!important;color:#555!important;cursor:not-allowed}
+.nota-cep{font-size:11.5px;color:var(--cinza);line-height:1.4}
 .resumo-entrega{background:var(--fundo-claro);border:1px solid var(--linha);padding:12px 14px;font-size:12.5px;line-height:1.5;color:#444}
 .resumo-entrega b{display:block;font-size:11px;letter-spacing:1.2px;text-transform:uppercase;color:#888;font-weight:600;margin-bottom:2px}
 .resumo-entrega a{color:var(--destaque);text-decoration:underline;cursor:pointer;font-size:12px}
@@ -651,6 +653,7 @@ body.atacado div.so-atacado,body.atacado p.so-atacado{display:block!important}
         <div class="linha-end"><input id="cliNum" type="text" inputmode="numeric" placeholder="Número"><input id="cliComp" type="text" autocomplete="address-line2" placeholder="Complemento"></div>
         <input id="cliBairro" type="text" placeholder="Bairro">
         <input id="cliCidade" type="text" placeholder="Cidade / UF">
+        <small class="nota-cep" id="notaCep" hidden>🔒 Rua, bairro e cidade vêm do CEP. Para mudar, troque o CEP acima.</small>
       </div>
       <div class="bloco-tit" id="titFrete" hidden>Forma de entrega</div>
       <div class="opcoes-frete" id="opcoesFrete"></div>
@@ -1559,7 +1562,8 @@ function blocoAviseMe(p){
       <select name="tam" onchange="AVISE.tam=this.value">${tams.map(t => `<option ${t === AVISE.tam ? 'selected' : ''}>${esc(t)}</option>`).join('')}</select></div>
     <input type="email" name="email" required placeholder="Seu e-mail" value="${esc((contaSalva() || {}).email || '')}" autocomplete="email">
     <input type="text" name="site" tabindex="-1" autocomplete="off" style="display:none">
-    <button class="btn" type="submit">Me avise</button></form></div>`;
+    <button class="btn" type="submit">Me avise</button>
+    <small style="display:block;font-size:11px;color:#999;margin-top:6px;line-height:1.4">Usamos seu e-mail só para avisar quando a peça voltar. <a href="privacidade.html" target="_blank" rel="noopener" style="color:inherit">Privacidade</a></small></form></div>`;
 }
 async function enviarAviseMe(f){
   const b = f.querySelector('button'); b.disabled = true; b.textContent = 'Enviando…';
@@ -1871,6 +1875,7 @@ function restaurarCarrinho(){
   try { s = JSON.parse(localStorage.getItem(CHAVE_SACOLA) || 'null'); d = JSON.parse(localStorage.getItem(CHAVE_DADOS) || 'null'); } catch(e){}
   if(d) CAMPOS_SALVOS.forEach(id => { if(d[id]) $(id).value = d[id]; });
   if(d && d.cliRua) { $('camposEndereco').hidden = false; FRETE.cepBuscado = soNum(d.cliCep || ''); }
+  const cepSalvo = soNum(d?.cliCep || ''); if(cepSalvo.length === 8){ FRETE.cepEndereco = cepSalvo; buscarEndereco(cepSalvo, true); }
   if(!s || !Array.isArray(s.itens) || Date.now() - s.salvo > 30 * 864e5) return;
   let mudou = false;
   for(const i of s.itens){
@@ -2020,17 +2025,30 @@ function digitouCep(el){
   el.value = v.length > 5 ? v.slice(0, 5) + '-' + v.slice(5) : v;
   if(v.length === 8 && v !== FRETE.cepBuscado) calcularFrete();
 }
-async function buscarEndereco(cep){
-  if(FRETE.cepBuscado === cep) return; FRETE.cepBuscado = cep;
+// Endereço que veio do CEP fica travado: só muda trocando o CEP (evita endereço que não bate com o CEP do frete)
+function travarCampo(el, valor){ if(!el || !valor) return; el.value = valor; el.readOnly = true; el.classList.add('travado'); }
+function destravarCampos(els){ els.forEach(el => { if(el){ el.readOnly = false; el.classList.remove('travado'); } }); }
+async function buscarEndereco(cep, restaurando){
+  if(!restaurando){ if(FRETE.cepBuscado === cep) return; FRETE.cepBuscado = cep; }
   $('camposEndereco').hidden = false;
+  const rua = $('cliRua'), bairro = $('cliBairro'), cidade = $('cliCidade');
+  if(!restaurando && FRETE.cepEndereco !== cep){
+    // CEP novo: o endereço anterior não vale mais
+    destravarCampos([rua, bairro, cidade]);
+    [rua, $('cliNum'), $('cliComp'), bairro, cidade].forEach(el => el.value = '');
+    $('notaCep').hidden = true;
+  }
+  FRETE.cepEndereco = cep;
   try {
     const r = await fetch(`https://viacep.com.br/ws/${cep}/json/`).then(r => r.json());
-    if(r.erro){ toast('CEP não encontrado. Confira o número.'); return; }
-    if(r.logradouro) $('cliRua').value = r.logradouro;
-    if(r.bairro) $('cliBairro').value = r.bairro;
-    $('cliCidade').value = `${r.localidade} / ${r.uf}`;
+    if(soNum($('cliCep').value) !== cep) return;            // a cliente já trocou o CEP
+    if(r.erro){ if(!restaurando) toast('CEP não encontrado. Confira o número.'); return; }
+    // CEP geral da cidade vem sem rua/bairro: esses ficam livres para digitar
+    travarCampo(rua, r.logradouro); travarCampo(bairro, r.bairro); travarCampo(cidade, `${r.localidade} / ${r.uf}`);
+    $('notaCep').textContent = r.logradouro ? '🔒 Rua, bairro e cidade vêm do CEP. Para mudar, troque o CEP acima.' : '🔒 A cidade vem do CEP. Este CEP é geral da cidade: digite a rua e o bairro.';
+    $('notaCep').hidden = false;
     salvarDados();
-    (r.logradouro ? $('cliNum') : $('cliRua')).focus();
+    if(!restaurando) (r.logradouro ? $('cliNum') : rua).focus();
   } catch(e){ /* sem internet para o ViaCEP: a cliente digita o endereço */ }
 }
 async function calcularFrete(avisar){
@@ -2293,26 +2311,39 @@ function desenharRevenda(msg){
       <div class="l2"><div><label>Nome da responsável</label><input name="nome" required autocomplete="name" value="${esc(REV.dados?.nome || '')}"></div>
         <div><label>WhatsApp com DDD</label><input name="telefone" required inputmode="tel" oninput="formatarTelefone(this)" value="${esc(REV.dados?.telefone || '')}"></div></div>
       <div><label>E-mail (é o seu login, sem senha)</label><input name="email" type="email" required autocomplete="email" value="${esc(REV.dados?.email || '')}"></div>
-      <div class="l3"><div><label>CEP</label><input name="cep" required inputmode="numeric" maxlength="9" onblur="cepRevenda(this)" value="${esc(REV.dados?.cep || '')}"></div>
+      <div class="l3"><div><label>CEP</label><input name="cep" required inputmode="numeric" maxlength="9" onblur="cepRevenda(this)" oninput="if(soNum(this.value).length===8)cepRevenda(this)" value="${esc(REV.dados?.cep || '')}"></div>
         <div><label>Cidade</label><input name="cidade" value="${esc(REV.dados?.cidade || '')}"></div><div><label>UF</label><input name="uf" maxlength="2" value="${esc(REV.dados?.uf || '')}"></div></div>
       <div class="l2"><div><label>Rua</label><input name="rua" value="${esc(REV.dados?.rua || '')}"></div><div class="l2" style="gap:10px"><div><label>Número</label><input name="numero" value="${esc(REV.dados?.numero || '')}"></div><div><label>Bairro</label><input name="bairro" value="${esc(REV.dados?.bairro || '')}"></div></div></div>
       <div class="l2"><div><label>Como você vende?</label><select name="como_vende">${['Loja física', 'Loja online / Instagram', 'Porta a porta / catálogo', 'Ainda vou começar'].map(o => `<option ${REV.dados?.como_vende === o ? 'selected' : ''}>${o}</option>`).join('')}</select></div>
         <div><label>Instagram ou site (opcional)</label><input name="instagram" value="${esc(REV.dados?.instagram || '')}" placeholder="@sualoja"></div></div>
       <input type="text" name="site" tabindex="-1" autocomplete="off" style="display:none">
-      <label class="aceite"><input type="checkbox" name="aceite" required> Li as condições do atacado (pedido mínimo e frete) e quero me cadastrar.</label>
+      <label class="aceite"><input type="checkbox" name="aceite" required> Li as condições do atacado (pedido mínimo e frete) e a <a href="privacidade.html" target="_blank" rel="noopener">Política de Privacidade</a>, e quero me cadastrar.</label>
       <div class="erro-rev" id="erroRev">${esc(msg || '')}</div>
       <button class="btn" type="submit">Fazer meu cadastro</button>
       <button type="button" class="link-c" style="background:none;border:0;color:var(--destaque);text-decoration:underline;cursor:pointer;font-size:13px" onclick="fecharAviso();abrirConta()">Já sou revendedora — entrar</button>
     </form>`);
   $('aviso').classList.add('largo');
+  retravarRevenda();
 }
 function guardarRevenda(f){ REV.dados = Object.fromEntries(new FormData(f)); }
 async function cepRevenda(el){
   const cep = soNum(el.value); if(cep.length !== 8) return;
   el.value = cep.slice(0, 5) + '-' + cep.slice(5);
-  try { const d = await fetch(`https://viacep.com.br/ws/${cep}/json/`).then(r => r.json()); if(d.erro) return;
-    const f = el.form, set = (n, v) => { if(f[n] && !f[n].value) f[n].value = v || ''; };
-    set('cidade', d.localidade); set('uf', d.uf); set('rua', d.logradouro); set('bairro', d.bairro); } catch(e){}
+  const f = el.form, campos = ['cidade', 'uf', 'rua', 'bairro'];
+  if(REV.cepEnd !== cep){   // CEP novo: limpa o endereço anterior
+    destravarCampos(campos.map(n => f[n])); campos.concat('numero').forEach(n => { if(f[n]) f[n].value = ''; });
+    REV.travados = null;
+  }
+  REV.cepEnd = cep;
+  try { const d = await fetch(`https://viacep.com.br/ws/${cep}/json/`).then(r => r.json());
+    if(d.erro || soNum(el.value) !== cep) return;
+    const v = { cidade: d.localidade, uf: d.uf, rua: d.logradouro, bairro: d.bairro };
+    campos.forEach(n => travarCampo(f[n], v[n]));
+    REV.travados = { cep, v }; guardarRevenda(f); } catch(e){}
+}
+function retravarRevenda(){   // o formulário é redesenhado (troca CPF/CNPJ, erro): mantém o endereço travado
+  const f = document.querySelector('.form-rev'); if(!f || !f.cep || !REV.travados) return;
+  if(soNum(f.cep.value) === REV.travados.cep) Object.entries(REV.travados.v).forEach(([n, v]) => travarCampo(f[n], v));
 }
 async function enviarRevenda(f){
   guardarRevenda(f);
@@ -2361,7 +2392,7 @@ function abrirPopup(){
         <button class="btn" type="submit">${esc(POPUP.botao || 'Quero meu cupom')}</button>
       </form>
     </div>
-    <div class="privado">Suas informações nunca serão compartilhadas com terceiros.</div>
+    <div class="privado">Usamos seu e-mail só para mandar o cupom e as novidades da Bella. Não vendemos seus dados e você pode sair da lista quando quiser. <a href="privacidade.html" target="_blank" rel="noopener" style="color:inherit">Política de Privacidade</a></div>
     <label class="nao-mostrar"><input type="checkbox" id="popNunca"> Não mostrar este pop-up novamente</label>`;
   $('popup').classList.add('on'); $('popupFundo').classList.add('on');
 }
@@ -2399,7 +2430,7 @@ async function verificarAvaliar(){
 }
 function desenharAvaliar(){
   const A = AVALIAR;
-  mostrarAviso(`<h3 style="text-align:center">${esc(A.nome)}, o que você achou? 💕</h3><p style="text-align:center;color:#777;font-size:13px">Pedido ${esc(A.codigo)} · sua avaliação aparece no site depois que a loja confere.</p>
+  mostrarAviso(`<h3 style="text-align:center">${esc(A.nome)}, o que você achou? 💕</h3><p style="text-align:center;color:#777;font-size:13px">Pedido ${esc(A.codigo)} · sua avaliação aparece no site depois que a loja confere, com seu primeiro nome e a inicial do sobrenome (e a foto, se você mandar).</p>
     ${A.itens.map((i, k) => `<div class="avaliar-item"><img src="${esc(i.foto ? fotoApi(i.foto) : caminhosFoto(i.ref, 1)[0])}" alt="" onerror="this.src=SEM_FOTO">
       <div><b style="font-size:13.5px">${esc(i.nome)}</b>
       ${i.feito ? `<div class="feito">✓ Avaliação enviada. Obrigada!</div>` : `
