@@ -1063,7 +1063,9 @@ const CORES = {
   "Sortidas":"linear-gradient(45deg,#1c1c1c 25%,#a3132b 25% 50%,#ffffff 50% 75%,#7a2e3a 75%)",
   "Estampa Sortida":"conic-gradient(#e9a6b8 0 25%,#9cc3dd 0 50%,#f3d98b 0 75%,#b9a3d6 0)"
 };
-const corBg = n => CORES[(n||'').trim()] || '#cccccc';
+const normCor = n => String(n || '').trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+const corBg = n => { n = (n || '').trim(); if(CORES[n]) return CORES[n];
+  const k = normCor(n), achou = Object.keys(CORES).find(c => normCor(c) === k); return achou ? CORES[achou] : '#cccccc'; };
 // Ordem das categorias (quadrados de "Compre por categoria" e abas do catálogo)
 const CATEGORIAS = ['Conjunto','Sutiã','Calcinha','Camisola','Short Doll','Pijama'];
 const SEM_FOTO = 'data:image/svg+xml;utf8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="300" height="400"><rect width="100%" height="100%" fill="#F7E9E8"/><text x="50%" y="50%" fill="#832C3D" font-family="sans-serif" font-size="18" text-anchor="middle">Sem foto</text></svg>');
@@ -2051,6 +2053,8 @@ async function carregarDoPainel(){
     if(c.banners) trocarConteudo(BANNERS, c.banners);
     if(c.fotos_categorias) trocarConteudo(FOTOS_CATEGORIAS, c.fotos_categorias);
     if(c.categorias) trocarConteudo(CATEGORIAS, c.categorias);
+    if(c.cores && typeof c.cores === 'object')                  // cores das bolinhas escolhidas no painel (só #rrggbb)
+      Object.entries(c.cores).forEach(([nome, hex]) => { if(/^#[0-9a-f]{6}$/i.test(hex)) CORES[nome] = hex; });
     if(c.loja){ if(c.loja.whatsapp) WHATSAPP_LOJISTA = String(c.loja.whatsapp).replace(/\D/g, ''); if(c.loja.pedido_minimo_frete) PEDIDO_MINIMO_FRETE = c.loja.pedido_minimo_frete;
                 TURNSTILE_SITE_KEY = c.loja.turnstile_site_key || ''; PAGAMENTO_ONLINE = !!c.loja.pagamento_online; PROVEDOR = c.loja.provedor_pagamento || ''; ACEITA_BOLETO = c.loja.aceita_boleto !== false; }
     if(c.frete && Array.isArray(c.frete.estados_gratis)) ESTADOS_FRETE_GRATIS = c.frete.estados_gratis;
